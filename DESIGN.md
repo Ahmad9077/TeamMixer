@@ -37,7 +37,7 @@ The website uses the Midnight Slate design system from Stitch: dark-mode-first, 
 
 The palette is deep navy and slate with restrained accents: slate blue for primary functional surfaces, muted gold for premium highlights, and emerald green for status indicators. Avoid candy colors, oversized pill shapes, pink dot-grid decoration, and heavy colored shadows.
 
-Typography uses Inter for interface text and Noto Kufi Arabic for Arabic titles. Headings should use medium or semibold weight, not extra-bold.
+Typography uses Inter for interface text and Calibri for Arabic text. Headings should use medium or semibold weight, not extra-bold.
 
 ## Components
 
@@ -45,7 +45,7 @@ Cards and panels use tonal layers, 1px low-contrast borders, and subtle shadows.
 
 ## Workflow
 
-Setup: three source-group panels with input fields, add buttons, and removable player chips.
+Setup: three team panels with input fields, add buttons, and removable player chips. The default groups are التنانين, الأسود, and الذئاب.
 
 Draw: a central segmented SVG/CSS spin wheel that displays the remaining names from the active group. The wheel selects the name only; the app assigns that name to Team 1 or Team 2 according to the workflow.
 

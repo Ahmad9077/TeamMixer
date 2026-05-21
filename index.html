@@ -6,14 +6,14 @@
     <title>قرعة لعبة سين جيم - ديوانية الجيران</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              jakarta: ['"Inter"', '"Noto Kufi Arabic"', "ui-sans-serif", "system-ui"],
+              jakarta: ['"Inter"', '"Calibri"', "ui-sans-serif", "system-ui"],
             },
             boxShadow: {
               pulse: "0 18px 44px rgba(0, 0, 0, 0.22)",
@@ -41,7 +41,7 @@
       }
 
       body {
-        font-family: "Inter", "Noto Kufi Arabic", ui-sans-serif, system-ui;
+        font-family: "Inter", "Calibri", ui-sans-serif, system-ui;
         background-color: var(--slate-925);
         background-image:
           linear-gradient(rgba(185, 199, 224, 0.035) 1px, transparent 1px),
@@ -118,16 +118,21 @@
       aside {
         border: 1px solid rgba(142, 145, 151, 0.24) !important;
       }
+
+      [dir="rtl"],
+      .arabic-text {
+        font-family: "Calibri", sans-serif;
+      }
     </style>
   </head>
   <body class="min-h-screen">
     <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
-      <header class="midnight-panel mb-5 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur md:px-6">
-        <div>
+      <header class="midnight-panel mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center backdrop-blur md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
+        <div class="md:col-start-2">
           <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">ديوانية الجيران</p>
-          <h1 class="font-['Noto_Kufi_Arabic'] text-xl font-bold text-[#dae2fd] md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>
+          <h1 class="arabic-text text-xl font-bold text-[#dae2fd] md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>
         </div>
-        <nav class="hidden items-center gap-2 md:flex" aria-label="Primary">
+        <nav class="hidden items-center justify-end gap-2 md:col-start-3 md:flex" aria-label="Primary">
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="setup">Setup</button>
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="randomize">Draw</button>
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="results">Results</button>
@@ -138,8 +143,8 @@
         <section id="setup" class="screen active">
           <div class="mb-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">Three source groups</p>
-              <h2 class="font-['Noto_Kufi_Arabic'] text-4xl font-bold leading-tight text-[#dae2fd] md:text-5xl" dir="rtl">قرعة لعبة سين جيم<br />ديوانية الجيران</h2>
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">Teams setup</p>
+              <h2 class="arabic-text text-center text-4xl font-bold leading-tight text-[#dae2fd] md:text-5xl" dir="rtl">قرعة لعبة سين جيم<br />ديوانية الجيران</h2>
             </div>
             <div class="midnight-panel rounded-2xl p-5 backdrop-blur">
               <div class="flex flex-wrap items-center justify-between gap-3">
@@ -182,7 +187,7 @@
               <div class="wheel-wrap h-full w-full rounded-3xl border border-[#44474c] bg-[#131b2e] p-4 shadow-pulse">
                 <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Name draw spin wheel"></svg>
               </div>
-              <div class="pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-2xl border border-[#8e9197]/40 bg-[#0b1326] text-center font-['Noto_Kufi_Arabic'] text-lg font-bold text-[#dae2fd] shadow-mint" dir="rtl">سين<br />جيم</div>
+              <div class="arabic-text pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-2xl border border-[#8e9197]/40 bg-[#0b1326] text-center text-lg font-bold text-[#dae2fd] shadow-mint" dir="rtl">سين<br />جيم</div>
             </div>
           </div>
         </section>

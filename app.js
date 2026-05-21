@@ -1,7 +1,7 @@
 const pools = [
-  { id: "poolA", title: "Group One", accent: "#b9c7e0", players: ["Maya", "Omar", "Lina"] },
-  { id: "poolB", title: "Group Two", accent: "#e0c47e", players: ["Noah", "Sara", "Zaid"] },
-  { id: "poolC", title: "Group Three", accent: "#8bd6b6", players: ["Ali", "Reem", "Nora"] },
+  { id: "poolA", title: "التنانين", accent: "#b9c7e0", players: ["الملا", "جراغ", "حميد", "بوحمد", "طروق"] },
+  { id: "poolB", title: "الأسود", accent: "#e0c47e", players: ["البريجي", "قرطبة"] },
+  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", players: ["حمود", "عليوي", "الخلف", "الهلالي"] },
 ];
 
 const state = {
@@ -125,8 +125,7 @@ function renderPools() {
         <article class="midnight-panel rounded-2xl p-5 backdrop-blur">
           <div class="mb-4 flex items-center justify-between gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#8e9197]">Source group</p>
-              <h3 class="text-2xl font-semibold" style="color:${pool.accent}">${pool.title}</h3>
+              <h3 class="arabic-text text-2xl font-semibold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
             </div>
             <span class="rounded-md border border-[#44474c] bg-[#0b1326] px-4 py-2 text-sm font-medium" style="color:${pool.accent}">${pool.players.length}</span>
           </div>
@@ -139,7 +138,7 @@ function renderPools() {
               .map(
                 (player, index) => `
                   <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-3 py-2 text-sm font-medium text-[#dae2fd]">
-                    ${player}
+                    <span class="arabic-text" dir="rtl">${player}</span>
                     <button class="remove-btn grid h-6 w-6 place-items-center rounded bg-[#171f33] text-[#c5c6cd] transition hover:border hover:border-[#e0c47e] hover:text-[#e0c47e]" data-pool="${pool.id}" data-index="${index}" aria-label="Remove ${player}">x</button>
                   </span>
                 `
@@ -192,7 +191,7 @@ function renderWheel() {
   if (items.length === 1) {
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#0b1326" stroke-width="5"></circle>
-      <text x="160" y="160" fill="#dae2fd" font-size="22" font-weight="600" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      <text x="160" y="160" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="22" font-weight="600" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -206,7 +205,7 @@ function renderWheel() {
       const label = polarToCartesian(160, 160, 98, mid);
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#0b1326" stroke-width="5"></path>
-        <text x="${label.x}" y="${label.y}" fill="#dae2fd" font-size="15" font-weight="600" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        <text x="${label.x}" y="${label.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="15" font-weight="600" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
       `;
     })
     .join("");
@@ -303,7 +302,7 @@ function playerRow(player) {
     <div class="flex items-center justify-between rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3">
       <div class="flex items-center gap-3">
         <span class="h-3 w-3 rounded-full" style="background:${player.accent}"></span>
-        <span class="font-medium text-[#dae2fd]">${player.name}</span>
+        <span class="arabic-text font-medium text-[#dae2fd]" dir="rtl">${player.name}</span>
       </div>
       <span class="text-xs font-semibold uppercase tracking-[0.12em] text-[#8e9197]">${player.pool}</span>
     </div>
