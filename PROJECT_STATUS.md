@@ -20,6 +20,7 @@ The app currently supports:
 - Direct final-player assignment without spinning.
 - Live Team 1 and Team 2 lists during the draw.
 - Results screen with final team lists.
+- Categories screen with a separate category wheel and six selected category cards arranged three per row.
 - Share Results and Start Over actions.
 - Balance guard preventing either team from leading by 2 players.
 
@@ -33,10 +34,11 @@ The app currently supports:
 - Changed Arabic typography to Calibri.
 - Centered the primary Arabic title.
 - Removed all `Source group` wording.
-- Added attached category images as local assets:
+- Added attached group logo images as local assets:
   - `assets/dragon-red.jpg`
   - `assets/lion-yellow.jpg`
   - `assets/wolf-blue.jpg`
+- Added attached game category cards as cropped local assets under `assets/categories/`.
 - Added logos next to names in setup chips, draw lists, results, and wheel segments.
 - Moved `SPIN NAME` above the wheel.
 - Stabilized wheel layout so spinning does not expand page width.
@@ -44,6 +46,9 @@ The app currently supports:
 - Added live lists on the Draw screen.
 - Verified recent behavior with local Playwright checks.
 - Tuned the mobile Draw layout so the spin button and wheel appear above the fixed bottom navigation while desktop keeps the original two-column layout.
+- Added a fourth `Categories` tab after `Results`.
+- Replaced the oversized wheel center square with a smaller circular center badge.
+- Increased mobile safe-bottom padding so fixed bottom tabs do not cover page content at max scroll.
 
 ## Current Decisions
 
@@ -59,10 +64,12 @@ The app currently supports:
 Recent local checks confirmed:
 
 - Mobile Draw wheel bottom stayed above the fixed bottom navigation on `390x844` (`548` vs nav top `777`).
+- Mobile max-scroll checks for Setup, Draw, Results, and Categories ended active content above the fixed bottom tabs.
 - Mobile scroll width stayed `390` during spin.
 - Desktop scroll width stayed `1280`.
 - Full default draw ended `5/6`.
 - Maximum team difference stayed `1`.
+- Category wheel selected 6 categories and disabled after the sixth pick.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
 - Public GitHub Pages returned `HTTP 200` after the mobile Draw layout deployment.
@@ -74,7 +81,7 @@ Recent local checks confirmed:
 - Perform any user-requested visual refinements after reviewing the live site.
 - Consider replacing English UI labels such as `Setup`, `Draw`, `Results`, `Team 1`, `Team 2`, `Start Draw`, and `Share Results` with Arabic if requested.
 - Consider adding a simple admin/reset guard only if requested.
-- Confirm the mobile Draw order on a physical phone after the next GitHub Pages deployment.
+- Confirm the mobile Draw and Categories screens on a physical phone after the next GitHub Pages deployment.
 
 ## Known Constraints
 

@@ -86,7 +86,13 @@
       }
 
       .bottom-safe {
-        padding-bottom: calc(92px + env(safe-area-inset-bottom));
+        padding-bottom: calc(220px + env(safe-area-inset-bottom)) !important;
+      }
+
+      @media (min-width: 768px) {
+        .bottom-safe {
+          padding-bottom: 2rem !important;
+        }
       }
 
       .midnight-panel {
@@ -164,6 +170,18 @@
       .wheel-column {
         contain: layout paint;
       }
+
+      .wheel-center-badge {
+        width: clamp(72px, 22%, 96px);
+        height: clamp(72px, 22%, 96px);
+        border-radius: 9999px;
+      }
+
+      .category-card-image {
+        aspect-ratio: 0.84;
+        object-fit: cover;
+        object-position: center;
+      }
     </style>
   </head>
   <body class="min-h-screen">
@@ -177,6 +195,7 @@
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="setup">Setup</button>
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="randomize">Draw</button>
           <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="results">Results</button>
+          <button class="nav-btn rounded-lg px-5 py-3 text-sm font-medium text-[#c5c6cd] transition hover:bg-[#222a3d]" data-screen="categories">Categories</button>
         </nav>
       </header>
 
@@ -247,7 +266,7 @@
               <div class="wheel-wrap h-full w-full rounded-3xl border border-[#44474c] bg-[#131b2e] p-4 shadow-pulse">
                 <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Name draw spin wheel"></svg>
               </div>
-              <div class="arabic-text pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-2xl border border-[#8e9197]/40 bg-[#0b1326] text-center text-lg font-bold text-[#dae2fd] shadow-mint" dir="rtl">سين<br />جيم</div>
+              <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center border border-[#8e9197]/40 bg-[#0b1326] text-center text-base font-bold leading-tight text-[#dae2fd] shadow-mint" dir="rtl">سين<br />جيم</div>
               </div>
             </div>
           </div>
@@ -282,14 +301,60 @@
             </article>
           </div>
         </section>
+
+        <section id="categories" class="screen">
+          <div class="mb-5 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">Game categories</p>
+              <h2 class="arabic-text text-4xl font-bold leading-tight text-[#dae2fd] md:text-5xl" dir="rtl">اختيار الفئات</h2>
+            </div>
+            <div class="flex gap-3">
+              <button id="resetCategoriesBtn" class="midnight-secondary rounded-lg px-5 py-3 text-sm font-medium transition">Reset Categories</button>
+            </div>
+          </div>
+
+          <div id="selectedCategories" class="mb-5 grid max-w-4xl grid-cols-3 gap-3"></div>
+
+          <div class="grid gap-4 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-6">
+            <aside class="order-2 midnight-panel rounded-2xl p-4 backdrop-blur sm:p-5 lg:order-1">
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#8bd6b6]">Selected</p>
+              <h3 id="categoryPickName" class="arabic-text mt-2 min-h-12 text-4xl font-bold text-[#dae2fd]" dir="rtl">جاهز للاختيار</h3>
+              <p id="categoryStatus" class="mt-2 text-sm font-semibold text-[#c5c6cd]">Choose 6 categories for the game.</p>
+              <div class="mt-5 grid grid-cols-2 gap-3">
+                <div class="rounded-xl border border-[#44474c] bg-[#0b1326] p-4">
+                  <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#b9c7e0]">Picked</p>
+                  <p id="categoryPickedCount" class="mt-2 text-2xl font-semibold text-[#dae2fd]">0/6</p>
+                </div>
+                <div class="rounded-xl border border-[#44474c] bg-[#0b1326] p-4">
+                  <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#e0c47e]">Remaining</p>
+                  <p id="categoryRemainingCount" class="mt-2 text-2xl font-semibold text-[#dae2fd]">16</p>
+                </div>
+              </div>
+            </aside>
+
+            <div class="order-1 wheel-column mx-auto w-full max-w-[340px] sm:max-w-[480px] lg:order-2 lg:max-w-[560px]">
+              <div class="mb-3 sm:mb-4">
+                <button id="spinCategoryBtn" class="midnight-button w-full rounded-lg px-5 py-3 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-4">SPIN CATEGORY</button>
+              </div>
+              <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
+                <div class="absolute left-1/2 top-0 z-20 h-0 w-0 -translate-x-1/2 border-l-[20px] border-r-[20px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#064e3b] drop-shadow-lg"></div>
+                <div class="wheel-wrap h-full w-full rounded-3xl border border-[#44474c] bg-[#131b2e] p-4 shadow-pulse">
+                  <svg id="categoryWheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Category draw spin wheel"></svg>
+                </div>
+                <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center border border-[#8e9197]/40 bg-[#0b1326] text-center text-sm font-bold leading-tight text-[#dae2fd] shadow-mint" dir="rtl">الفئات</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
     <nav class="fixed inset-x-0 bottom-0 z-50 border-t border-[#44474c] bg-[#0b1326]/95 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 shadow-[0_-14px_40px_rgba(0,0,0,0.25)] backdrop-blur md:hidden" aria-label="Mobile">
-      <div class="mx-auto grid max-w-md grid-cols-3 gap-2">
+      <div class="mx-auto grid max-w-md grid-cols-4 gap-2">
         <button class="nav-btn rounded-lg px-3 py-3 text-xs font-medium text-[#c5c6cd]" data-screen="setup">Setup</button>
         <button class="nav-btn rounded-lg px-3 py-3 text-xs font-medium text-[#c5c6cd]" data-screen="randomize">Draw</button>
         <button class="nav-btn rounded-lg px-3 py-3 text-xs font-medium text-[#c5c6cd]" data-screen="results">Results</button>
+        <button class="nav-btn rounded-lg px-3 py-3 text-xs font-medium text-[#c5c6cd]" data-screen="categories">Categories</button>
       </div>
     </nav>
 

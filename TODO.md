@@ -5,8 +5,9 @@
 - Review the live GitHub Pages site on an actual phone screen.
 - Confirm whether UI labels should stay English or be translated to Arabic.
 - Confirm whether `Team 1` and `Team 2` should be renamed.
-- Recheck the updated mobile Draw order on a physical phone after deployment.
+- Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
+- If needed, tune individual category card crops from the supplied screenshot.
 
 ## Verification Checklist For Future Changes
 
@@ -19,6 +20,8 @@
 - Verify final-player assignment does not spin.
 - Verify all default 11 players are assigned.
 - Verify final counts differ by at most 1.
+- Verify Categories selects exactly 6 categories and keeps them in a 3-by-2 selected grid.
+- Verify fixed mobile bottom tabs do not cover the bottom of each screen at max scroll.
 - Verify public GitHub Pages deployment after push.
 
 ## Backlog Ideas

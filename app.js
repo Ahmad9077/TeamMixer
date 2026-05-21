@@ -4,6 +4,25 @@ const pools = [
   { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "الخلف", "الهلالي"] },
 ];
 
+const categories = [
+  { id: "travel", title: "سياحة وسفر", image: "assets/categories/travel.jpg" },
+  { id: "geography", title: "جغرافيا", image: "assets/categories/geography.jpg" },
+  { id: "countries-capitals", title: "دول و عواصم", image: "assets/categories/countries-capitals.jpg" },
+  { id: "cars", title: "سيارات", image: "assets/categories/cars.jpg" },
+  { id: "kuwait", title: "الكويت", image: "assets/categories/kuwait.jpg" },
+  { id: "general-info", title: "معلومات عامة", image: "assets/categories/general-info.jpg" },
+  { id: "history", title: "تاريخ", image: "assets/categories/history.jpg" },
+  { id: "foreign-word", title: "ولا كلمة من أجنبي", image: "assets/categories/foreign-word.jpg" },
+  { id: "location", title: "لوكيشن", image: "assets/categories/location.jpg" },
+  { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
+  { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
+  { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
+  { id: "theater-poster", title: "بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
+  { id: "islamic-letters", title: "حروف إسلامي", image: "assets/categories/islamic-letters.jpg" },
+  { id: "sports", title: "رياضة", image: "assets/categories/sports.jpg" },
+  { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
+];
+
 const state = {
   activeScreen: "setup",
   poolQueues: [],
@@ -21,6 +40,11 @@ const state = {
   rotation: 0,
   lastResult: null,
   drawReady: false,
+  categoryQueue: [],
+  selectedCategories: [],
+  categorySpinning: false,
+  categoryRotation: 0,
+  categoryLastResult: "Choose 6 categories for the game.",
 };
 
 const fallbackWheelSegments = [
@@ -87,6 +111,15 @@ function resetDraw(message = "Ready for a new draw.") {
   state.lastResult = message;
   state.drawReady = true;
   advanceToNextAvailablePool();
+  render();
+}
+
+function resetCategories(message = "Choose 6 categories for the game.") {
+  state.categoryQueue = shuffle(categories);
+  state.selectedCategories = [];
+  state.categorySpinning = false;
+  state.categoryRotation = 0;
+  state.categoryLastResult = message;
   render();
 }
 
@@ -219,6 +252,40 @@ function renderWheel() {
   $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
 }
 
+function categoryWheelItems() {
+  if (state.categoryQueue.length) return state.categoryQueue;
+  return categories.slice(0, 6);
+}
+
+function renderCategoryWheel() {
+  const items = categoryWheelItems();
+  const segmentSize = 360 / items.length;
+  const palette = ["#334155", "#584409", "#004a35", "#222a3d", "#515f74", "#8e6f1a", "#00513b", "#2d3449"];
+
+  $("#categoryWheelSvg").innerHTML = items
+    .map((item, index) => {
+      const start = index * segmentSize;
+      const end = start + segmentSize;
+      const mid = start + segmentSize / 2;
+      const imagePoint = polarToCartesian(160, 160, 74, mid);
+      const labelPoint = polarToCartesian(160, 160, 112, mid);
+      const clipId = `categoryClip-${item.id}`;
+      return `
+        <defs>
+          <clipPath id="${clipId}">
+            <circle cx="${imagePoint.x}" cy="${imagePoint.y}" r="18"></circle>
+          </clipPath>
+        </defs>
+        <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#0b1326" stroke-width="5"></path>
+        <circle cx="${imagePoint.x}" cy="${imagePoint.y}" r="20" fill="#0b1326" stroke="#dae2fd" stroke-width="2"></circle>
+        <image href="${item.image}" x="${imagePoint.x - 18}" y="${imagePoint.y - 22}" width="36" height="44" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})" transform="rotate(${mid}, ${imagePoint.x}, ${imagePoint.y})"></image>
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${labelPoint.x}, ${labelPoint.y})">${item.title.slice(0, 12)}</text>
+      `;
+    })
+    .join("");
+  $("#categoryWheelSvg").style.transform = `rotate(${state.categoryRotation}deg)`;
+}
+
 function nextAssignedTeam() {
   return state.bonusRemaining > 0 ? state.bonusTeam : state.nextTeam;
 }
@@ -308,6 +375,36 @@ function spin() {
   }, 4550);
 }
 
+function assignCategory(selectedIndex) {
+  const [category] = state.categoryQueue.splice(selectedIndex, 1);
+  state.selectedCategories.push(category);
+  state.categorySpinning = false;
+  state.categoryLastResult = state.selectedCategories.length === 6 ? "All 6 categories are selected." : `${category.title} selected.`;
+  render();
+}
+
+function spinCategory() {
+  if (state.categorySpinning || state.selectedCategories.length >= 6) return;
+  if (!state.categoryQueue.length) resetCategories();
+
+  const selectedIndex = Math.floor(Math.random() * state.categoryQueue.length);
+  const segmentSize = 360 / state.categoryQueue.length;
+  const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
+  const desiredPointerAngle = 360 - segmentCenter;
+  const currentNormalized = ((state.categoryRotation % 360) + 360) % 360;
+  const extraTurns = 4 + Math.floor(Math.random() * 3);
+  const delta = extraTurns * 360 + ((desiredPointerAngle - currentNormalized + 360) % 360);
+
+  state.categorySpinning = true;
+  state.categoryRotation += delta;
+  state.categoryLastResult = "Spinning for a category...";
+  render();
+
+  window.setTimeout(() => {
+    assignCategory(selectedIndex);
+  }, 4550);
+}
+
 function renderProgress() {
   const total = allPlayers().length;
   $("#alphaProgress").textContent = `${state.teams.one.length}/${total}`;
@@ -354,6 +451,34 @@ function renderResults() {
   $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">No players yet.</p>`;
 }
 
+function categoryCard(category, index) {
+  if (!category) {
+    return `
+      <div class="flex min-h-36 flex-col items-center justify-center rounded-xl border border-dashed border-[#44474c] bg-[#0b1326]/70 p-3 text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.14em] text-[#8e9197]">Slot ${index + 1}</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="rounded-xl border border-[#44474c] bg-[#131b2e] p-2 shadow-pulse">
+      <img src="${category.image}" alt="${category.title}" class="category-card-image w-full rounded-lg border border-[#44474c]" />
+      <p class="arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight text-[#dae2fd]" dir="rtl">${category.title}</p>
+    </div>
+  `;
+}
+
+function renderCategories() {
+  const slots = Array.from({ length: 6 }, (_, index) => state.selectedCategories[index] || null);
+  $("#selectedCategories").innerHTML = slots.map(categoryCard).join("");
+  const lastPick = state.selectedCategories[state.selectedCategories.length - 1];
+  $("#categoryPickName").textContent = lastPick ? lastPick.title : "جاهز للاختيار";
+  $("#categoryStatus").textContent = state.categoryLastResult;
+  $("#categoryPickedCount").textContent = `${state.selectedCategories.length}/6`;
+  $("#categoryRemainingCount").textContent = state.categoryQueue.length;
+  $("#spinCategoryBtn").disabled = state.categorySpinning || state.selectedCategories.length >= 6 || state.categoryQueue.length === 0;
+}
+
 function shareResults() {
   const text = [
     "قرعة لعبة سين جيم - ديوانية الجيران",
@@ -374,8 +499,10 @@ function shareResults() {
 function render() {
   renderPools();
   renderWheel();
+  renderCategoryWheel();
   renderProgress();
   renderResults();
+  renderCategories();
   showScreen(state.activeScreen);
 }
 
@@ -385,10 +512,13 @@ $("#shuffleQueueBtn").addEventListener("click", () => {
   showScreen("randomize");
 });
 $("#spinBtn").addEventListener("click", spin);
+$("#spinCategoryBtn").addEventListener("click", spinCategory);
+$("#resetCategoriesBtn").addEventListener("click", resetCategories);
 $("#shareBtn").addEventListener("click", shareResults);
 $("#startOverBtn").addEventListener("click", () => {
   resetDraw("Ready for a fresh draw.");
   showScreen("setup");
 });
 
+resetCategories();
 resetDraw("Ready to start.");

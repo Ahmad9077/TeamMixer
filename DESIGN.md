@@ -52,3 +52,7 @@ Draw: a central segmented SVG/CSS spin wheel that displays the remaining names f
 Within each group, selected names alternate between Team 1 and Team 2. If a group has an odd count, the next team in the sequence receives the first two selections from the next group.
 
 Results: final cards for Team 1 and Team 2 with share and start-over actions.
+
+Categories: a fourth tab after Results. It uses a separate wheel with small category card images inside the wheel segments. Selected categories appear above the wheel as six cards arranged in a 3-by-2 grid, with larger card artwork and Arabic category names.
+
+Fixed mobile tabs must have enough safe-bottom page padding so the last visible content on any screen can scroll above the tab bar instead of being hidden behind it.
