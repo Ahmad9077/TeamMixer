@@ -5,8 +5,7 @@
 - Review the live GitHub Pages site on an actual phone screen.
 - Confirm whether UI labels should stay English or be translated to Arabic.
 - Confirm whether `Team 1` and `Team 2` should be renamed.
-- Check whether the fixed bottom navigation overlaps important content on smaller mobile screens.
-- If needed, tune wheel size and Draw screen spacing for better one-screen usability.
+- Recheck the updated mobile Draw order on a physical phone after deployment.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
 
 ## Verification Checklist For Future Changes

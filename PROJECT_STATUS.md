@@ -43,6 +43,7 @@ The app currently supports:
 - Increased player-name size and weight.
 - Added live lists on the Draw screen.
 - Verified recent behavior with local Playwright checks.
+- Tuned the mobile Draw layout so the spin button and wheel appear above the fixed bottom navigation while desktop keeps the original two-column layout.
 
 ## Current Decisions
 
@@ -57,20 +58,22 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- Mobile Draw wheel bottom stayed above the fixed bottom navigation on `390x844` (`548` vs nav top `777`).
 - Mobile scroll width stayed `390` during spin.
 - Desktop scroll width stayed `1280`.
 - Full default draw ended `5/6`.
 - Maximum team difference stayed `1`.
 - Category image assets exist locally and were published.
-- Public GitHub Pages returned `HTTP 200`.
-- Public asset URLs returned `HTTP 200`.
+- Local category image assets loaded successfully in browser checks.
+- Public GitHub Pages returned `HTTP 200` before the latest mobile layout change; reverify after the next push.
+- Public asset URLs returned `HTTP 200` before the latest mobile layout change; reverify after the next push.
 
 ## Pending
 
 - Perform any user-requested visual refinements after reviewing the live site.
 - Consider replacing English UI labels such as `Setup`, `Draw`, `Results`, `Team 1`, `Team 2`, `Start Draw`, and `Share Results` with Arabic if requested.
 - Consider adding a simple admin/reset guard only if requested.
-- Consider improving mobile wheel viewport height if future screenshots show bottom navigation covering too much of the wheel.
+- Confirm the mobile Draw order on a physical phone after the next GitHub Pages deployment.
 
 ## Known Constraints
 

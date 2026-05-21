@@ -202,8 +202,8 @@
         </section>
 
         <section id="randomize" class="screen">
-          <div class="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-            <aside class="midnight-panel rounded-2xl p-5 backdrop-blur">
+          <div class="grid gap-4 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-6">
+            <aside class="order-2 midnight-panel rounded-2xl p-4 backdrop-blur sm:p-5 lg:order-1">
               <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">Current draw</p>
               <h2 id="upNextName" class="mt-2 min-h-12 text-4xl font-semibold text-[#dae2fd]">No player queued</h2>
               <p id="upNextPool" class="mt-2 text-sm font-normal text-[#c5c6cd]">Add players or start the draw.</p>
@@ -237,10 +237,10 @@
               </div>
             </aside>
 
-            <div class="wheel-column mx-auto w-full max-w-[560px]">
-              <div class="mb-4">
-                <button id="spinBtn" class="midnight-button w-full rounded-lg px-6 py-4 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50">SPIN NAME</button>
-                <p id="spinStatus" class="mt-3 min-h-6 text-center text-sm font-semibold text-[#c5c6cd]"></p>
+            <div class="order-1 wheel-column mx-auto w-full max-w-[340px] sm:max-w-[460px] lg:order-2 lg:max-w-[560px]">
+              <div class="mb-3 sm:mb-4">
+                <button id="spinBtn" class="midnight-button w-full rounded-lg px-5 py-3 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-4">SPIN NAME</button>
+                <p id="spinStatus" class="mt-2 min-h-6 text-center text-sm font-semibold text-[#c5c6cd] sm:mt-3"></p>
               </div>
               <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
               <div class="absolute left-1/2 top-0 z-20 h-0 w-0 -translate-x-1/2 border-l-[20px] border-r-[20px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#064e3b] drop-shadow-lg"></div>
