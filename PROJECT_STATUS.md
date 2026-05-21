@@ -65,8 +65,9 @@ Recent local checks confirmed:
 - Maximum team difference stayed `1`.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
-- Public GitHub Pages returned `HTTP 200` before the latest mobile layout change; reverify after the next push.
-- Public asset URLs returned `HTTP 200` before the latest mobile layout change; reverify after the next push.
+- Public GitHub Pages returned `HTTP 200` after the mobile Draw layout deployment.
+- Public HTML contains the updated mobile Draw layout classes.
+- Public asset URLs returned `HTTP 200`.
 
 ## Pending
 
