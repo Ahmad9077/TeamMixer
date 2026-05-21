@@ -54,6 +54,7 @@ The app currently supports:
 - Renamed the theater category to `مجمعات الكويت/ بوستر مسرح كبار`.
 - Renamed the foreign art category to `ولا كلمة فن أجنبي`.
 - Changed category wheel labels to smaller, regular-weight vertical text inside each slice.
+- Limited `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` so only two of those three can be selected in one Categories session.
 
 ## Current Decisions
 
@@ -77,6 +78,7 @@ Recent local checks confirmed:
 - Category wheel selected 6 categories and disabled after the sixth pick.
 - Category wheel is text-only while selected category cards keep larger photos.
 - Category wheel labels use regular-weight vertical text.
+- Category limit rule excludes the third category from the limited geography/travel/capitals group after two are selected.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
 - Public GitHub Pages returned `HTTP 200` after the Categories deployment.

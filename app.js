@@ -23,6 +23,9 @@ const categories = [
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
 
+const limitedCategoryIds = new Set(["travel", "geography", "countries-capitals"]);
+const limitedCategoryMax = 2;
+
 const state = {
   activeScreen: "setup",
   poolQueues: [],
@@ -253,8 +256,18 @@ function renderWheel() {
 }
 
 function categoryWheelItems() {
-  if (state.categoryQueue.length) return state.categoryQueue;
+  const queue = availableCategoryQueue();
+  if (queue.length) return queue;
   return categories.slice(0, 6);
+}
+
+function selectedLimitedCategoryCount() {
+  return state.selectedCategories.filter((category) => limitedCategoryIds.has(category.id)).length;
+}
+
+function availableCategoryQueue() {
+  if (selectedLimitedCategoryCount() < limitedCategoryMax) return state.categoryQueue;
+  return state.categoryQueue.filter((category) => !limitedCategoryIds.has(category.id));
 }
 
 function categoryWheelLabel(title) {
@@ -382,7 +395,15 @@ function spin() {
 }
 
 function assignCategory(selectedIndex) {
-  const [category] = state.categoryQueue.splice(selectedIndex, 1);
+  const category = availableCategoryQueue()[selectedIndex];
+  if (!category) {
+    state.categorySpinning = false;
+    state.categoryLastResult = "No category available for this rule set.";
+    render();
+    return;
+  }
+
+  state.categoryQueue = state.categoryQueue.filter((item) => item.id !== category.id);
   state.selectedCategories.push(category);
   state.categorySpinning = false;
   state.categoryLastResult = state.selectedCategories.length === 6 ? "All 6 categories are selected." : `${category.title} selected.`;
@@ -393,8 +414,15 @@ function spinCategory() {
   if (state.categorySpinning || state.selectedCategories.length >= 6) return;
   if (!state.categoryQueue.length) resetCategories();
 
-  const selectedIndex = Math.floor(Math.random() * state.categoryQueue.length);
-  const segmentSize = 360 / state.categoryQueue.length;
+  const queue = availableCategoryQueue();
+  if (!queue.length) {
+    state.categoryLastResult = "No category available for this rule set.";
+    render();
+    return;
+  }
+
+  const selectedIndex = Math.floor(Math.random() * queue.length);
+  const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
   const desiredPointerAngle = 360 - segmentCenter;
   const currentNormalized = ((state.categoryRotation % 360) + 360) % 360;
@@ -481,8 +509,8 @@ function renderCategories() {
   $("#categoryPickName").textContent = lastPick ? lastPick.title : "جاهز للاختيار";
   $("#categoryStatus").textContent = state.categoryLastResult;
   $("#categoryPickedCount").textContent = `${state.selectedCategories.length}/6`;
-  $("#categoryRemainingCount").textContent = state.categoryQueue.length;
-  $("#spinCategoryBtn").disabled = state.categorySpinning || state.selectedCategories.length >= 6 || state.categoryQueue.length === 0;
+  $("#categoryRemainingCount").textContent = availableCategoryQueue().length;
+  $("#spinCategoryBtn").disabled = state.categorySpinning || state.selectedCategories.length >= 6 || availableCategoryQueue().length === 0;
 }
 
 function shareResults() {
