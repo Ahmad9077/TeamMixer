@@ -78,6 +78,7 @@ Recent local checks confirmed:
 - Local category image assets loaded successfully in browser checks.
 - Public GitHub Pages returned `HTTP 200` after the Categories deployment.
 - Public HTML contains the updated mobile Draw layout classes and the new Categories tab markup.
+- Public `app.js` contains the renamed category and no category-wheel image or clip-path markup.
 - Public asset URLs returned `HTTP 200`.
 - Sample public category asset URLs returned `HTTP 200`.
 
