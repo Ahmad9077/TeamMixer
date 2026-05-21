@@ -64,6 +64,8 @@
 
       .wheel-wrap {
         filter: drop-shadow(0 30px 38px rgba(6, 78, 59, 0.18));
+        contain: layout paint;
+        overflow: hidden;
       }
 
       .wheel {
@@ -73,6 +75,8 @@
         transform-box: fill-box;
         will-change: transform;
         backface-visibility: hidden;
+        width: 100%;
+        height: 100%;
       }
 
       .team-card {
@@ -134,9 +138,31 @@
       }
 
       .draw-team-list {
-        max-height: 168px;
+        max-height: 220px;
         overflow-y: auto;
         scrollbar-width: thin;
+      }
+
+      .team-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 0.75rem;
+        object-fit: cover;
+        border: 1px solid rgba(218, 226, 253, 0.26);
+        flex: 0 0 auto;
+      }
+
+      .team-logo-sm {
+        width: 30px;
+        height: 30px;
+        border-radius: 0.5rem;
+        object-fit: cover;
+        border: 1px solid rgba(218, 226, 253, 0.22);
+        flex: 0 0 auto;
+      }
+
+      .wheel-column {
+        contain: layout paint;
       }
     </style>
   </head>
@@ -193,9 +219,6 @@
                 </div>
               </div>
 
-              <button id="spinBtn" class="midnight-button mt-6 w-full rounded-lg px-6 py-4 text-base font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-50">SPIN NAME</button>
-              <p id="spinStatus" class="mt-4 min-h-6 text-center text-sm font-medium text-[#c5c6cd]"></p>
-
               <div class="mt-5 grid gap-3 sm:grid-cols-2">
                 <div class="rounded-xl border border-[#44474c] bg-[#0b1326] p-3">
                   <div class="mb-2 flex items-center justify-between">
@@ -214,12 +237,18 @@
               </div>
             </aside>
 
-            <div class="relative mx-auto aspect-square w-full max-w-[560px]">
+            <div class="wheel-column mx-auto w-full max-w-[560px]">
+              <div class="mb-4">
+                <button id="spinBtn" class="midnight-button w-full rounded-lg px-6 py-4 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50">SPIN NAME</button>
+                <p id="spinStatus" class="mt-3 min-h-6 text-center text-sm font-semibold text-[#c5c6cd]"></p>
+              </div>
+              <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
               <div class="absolute left-1/2 top-0 z-20 h-0 w-0 -translate-x-1/2 border-l-[20px] border-r-[20px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#064e3b] drop-shadow-lg"></div>
               <div class="wheel-wrap h-full w-full rounded-3xl border border-[#44474c] bg-[#131b2e] p-4 shadow-pulse">
                 <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Name draw spin wheel"></svg>
               </div>
               <div class="arabic-text pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-2xl border border-[#8e9197]/40 bg-[#0b1326] text-center text-lg font-bold text-[#dae2fd] shadow-mint" dir="rtl">سين<br />جيم</div>
+              </div>
             </div>
           </div>
         </section>

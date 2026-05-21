@@ -1,7 +1,7 @@
 const pools = [
-  { id: "poolA", title: "التنانين", accent: "#b9c7e0", players: ["الملا", "جراغ", "حميد", "بوحمد", "طروق"] },
-  { id: "poolB", title: "الأسود", accent: "#e0c47e", players: ["البريجي", "قرطبة"] },
-  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", players: ["حمود", "عليوي", "الخلف", "الهلالي"] },
+  { id: "poolA", title: "التنانين", accent: "#b9c7e0", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "بوحمد", "طروق"] },
+  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["البريجي", "قرطبة"] },
+  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "الخلف", "الهلالي"] },
 ];
 
 const state = {
@@ -51,7 +51,7 @@ function teamLabel(team) {
 }
 
 function allPlayers() {
-  return pools.flatMap((pool) => pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, poolId: pool.id })));
+  return pools.flatMap((pool) => pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, logo: pool.logo, poolId: pool.id })));
 }
 
 function remainingPlayers() {
@@ -73,7 +73,7 @@ function advanceToNextAvailablePool() {
 }
 
 function resetDraw(message = "Ready for a new draw.") {
-  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, poolId: pool.id }))));
+  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, logo: pool.logo, poolId: pool.id }))));
   state.groupStartCounts = pools.map((pool) => pool.players.length);
   state.currentPoolIndex = 0;
   state.assigned = [];
@@ -125,7 +125,10 @@ function renderPools() {
         <article class="midnight-panel rounded-2xl p-5 backdrop-blur">
           <div class="mb-4 flex items-center justify-between gap-3">
             <div>
-              <h3 class="arabic-text text-2xl font-semibold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
+              <div class="flex items-center gap-3">
+                <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
+                <h3 class="arabic-text text-2xl font-bold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
+              </div>
             </div>
             <span class="rounded-md border border-[#44474c] bg-[#0b1326] px-4 py-2 text-sm font-medium" style="color:${pool.accent}">${pool.players.length}</span>
           </div>
@@ -137,8 +140,9 @@ function renderPools() {
             ${pool.players
               .map(
                 (player, index) => `
-                  <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-3 py-2 text-sm font-medium text-[#dae2fd]">
-                    <span class="arabic-text" dir="rtl">${player}</span>
+                  <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-3 py-2 text-base font-bold text-[#dae2fd]">
+                    <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
+                    <span class="arabic-text font-bold" dir="rtl">${player}</span>
                     <button class="remove-btn grid h-6 w-6 place-items-center rounded bg-[#171f33] text-[#c5c6cd] transition hover:border hover:border-[#e0c47e] hover:text-[#e0c47e]" data-pool="${pool.id}" data-index="${index}" aria-label="Remove ${player}">x</button>
                   </span>
                 `
@@ -191,7 +195,8 @@ function renderWheel() {
   if (items.length === 1) {
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#0b1326" stroke-width="5"></circle>
-      <text x="160" y="160" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="22" font-weight="600" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      ${items[0].logo ? `<image href="${items[0].logo}" x="137" y="104" width="46" height="46" preserveAspectRatio="xMidYMid slice"></image>` : ""}
+      <text x="160" y="160" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -203,9 +208,11 @@ function renderWheel() {
       const end = start + segmentSize;
       const mid = start + segmentSize / 2;
       const label = polarToCartesian(160, 160, 98, mid);
+      const logo = polarToCartesian(160, 160, 70, mid);
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#0b1326" stroke-width="5"></path>
-        <text x="${label.x}" y="${label.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="15" font-weight="600" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
+        <text x="${label.x}" y="${label.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
       `;
     })
     .join("");
@@ -319,19 +326,19 @@ function playerRow(player) {
   return `
     <div class="flex items-center justify-between rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3">
       <div class="flex items-center gap-3">
-        <span class="h-3 w-3 rounded-full" style="background:${player.accent}"></span>
-        <span class="arabic-text font-medium text-[#dae2fd]" dir="rtl">${player.name}</span>
+        <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
+        <span class="arabic-text text-xl font-bold text-[#dae2fd]" dir="rtl">${player.name}</span>
       </div>
-      <span class="text-xs font-semibold uppercase tracking-[0.12em] text-[#8e9197]">${player.pool}</span>
+      <span class="arabic-text text-sm font-bold text-[#8e9197]" dir="rtl">${player.pool}</span>
     </div>
   `;
 }
 
 function compactPlayerRow(player) {
   return `
-    <div class="flex items-center justify-between rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2">
-      <span class="arabic-text text-sm font-medium text-[#dae2fd]" dir="rtl">${player.name}</span>
-      <span class="h-2.5 w-2.5 rounded-full" style="background:${player.accent}"></span>
+    <div class="flex items-center justify-center gap-3 rounded-lg border border-[#44474c] bg-[#131b2e] px-4 py-3">
+      <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
+      <span class="arabic-text text-xl font-bold text-[#dae2fd]" dir="rtl">${player.name}</span>
     </div>
   `;
 }
