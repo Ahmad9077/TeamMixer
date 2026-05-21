@@ -12,7 +12,7 @@ const categories = [
   { id: "kuwait", title: "الكويت", image: "assets/categories/kuwait.jpg" },
   { id: "general-info", title: "معلومات عامة", image: "assets/categories/general-info.jpg" },
   { id: "history", title: "تاريخ", image: "assets/categories/history.jpg" },
-  { id: "foreign-word", title: "ولا كلمة من أجنبي", image: "assets/categories/foreign-word.jpg" },
+  { id: "foreign-word", title: "ولا كلمة فن أجنبي", image: "assets/categories/foreign-word.jpg" },
   { id: "location", title: "لوكيشن", image: "assets/categories/location.jpg" },
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
@@ -257,6 +257,15 @@ function categoryWheelItems() {
   return categories.slice(0, 6);
 }
 
+function categoryWheelLabel(title) {
+  const parts = title.replace("/", " / ").split(/\s+/).filter(Boolean);
+  if (title.length <= 8 || parts.length <= 1) return [title];
+  if (parts.length === 2) return parts;
+
+  const midpoint = Math.ceil(parts.length / 2);
+  return [parts.slice(0, midpoint).join(" "), parts.slice(midpoint).join(" ")];
+}
+
 function renderCategoryWheel() {
   const items = categoryWheelItems();
   const segmentSize = 360 / items.length;
@@ -267,10 +276,16 @@ function renderCategoryWheel() {
       const start = index * segmentSize;
       const end = start + segmentSize;
       const mid = start + segmentSize / 2;
-      const labelPoint = polarToCartesian(160, 160, 104, mid);
+      const labelPoint = polarToCartesian(160, 160, 106, mid);
+      const lines = categoryWheelLabel(item.title);
+      const fontSize = lines.some((line) => line.length > 10) ? 9 : 10;
+      const lineHeight = fontSize + 1;
+      const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#0b1326" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${labelPoint.x}, ${labelPoint.y})">${item.title.slice(0, 14)}</text>
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
+          ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}">${line}</tspan>`).join("")}
+        </text>
       `;
     })
     .join("");

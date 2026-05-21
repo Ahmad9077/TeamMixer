@@ -52,6 +52,8 @@ The app currently supports:
 - Removed category card photos from the category wheel segments.
 - Refined category card crops to reduce the brown screenshot margin around selected category photos.
 - Renamed the theater category to `مجمعات الكويت/ بوستر مسرح كبار`.
+- Renamed the foreign art category to `ولا كلمة فن أجنبي`.
+- Changed category wheel labels to smaller, regular-weight vertical text inside each slice.
 
 ## Current Decisions
 
@@ -74,6 +76,7 @@ Recent local checks confirmed:
 - Maximum team difference stayed `1`.
 - Category wheel selected 6 categories and disabled after the sixth pick.
 - Category wheel is text-only while selected category cards keep larger photos.
+- Category wheel labels use regular-weight vertical text.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
 - Public GitHub Pages returned `HTTP 200` after the Categories deployment.
