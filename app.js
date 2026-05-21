@@ -216,6 +216,13 @@ function nextAssignedTeam() {
   return state.bonusRemaining > 0 ? state.bonusTeam : state.nextTeam;
 }
 
+function balancedTeam(preferredTeam) {
+  const other = otherTeam(preferredTeam);
+  const preferredCount = state.teams[preferredTeam].length;
+  const otherCount = state.teams[other].length;
+  return preferredCount + 1 - otherCount >= 2 ? other : preferredTeam;
+}
+
 function completeCurrentGroupIfNeeded() {
   const finishedPoolIndex = state.currentPoolIndex;
   if (currentQueue().length > 0) return;
@@ -223,13 +230,38 @@ function completeCurrentGroupIfNeeded() {
   const wasOdd = state.groupStartCounts[finishedPoolIndex] % 2 === 1;
   const hasNextGroup = state.poolQueues.slice(finishedPoolIndex + 1).some((queue) => queue.length > 0);
   if (wasOdd && hasNextGroup) {
-    state.bonusTeam = state.nextTeam;
+    state.bonusTeam = balancedTeam(state.nextTeam);
     state.bonusRemaining = 2;
     state.lastResult += ` ${teamLabel(state.bonusTeam)} receives the first two picks from the next group.`;
   }
 
   state.currentPoolIndex += 1;
   advanceToNextAvailablePool();
+}
+
+function assignSelectedPlayer(selectedIndex, usedSpin) {
+  const queue = currentQueue();
+  const [assigned] = queue.splice(selectedIndex, 1);
+  const preferredTeam = nextAssignedTeam();
+  const team = balancedTeam(preferredTeam);
+  state.teams[team].push(assigned);
+  state.assigned.push({ ...assigned, team });
+
+  if (state.bonusRemaining > 0) {
+    state.bonusRemaining -= 1;
+    if (state.bonusRemaining === 0) {
+      state.nextTeam = otherTeam(team);
+      state.bonusTeam = null;
+    }
+  } else {
+    state.nextTeam = otherTeam(team);
+  }
+
+  state.spinning = false;
+  state.lastResult = usedSpin ? `${assigned.name} joined ${teamLabel(team)}.` : `${assigned.name} was the final name in ${assigned.pool} and joined ${teamLabel(team)}.`;
+  completeCurrentGroupIfNeeded();
+  render();
+  if (!remainingPlayers().length) showScreen("results");
 }
 
 function spin() {
@@ -246,6 +278,11 @@ function spin() {
   }
 
   const selectedIndex = Math.floor(Math.random() * queue.length);
+  if (queue.length === 1) {
+    assignSelectedPlayer(selectedIndex, false);
+    return;
+  }
+
   const selected = queue[selectedIndex];
   const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
@@ -260,26 +297,7 @@ function spin() {
   render();
 
   window.setTimeout(() => {
-    const [assigned] = queue.splice(selectedIndex, 1);
-    const team = nextAssignedTeam();
-    state.teams[team].push(assigned);
-    state.assigned.push({ ...assigned, team });
-
-    if (state.bonusRemaining > 0) {
-      state.bonusRemaining -= 1;
-      if (state.bonusRemaining === 0) {
-        state.nextTeam = otherTeam(state.bonusTeam);
-        state.bonusTeam = null;
-      }
-    } else {
-      state.nextTeam = otherTeam(team);
-    }
-
-    state.spinning = false;
-    state.lastResult = `${assigned.name} joined ${teamLabel(team)}.`;
-    completeCurrentGroupIfNeeded();
-    render();
-    if (!remainingPlayers().length) showScreen("results");
+    assignSelectedPlayer(selectedIndex, true);
   }, 4550);
 }
 
@@ -309,11 +327,24 @@ function playerRow(player) {
   `;
 }
 
+function compactPlayerRow(player) {
+  return `
+    <div class="flex items-center justify-between rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2">
+      <span class="arabic-text text-sm font-medium text-[#dae2fd]" dir="rtl">${player.name}</span>
+      <span class="h-2.5 w-2.5 rounded-full" style="background:${player.accent}"></span>
+    </div>
+  `;
+}
+
 function renderResults() {
   $("#alphaCount").textContent = `${state.teams.one.length} players`;
   $("#betaCount").textContent = `${state.teams.two.length} players`;
   $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">No assignments yet.</p>`;
   $("#betaList").innerHTML = state.teams.two.length ? state.teams.two.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">No assignments yet.</p>`;
+  $("#drawAlphaCount").textContent = state.teams.one.length;
+  $("#drawBetaCount").textContent = state.teams.two.length;
+  $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">No players yet.</p>`;
+  $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">No players yet.</p>`;
 }
 
 function shareResults() {

@@ -50,6 +50,8 @@
           linear-gradient(180deg, #0b1326 0%, #060e20 100%);
         background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
         color: var(--text);
+        overflow-x: hidden;
+        overflow-anchor: none;
       }
 
       .screen {
@@ -67,6 +69,10 @@
       .wheel {
         transition: transform 4.5s cubic-bezier(0.16, 0.84, 0.25, 1);
         transform-origin: center;
+        display: block;
+        transform-box: fill-box;
+        will-change: transform;
+        backface-visibility: hidden;
       }
 
       .team-card {
@@ -89,6 +95,7 @@
         background: linear-gradient(180deg, #334155, #233144);
         border: 1px solid rgba(185, 199, 224, 0.34);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        touch-action: manipulation;
       }
 
       .midnight-secondary {
@@ -122,6 +129,14 @@
       [dir="rtl"],
       .arabic-text {
         font-family: "Calibri", sans-serif;
+        letter-spacing: 0;
+        font-variant-ligatures: normal;
+      }
+
+      .draw-team-list {
+        max-height: 168px;
+        overflow-y: auto;
+        scrollbar-width: thin;
       }
     </style>
   </head>
@@ -129,7 +144,7 @@
     <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
       <header class="midnight-panel mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center backdrop-blur md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
         <div class="md:col-start-2">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">ديوانية الجيران</p>
+          <p class="arabic-text text-sm font-semibold text-[#e0c47e]" dir="rtl">ديوانية الجيران</p>
           <h1 class="arabic-text text-xl font-bold text-[#dae2fd] md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>
         </div>
         <nav class="hidden items-center justify-end gap-2 md:col-start-3 md:flex" aria-label="Primary">
@@ -180,6 +195,23 @@
 
               <button id="spinBtn" class="midnight-button mt-6 w-full rounded-lg px-6 py-4 text-base font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-50">SPIN NAME</button>
               <p id="spinStatus" class="mt-4 min-h-6 text-center text-sm font-medium text-[#c5c6cd]"></p>
+
+              <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-xl border border-[#44474c] bg-[#0b1326] p-3">
+                  <div class="mb-2 flex items-center justify-between">
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#b9c7e0]">Team 1</p>
+                    <span id="drawAlphaCount" class="text-xs font-medium text-[#c5c6cd]">0</span>
+                  </div>
+                  <div id="drawAlphaList" class="draw-team-list grid gap-2"></div>
+                </div>
+                <div class="rounded-xl border border-[#44474c] bg-[#0b1326] p-3">
+                  <div class="mb-2 flex items-center justify-between">
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#8bd6b6]">Team 2</p>
+                    <span id="drawBetaCount" class="text-xs font-medium text-[#c5c6cd]">0</span>
+                  </div>
+                  <div id="drawBetaList" class="draw-team-list grid gap-2"></div>
+                </div>
+              </div>
             </aside>
 
             <div class="relative mx-auto aspect-square w-full max-w-[560px]">
