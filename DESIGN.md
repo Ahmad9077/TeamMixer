@@ -1,22 +1,30 @@
 ---
-name: قرعة لعبة سين جيم - ديوانية الجيران
+name: Midnight Slate
 colors:
-  background: "#f4eadc"
-  primary: "#7c3aed"
-  secondary: "#f472b6"
-  tertiary: "#34d399"
-  dark-teal: "#064e3b"
+  background: "#0b1326"
+  surface: "#131b2e"
+  surface-container: "#171f33"
+  surface-container-high: "#222a3d"
+  outline: "#44474c"
+  on-surface: "#dae2fd"
+  on-surface-variant: "#c5c6cd"
+  primary: "#b9c7e0"
+  primary-container: "#334155"
+  secondary: "#e0c47e"
+  tertiary: "#8bd6b6"
 typography:
   headline:
-    fontFamily: Plus Jakarta Sans
-    fontWeight: "800"
+    fontFamily: Inter
+    fontWeight: "600"
   body:
-    fontFamily: Plus Jakarta Sans
-    fontWeight: "500"
+    fontFamily: Inter
+    fontWeight: "400"
 rounded:
-  full: 9999px
+  DEFAULT: 0.5rem
+  xl: 1.5rem
 spacing:
-  base: 8px
+  unit: 8px
+  container-max: 1200px
 ---
 
 ## TeamMixer
@@ -25,20 +33,22 @@ TeamMixer is a high-fidelity responsive web application for ديوانية ال�
 
 ## Visual System
 
-The design uses a Vibrant Pulse system: electric violet primary actions, mint success energy, electric pink accents, dark teal grounding, and a light gray canvas. Surfaces are soft, raised, and rounded with pill-shaped controls and generous touch targets.
+The website uses the Midnight Slate design system from Stitch: dark-mode-first, professional, quiet, and dashboard-oriented. The UI should feel deliberate and precise rather than playful.
 
-The beginning page should feel beige and warm, using a subtle light pink dot-grid pattern with an ambient gradient wash. Cards use white translucent surfaces, large rounded corners, and color-tinted shadows.
+The palette is deep navy and slate with restrained accents: slate blue for primary functional surfaces, muted gold for premium highlights, and emerald green for status indicators. Avoid candy colors, oversized pill shapes, pink dot-grid decoration, and heavy colored shadows.
 
-## Screens
+Typography uses Inter for interface text and Noto Kufi Arabic for Arabic titles. Headings should use medium or semibold weight, not extra-bold.
 
-Setup: three source-pool panels with input fields, add buttons, and removable player chips.
+## Components
+
+Cards and panels use tonal layers, 1px low-contrast borders, and subtle shadows. Inputs are recessed dark surfaces with muted gold focus borders. Chips use structured 4px to 8px radii with slate borders. Buttons use a slate blue gradient with a fine top-edge highlight.
+
+## Workflow
+
+Setup: three source-group panels with input fields, add buttons, and removable player chips.
 
 Draw: a central segmented SVG/CSS spin wheel that displays the remaining names from the active group. The wheel selects the name only; the app assigns that name to Team 1 or Team 2 according to the workflow.
 
-Workflow: within each group, selected names alternate between Team 1 and Team 2. If a group has an odd count, the next team in the sequence receives the first two selections from the next group.
+Within each group, selected names alternate between Team 1 and Team 2. If a group has an odd count, the next team in the sequence receives the first two selections from the next group.
 
-Results: celebration-style cards for Team Alpha and Team Beta with share and start-over actions.
-
-## Responsive Behavior
-
-Mobile uses stacked screens with fixed bottom navigation for Setup, Randomize, and Results. Desktop uses a pill-shaped header navigation and multi-column layouts.
+Results: final cards for Team 1 and Team 2 with share and start-over actions.
