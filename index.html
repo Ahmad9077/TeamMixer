@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TeamMixer</title>
+    <title>قرعة لعبة سين جيم - ديوانية الجيران</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              jakarta: ['"Plus Jakarta Sans"', "ui-sans-serif", "system-ui"],
+              jakarta: ['"Plus Jakarta Sans"', '"Noto Kufi Arabic"', "ui-sans-serif", "system-ui"],
             },
             boxShadow: {
               pulse: "0 24px 70px rgba(124, 58, 237, 0.14)",
@@ -31,15 +31,15 @@
         --pink: #f472b6;
         --mint: #34d399;
         --teal: #064e3b;
-        --paper: #f7f9fb;
+        --paper: #f4eadc;
       }
 
       body {
-        font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui;
+        font-family: "Plus Jakarta Sans", "Noto Kufi Arabic", ui-sans-serif, system-ui;
         background-color: var(--paper);
         background-image:
-          radial-gradient(circle at 1px 1px, rgba(244, 114, 182, 0.28) 1.2px, transparent 0),
-          linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(52, 211, 153, 0.06) 54%, rgba(244, 114, 182, 0.07));
+          radial-gradient(circle at 1px 1px, rgba(244, 114, 182, 0.24) 1.2px, transparent 0),
+          linear-gradient(135deg, rgba(255, 251, 235, 0.78), rgba(244, 234, 220, 0.94) 45%, rgba(124, 58, 237, 0.08));
         background-size: 22px 22px, 100% 100%;
       }
 
@@ -75,12 +75,12 @@
     <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
       <header class="mb-5 flex items-center justify-between rounded-full border border-white/80 bg-white/80 px-4 py-3 shadow-pulse backdrop-blur md:px-6">
         <div>
-          <p class="text-xs font-extrabold uppercase text-[#064e3b]">Random team assignment</p>
-          <h1 class="text-2xl font-extrabold text-[#7c3aed] md:text-3xl">TeamMixer</h1>
+          <p class="text-xs font-extrabold uppercase text-[#064e3b]">ديوانية الجيران</p>
+          <h1 class="font-['Noto_Kufi_Arabic'] text-xl font-extrabold text-[#7c3aed] md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>
         </div>
         <nav class="hidden items-center gap-2 md:flex" aria-label="Primary">
           <button class="nav-btn rounded-full px-5 py-3 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50" data-screen="setup">Setup</button>
-          <button class="nav-btn rounded-full px-5 py-3 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50" data-screen="randomize">Randomize</button>
+          <button class="nav-btn rounded-full px-5 py-3 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50" data-screen="randomize">Draw</button>
           <button class="nav-btn rounded-full px-5 py-3 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50" data-screen="results">Results</button>
         </nav>
       </header>
@@ -89,8 +89,8 @@
         <section id="setup" class="screen active">
           <div class="mb-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p class="mb-2 text-sm font-extrabold uppercase text-[#f472b6]">Three source pools</p>
-              <h2 class="text-4xl font-extrabold leading-tight md:text-5xl">Load players, then let the wheel decide.</h2>
+              <p class="mb-2 text-sm font-extrabold uppercase text-[#f472b6]">Three source groups</p>
+              <h2 class="font-['Noto_Kufi_Arabic'] text-4xl font-extrabold leading-tight md:text-5xl" dir="rtl">قرعة لعبة سين جيم<br />ديوانية الجيران</h2>
             </div>
             <div class="rounded-[2rem] bg-white/85 p-5 shadow-pulse backdrop-blur">
               <div class="flex flex-wrap items-center justify-between gap-3">
@@ -98,7 +98,7 @@
                   <p class="text-sm font-extrabold text-slate-500">Total players</p>
                   <p id="totalPlayers" class="text-3xl font-extrabold text-[#064e3b]">0</p>
                 </div>
-                <button id="shuffleQueueBtn" class="rounded-full bg-[#064e3b] px-5 py-3 text-sm font-extrabold text-white shadow-mint transition hover:scale-[1.02]">Prepare Queue</button>
+                <button id="shuffleQueueBtn" class="rounded-full bg-[#064e3b] px-5 py-3 text-sm font-extrabold text-white shadow-mint transition hover:scale-[1.02]">Start Draw</button>
               </div>
             </div>
           </div>
@@ -109,31 +109,31 @@
         <section id="randomize" class="screen">
           <div class="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
             <aside class="rounded-[2rem] bg-white/90 p-5 shadow-pulse backdrop-blur">
-              <p class="text-sm font-extrabold uppercase text-[#7c3aed]">Up next</p>
+              <p class="text-sm font-extrabold uppercase text-[#7c3aed]">Current draw</p>
               <h2 id="upNextName" class="mt-2 min-h-12 text-4xl font-extrabold">No player queued</h2>
-              <p id="upNextPool" class="mt-2 text-sm font-bold text-slate-500">Add players or prepare the queue.</p>
+              <p id="upNextPool" class="mt-2 text-sm font-bold text-slate-500">Add players or start the draw.</p>
 
               <div class="mt-6 grid grid-cols-2 gap-3">
                 <div class="rounded-[1.75rem] bg-violet-50 p-4">
-                  <p class="text-xs font-extrabold uppercase text-[#7c3aed]">Team Alpha</p>
+                  <p class="text-xs font-extrabold uppercase text-[#7c3aed]">Team 1</p>
                   <p id="alphaProgress" class="mt-2 text-2xl font-extrabold">0/0</p>
                 </div>
                 <div class="rounded-[1.75rem] bg-emerald-50 p-4">
-                  <p class="text-xs font-extrabold uppercase text-[#064e3b]">Team Beta</p>
+                  <p class="text-xs font-extrabold uppercase text-[#064e3b]">Team 2</p>
                   <p id="betaProgress" class="mt-2 text-2xl font-extrabold">0/0</p>
                 </div>
               </div>
 
-              <button id="spinBtn" class="mt-6 w-full rounded-full bg-gradient-to-r from-[#7c3aed] via-[#f472b6] to-[#34d399] px-6 py-4 text-base font-extrabold text-white shadow-pink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50">SPIN</button>
+              <button id="spinBtn" class="mt-6 w-full rounded-full bg-gradient-to-r from-[#7c3aed] via-[#f472b6] to-[#34d399] px-6 py-4 text-base font-extrabold text-white shadow-pink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50">SPIN NAME</button>
               <p id="spinStatus" class="mt-4 min-h-6 text-center text-sm font-extrabold text-slate-500"></p>
             </aside>
 
             <div class="relative mx-auto aspect-square w-full max-w-[560px]">
               <div class="absolute left-1/2 top-0 z-20 h-0 w-0 -translate-x-1/2 border-l-[20px] border-r-[20px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#064e3b] drop-shadow-lg"></div>
               <div class="wheel-wrap h-full w-full rounded-full bg-white p-4 shadow-pulse">
-                <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Team assignment spin wheel"></svg>
+                <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="Name draw spin wheel"></svg>
               </div>
-              <div class="pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-full border-[10px] border-white bg-[#064e3b] text-center text-xl font-extrabold text-white shadow-mint">TEAM<br />MIX</div>
+              <div class="pointer-events-none absolute inset-0 m-auto flex h-32 w-32 items-center justify-center rounded-full border-[10px] border-white bg-[#064e3b] text-center font-['Noto_Kufi_Arabic'] text-lg font-extrabold text-white shadow-mint" dir="rtl">سين<br />جيم</div>
             </div>
           </div>
         </section>
@@ -142,7 +142,7 @@
           <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p class="mb-2 text-sm font-extrabold uppercase text-[#34d399]">Final results</p>
-              <h2 class="text-4xl font-extrabold leading-tight md:text-5xl">Balanced teams, ready to play.</h2>
+              <h2 class="text-4xl font-extrabold leading-tight md:text-5xl">Final teams, ready to play.</h2>
             </div>
             <div class="flex gap-3">
               <button id="shareBtn" class="rounded-full bg-[#7c3aed] px-5 py-3 text-sm font-extrabold text-white shadow-pulse transition hover:scale-[1.02]">Share Results</button>
@@ -153,14 +153,14 @@
           <div class="grid gap-5 lg:grid-cols-2">
             <article class="team-card rounded-[2rem] p-5 shadow-pulse">
               <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-3xl font-extrabold text-[#7c3aed]">Team Alpha</h3>
+                <h3 class="text-3xl font-extrabold text-[#7c3aed]">Team 1</h3>
                 <span id="alphaCount" class="rounded-full bg-violet-100 px-4 py-2 text-sm font-extrabold text-[#7c3aed]">0 players</span>
               </div>
               <div id="alphaList" class="grid gap-3"></div>
             </article>
             <article class="team-card rounded-[2rem] p-5 shadow-pulse">
               <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-3xl font-extrabold text-[#064e3b]">Team Beta</h3>
+                <h3 class="text-3xl font-extrabold text-[#064e3b]">Team 2</h3>
                 <span id="betaCount" class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-extrabold text-[#064e3b]">0 players</span>
               </div>
               <div id="betaList" class="grid gap-3"></div>
@@ -173,302 +173,11 @@
     <nav class="fixed inset-x-0 bottom-0 z-50 border-t border-white/80 bg-white/90 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 shadow-[0_-14px_40px_rgba(15,23,42,0.10)] backdrop-blur md:hidden" aria-label="Mobile">
       <div class="mx-auto grid max-w-md grid-cols-3 gap-2">
         <button class="nav-btn rounded-full px-3 py-3 text-xs font-extrabold text-slate-600" data-screen="setup">Setup</button>
-        <button class="nav-btn rounded-full px-3 py-3 text-xs font-extrabold text-slate-600" data-screen="randomize">Randomize</button>
+        <button class="nav-btn rounded-full px-3 py-3 text-xs font-extrabold text-slate-600" data-screen="randomize">Draw</button>
         <button class="nav-btn rounded-full px-3 py-3 text-xs font-extrabold text-slate-600" data-screen="results">Results</button>
       </div>
     </nav>
 
-    <script>
-      const pools = [
-        { id: "poolA", title: "Group One", accent: "#7c3aed", players: ["Maya", "Omar", "Lina"] },
-        { id: "poolB", title: "Group Two", accent: "#f472b6", players: ["Noah", "Sara", "Zaid"] },
-        { id: "poolC", title: "Group Three", accent: "#34d399", players: ["Ali", "Reem", "Nora"] },
-      ];
-
-      const state = {
-        activeScreen: "setup",
-        queue: [],
-        assigned: [],
-        teams: {
-          alpha: [],
-          beta: [],
-        },
-        spinning: false,
-        rotation: 0,
-        lastResult: null,
-      };
-
-      const wheelSegments = [
-        { team: "alpha", label: "Alpha", color: "#7c3aed" },
-        { team: "beta", label: "Beta", color: "#34d399" },
-        { team: "alpha", label: "Alpha", color: "#f472b6" },
-        { team: "beta", label: "Beta", color: "#064e3b" },
-        { team: "alpha", label: "Alpha", color: "#a78bfa" },
-        { team: "beta", label: "Beta", color: "#2dd4bf" },
-      ];
-
-      const $ = (selector) => document.querySelector(selector);
-      const $$ = (selector) => Array.from(document.querySelectorAll(selector));
-
-      function shuffle(items) {
-        const copy = [...items];
-        for (let i = copy.length - 1; i > 0; i -= 1) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        return copy;
-      }
-
-      function allPlayers() {
-        return pools.flatMap((pool) => pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent })));
-      }
-
-      function targetFor(team) {
-        const total = allPlayers().length;
-        return team === "alpha" ? Math.ceil(total / 2) : Math.floor(total / 2);
-      }
-
-      function prepareQueue() {
-        state.queue = shuffle(allPlayers().filter((player) => !state.assigned.some((item) => item.name === player.name && item.pool === player.pool)));
-        state.lastResult = state.queue.length ? "Queue prepared." : "No players waiting.";
-        render();
-      }
-
-      function showScreen(screen) {
-        state.activeScreen = screen;
-        $$(".screen").forEach((section) => section.classList.toggle("active", section.id === screen));
-        $$(".nav-btn").forEach((button) => {
-          const active = button.dataset.screen === screen;
-          button.classList.toggle("bg-[#7c3aed]", active);
-          button.classList.toggle("text-white", active);
-          button.classList.toggle("shadow-pulse", active);
-          button.classList.toggle("text-slate-600", !active);
-        });
-      }
-
-      function addPlayer(poolId) {
-        const input = $(`#input-${poolId}`);
-        const value = input.value.trim();
-        if (!value) return;
-        const pool = pools.find((item) => item.id === poolId);
-        pool.players.push(value);
-        input.value = "";
-        prepareQueue();
-      }
-
-      function removePlayer(poolId, index) {
-        const pool = pools.find((item) => item.id === poolId);
-        const [removed] = pool.players.splice(index, 1);
-        state.queue = state.queue.filter((player) => !(player.name === removed && player.pool === pool.title));
-        state.assigned = state.assigned.filter((player) => !(player.name === removed && player.pool === pool.title));
-        state.teams.alpha = state.teams.alpha.filter((player) => !(player.name === removed && player.pool === pool.title));
-        state.teams.beta = state.teams.beta.filter((player) => !(player.name === removed && player.pool === pool.title));
-        render();
-      }
-
-      function renderPools() {
-        $("#poolGrid").innerHTML = pools
-          .map(
-            (pool) => `
-              <article class="rounded-[2rem] bg-white/90 p-5 shadow-pulse backdrop-blur">
-                <div class="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p class="text-xs font-extrabold uppercase text-slate-400">Source pool</p>
-                    <h3 class="text-2xl font-extrabold" style="color:${pool.accent}">${pool.title}</h3>
-                  </div>
-                  <span class="rounded-full px-4 py-2 text-sm font-extrabold text-white" style="background:${pool.accent}">${pool.players.length}</span>
-                </div>
-                <div class="flex gap-2">
-                  <input id="input-${pool.id}" class="min-w-0 flex-1 rounded-full border-2 border-slate-100 bg-slate-50 px-4 py-3 text-sm font-bold outline-none transition focus:border-[#7c3aed] focus:bg-white" placeholder="Add player" />
-                  <button class="add-btn rounded-full bg-slate-950 px-4 py-3 text-sm font-extrabold text-white" data-pool="${pool.id}">Add</button>
-                </div>
-                <div class="mt-4 flex min-h-28 flex-wrap content-start gap-2">
-                  ${pool.players
-                    .map(
-                      (player, index) => `
-                        <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-sm font-extrabold text-slate-700">
-                          ${player}
-                          <button class="remove-btn grid h-6 w-6 place-items-center rounded-full bg-white text-slate-500 transition hover:bg-rose-100 hover:text-rose-600" data-pool="${pool.id}" data-index="${index}" aria-label="Remove ${player}">x</button>
-                        </span>
-                      `
-                    )
-                    .join("")}
-                </div>
-              </article>
-            `
-          )
-          .join("");
-
-        $$(".add-btn").forEach((button) => button.addEventListener("click", () => addPlayer(button.dataset.pool)));
-        pools.forEach((pool) => {
-          const input = $(`#input-${pool.id}`);
-          input.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") addPlayer(pool.id);
-          });
-        });
-        $$(".remove-btn").forEach((button) => button.addEventListener("click", () => removePlayer(button.dataset.pool, Number(button.dataset.index))));
-      }
-
-      function polarToCartesian(cx, cy, radius, angle) {
-        const radians = ((angle - 90) * Math.PI) / 180;
-        return {
-          x: cx + radius * Math.cos(radians),
-          y: cy + radius * Math.sin(radians),
-        };
-      }
-
-      function describeArc(cx, cy, radius, startAngle, endAngle) {
-        const start = polarToCartesian(cx, cy, radius, endAngle);
-        const end = polarToCartesian(cx, cy, radius, startAngle);
-        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-        return `M ${cx} ${cy} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y} Z`;
-      }
-
-      function renderWheel() {
-        const segmentSize = 360 / wheelSegments.length;
-        $("#wheelSvg").innerHTML = wheelSegments
-          .map((segment, index) => {
-            const start = index * segmentSize;
-            const end = start + segmentSize;
-            const mid = start + segmentSize / 2;
-            const label = polarToCartesian(160, 160, 98, mid);
-            return `
-              <path d="${describeArc(160, 160, 154, start, end)}" fill="${segment.color}" stroke="white" stroke-width="5"></path>
-              <text x="${label.x}" y="${label.y}" fill="white" font-size="17" font-weight="800" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${segment.label}</text>
-            `;
-          })
-          .join("");
-        $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
-      }
-
-      function chooseSegment() {
-        const alphaFull = state.teams.alpha.length >= targetFor("alpha");
-        const betaFull = state.teams.beta.length >= targetFor("beta");
-        const allowed = wheelSegments
-          .map((segment, index) => ({ ...segment, index }))
-          .filter((segment) => !(segment.team === "alpha" && alphaFull) && !(segment.team === "beta" && betaFull));
-        return allowed[Math.floor(Math.random() * allowed.length)];
-      }
-
-      function spin() {
-        if (state.spinning) return;
-        if (state.assigned.length === allPlayers().length && allPlayers().length) {
-          state.lastResult = "All players are assigned.";
-          render();
-          showScreen("results");
-          return;
-        }
-        if (!state.queue.length) prepareQueue();
-        if (!state.queue.length) {
-          state.lastResult = "Add players before spinning.";
-          render();
-          showScreen("setup");
-          return;
-        }
-
-        const next = state.queue[0];
-        const segment = chooseSegment();
-        const segmentSize = 360 / wheelSegments.length;
-        const segmentCenter = segment.index * segmentSize + segmentSize / 2;
-        const desiredPointerAngle = 360 - segmentCenter;
-        const currentNormalized = ((state.rotation % 360) + 360) % 360;
-        const extraTurns = 4 + Math.floor(Math.random() * 3);
-        const delta = extraTurns * 360 + ((desiredPointerAngle - currentNormalized + 360) % 360);
-
-        state.spinning = true;
-        state.rotation += delta;
-        state.lastResult = `Spinning for ${next.name}...`;
-        render();
-
-        window.setTimeout(() => {
-          const assigned = state.queue.shift();
-          state.teams[segment.team].push(assigned);
-          state.assigned.push(assigned);
-          state.spinning = false;
-          state.lastResult = `${assigned.name} joined Team ${segment.team === "alpha" ? "Alpha" : "Beta"}.`;
-          render();
-          if (!state.queue.length && state.assigned.length === allPlayers().length) showScreen("results");
-        }, 4550);
-      }
-
-      function renderProgress() {
-        $("#alphaProgress").textContent = `${state.teams.alpha.length}/${targetFor("alpha")}`;
-        $("#betaProgress").textContent = `${state.teams.beta.length}/${targetFor("beta")}`;
-        $("#totalPlayers").textContent = allPlayers().length;
-        const next = state.queue[0];
-        $("#upNextName").textContent = next ? next.name : state.assigned.length ? "All players assigned" : "No player queued";
-        $("#upNextPool").textContent = next ? next.pool : state.assigned.length ? "Open results to review the teams." : "Add players or prepare the queue.";
-        $("#spinStatus").textContent = state.lastResult || "";
-        $("#spinBtn").disabled = state.spinning || (!state.queue.length && !allPlayers().length) || (state.assigned.length === allPlayers().length && allPlayers().length > 0);
-      }
-
-      function playerRow(player) {
-        return `
-          <div class="flex items-center justify-between rounded-full bg-white px-4 py-3 shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
-            <div class="flex items-center gap-3">
-              <span class="h-3 w-3 rounded-full" style="background:${player.accent}"></span>
-              <span class="font-extrabold">${player.name}</span>
-            </div>
-            <span class="text-xs font-extrabold uppercase text-slate-400">${player.pool}</span>
-          </div>
-        `;
-      }
-
-      function renderResults() {
-        $("#alphaCount").textContent = `${state.teams.alpha.length} players`;
-        $("#betaCount").textContent = `${state.teams.beta.length} players`;
-        $("#alphaList").innerHTML = state.teams.alpha.length ? state.teams.alpha.map(playerRow).join("") : `<p class="rounded-full bg-white px-4 py-3 text-sm font-extrabold text-slate-400">No assignments yet.</p>`;
-        $("#betaList").innerHTML = state.teams.beta.length ? state.teams.beta.map(playerRow).join("") : `<p class="rounded-full bg-white px-4 py-3 text-sm font-extrabold text-slate-400">No assignments yet.</p>`;
-      }
-
-      function shareResults() {
-        const text = [
-          "TeamMixer Results",
-          "",
-          `Team Alpha: ${state.teams.alpha.map((player) => player.name).join(", ") || "No players"}`,
-          `Team Beta: ${state.teams.beta.map((player) => player.name).join(", ") || "No players"}`,
-        ].join("\n");
-
-        if (navigator.share) {
-          navigator.share({ title: "TeamMixer Results", text }).catch(() => {});
-        } else {
-          navigator.clipboard?.writeText(text);
-          state.lastResult = "Results copied to clipboard.";
-          render();
-        }
-      }
-
-      function startOver() {
-        state.queue = shuffle(allPlayers());
-        state.assigned = [];
-        state.teams.alpha = [];
-        state.teams.beta = [];
-        state.spinning = false;
-        state.rotation = 0;
-        state.lastResult = "Ready for a fresh mix.";
-        render();
-        showScreen("setup");
-      }
-
-      function render() {
-        renderPools();
-        renderWheel();
-        renderProgress();
-        renderResults();
-        showScreen(state.activeScreen);
-      }
-
-      $$(".nav-btn").forEach((button) => button.addEventListener("click", () => showScreen(button.dataset.screen)));
-      $("#shuffleQueueBtn").addEventListener("click", () => {
-        prepareQueue();
-        showScreen("randomize");
-      });
-      $("#spinBtn").addEventListener("click", spin);
-      $("#shareBtn").addEventListener("click", shareResults);
-      $("#startOverBtn").addEventListener("click", startOver);
-
-      prepareQueue();
-      render();
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>

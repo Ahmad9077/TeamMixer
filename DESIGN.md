@@ -1,7 +1,7 @@
 ---
-name: TeamMixer Vibrant Pulse
+name: قرعة لعبة سين جيم - ديوانية الجيران
 colors:
-  background: "#f7f9fb"
+  background: "#f4eadc"
   primary: "#7c3aed"
   secondary: "#f472b6"
   tertiary: "#34d399"
@@ -21,19 +21,21 @@ spacing:
 
 ## TeamMixer
 
-TeamMixer is a high-fidelity responsive web application for randomized team assignment. Users add players into three source pools, prepare a randomized queue, and spin a central wheel to assign the current up-next player into Team Alpha or Team Beta.
+TeamMixer is a high-fidelity responsive web application for ديوانية الجيران and the game قرعة لعبة سين جيم. Users add players into three source groups, then spin a central wheel that selects a name from the current group.
 
 ## Visual System
 
 The design uses a Vibrant Pulse system: electric violet primary actions, mint success energy, electric pink accents, dark teal grounding, and a light gray canvas. Surfaces are soft, raised, and rounded with pill-shaped controls and generous touch targets.
 
-The background should use a subtle light pink dot-grid pattern with an ambient gradient wash. Cards use white translucent surfaces, large rounded corners, and color-tinted shadows.
+The beginning page should feel beige and warm, using a subtle light pink dot-grid pattern with an ambient gradient wash. Cards use white translucent surfaces, large rounded corners, and color-tinted shadows.
 
 ## Screens
 
 Setup: three source-pool panels with input fields, add buttons, and removable player chips.
 
-Randomize: a central segmented SVG/CSS spin wheel with an up-next player panel, progress counters, and a prominent SPIN button.
+Draw: a central segmented SVG/CSS spin wheel that displays the remaining names from the active group. The wheel selects the name only; the app assigns that name to Team 1 or Team 2 according to the workflow.
+
+Workflow: within each group, selected names alternate between Team 1 and Team 2. If a group has an odd count, the next team in the sequence receives the first two selections from the next group.
 
 Results: celebration-style cards for Team Alpha and Team Beta with share and start-over actions.
 

@@ -1,6 +1,6 @@
-# TeamMixer
+# قرعة لعبة سين جيم - ديوانية الجيران
 
-High-fidelity responsive web app for randomized team assignment.
+High-fidelity responsive web app for a three-group name draw. The wheel selects a name from the active group, then the app assigns the player to Team 1 or Team 2 using the alternating workflow.
 
 ## Run Locally
 
