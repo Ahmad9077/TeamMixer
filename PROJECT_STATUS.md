@@ -72,9 +72,10 @@ Recent local checks confirmed:
 - Category wheel selected 6 categories and disabled after the sixth pick.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
-- Public GitHub Pages returned `HTTP 200` after the mobile Draw layout deployment.
-- Public HTML contains the updated mobile Draw layout classes.
+- Public GitHub Pages returned `HTTP 200` after the Categories deployment.
+- Public HTML contains the updated mobile Draw layout classes and the new Categories tab markup.
 - Public asset URLs returned `HTTP 200`.
+- Sample public category asset URLs returned `HTTP 200`.
 
 ## Pending
 
