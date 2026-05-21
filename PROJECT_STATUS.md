@@ -49,6 +49,9 @@ The app currently supports:
 - Added a fourth `Categories` tab after `Results`.
 - Replaced the oversized wheel center square with a smaller circular center badge.
 - Increased mobile safe-bottom padding so fixed bottom tabs do not cover page content at max scroll.
+- Removed category card photos from the category wheel segments.
+- Refined category card crops to reduce the brown screenshot margin around selected category photos.
+- Renamed the theater category to `مجمعات الكويت/ بوستر مسرح كبار`.
 
 ## Current Decisions
 
@@ -70,6 +73,7 @@ Recent local checks confirmed:
 - Full default draw ended `5/6`.
 - Maximum team difference stayed `1`.
 - Category wheel selected 6 categories and disabled after the sixth pick.
+- Category wheel is text-only while selected category cards keep larger photos.
 - Category image assets exist locally and were published.
 - Local category image assets loaded successfully in browser checks.
 - Public GitHub Pages returned `HTTP 200` after the Categories deployment.

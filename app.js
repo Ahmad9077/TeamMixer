@@ -17,7 +17,7 @@ const categories = [
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
-  { id: "theater-poster", title: "بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
+  { id: "theater-poster", title: "مجمعات الكويت/ بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
   { id: "islamic-letters", title: "حروف إسلامي", image: "assets/categories/islamic-letters.jpg" },
   { id: "sports", title: "رياضة", image: "assets/categories/sports.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
@@ -267,19 +267,10 @@ function renderCategoryWheel() {
       const start = index * segmentSize;
       const end = start + segmentSize;
       const mid = start + segmentSize / 2;
-      const imagePoint = polarToCartesian(160, 160, 74, mid);
-      const labelPoint = polarToCartesian(160, 160, 112, mid);
-      const clipId = `categoryClip-${item.id}`;
+      const labelPoint = polarToCartesian(160, 160, 104, mid);
       return `
-        <defs>
-          <clipPath id="${clipId}">
-            <circle cx="${imagePoint.x}" cy="${imagePoint.y}" r="18"></circle>
-          </clipPath>
-        </defs>
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#0b1326" stroke-width="5"></path>
-        <circle cx="${imagePoint.x}" cy="${imagePoint.y}" r="20" fill="#0b1326" stroke="#dae2fd" stroke-width="2"></circle>
-        <image href="${item.image}" x="${imagePoint.x - 18}" y="${imagePoint.y - 22}" width="36" height="44" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})" transform="rotate(${mid}, ${imagePoint.x}, ${imagePoint.y})"></image>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${labelPoint.x}, ${labelPoint.y})">${item.title.slice(0, 12)}</text>
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${labelPoint.x}, ${labelPoint.y})">${item.title.slice(0, 14)}</text>
       `;
     })
     .join("");

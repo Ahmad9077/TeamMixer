@@ -7,7 +7,7 @@
 - Confirm whether `Team 1` and `Team 2` should be renamed.
 - Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
-- If needed, tune individual category card crops from the supplied screenshot.
+- If needed, replace the cropped category cards with original individual photos.
 
 ## Verification Checklist For Future Changes
 
