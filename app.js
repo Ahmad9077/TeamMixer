@@ -25,6 +25,7 @@ const categories = [
 
 const limitedCategoryIds = new Set(["travel", "geography", "countries-capitals"]);
 const limitedCategoryMax = 2;
+const preloadedAssetUrls = new Set();
 
 const state = {
   activeScreen: "setup",
@@ -59,6 +60,18 @@ const fallbackWheelSegments = [
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+function preloadImage(url) {
+  if (!url || preloadedAssetUrls.has(url)) return;
+  preloadedAssetUrls.add(url);
+  const image = new Image();
+  image.src = url;
+}
+
+function preloadAssets() {
+  pools.forEach((pool) => preloadImage(pool.logo));
+  categories.forEach((category) => preloadImage(category.image));
+}
 
 function shuffle(items) {
   const copy = [...items];
@@ -554,5 +567,6 @@ $("#startOverBtn").addEventListener("click", () => {
   showScreen("setup");
 });
 
+preloadAssets();
 resetCategories();
 resetDraw("Ready to start.");

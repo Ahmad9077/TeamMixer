@@ -55,6 +55,7 @@ The app currently supports:
 - Renamed the foreign art category to `ولا كلمة فن أجنبي`.
 - Changed category wheel labels to smaller, regular-weight vertical text inside each slice.
 - Limited `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` so only two of those three can be selected in one Categories session.
+- Added lightweight preloading for group logo and category image assets from the existing `pools` and `categories` data.
 
 ## Current Decisions
 
@@ -86,6 +87,10 @@ Recent local checks confirmed:
 - Public `app.js` contains the renamed category and no category-wheel image or clip-path markup.
 - Public asset URLs returned `HTTP 200`.
 - Sample public category asset URLs returned `HTTP 200`.
+- Local syntax check passed after adding image preloading.
+- Local headless Chrome checks after image preloading confirmed mobile `390x844` and desktop `1280x900` had no horizontal overflow.
+- Local headless Chrome checks confirmed all 19 logo/category image assets were requested, no rendered images were broken, and the category wheel still contained no image elements.
+- Local headless Chrome max-scroll checks confirmed Setup, Draw, Results, and Categories content stayed above the fixed mobile tabs.
 
 ## Pending
 

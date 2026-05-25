@@ -30,5 +30,4 @@
 - Add Arabic versions of status messages.
 - Add a small draw history log.
 - Add a compact landscape mobile layout.
-- Add image preloading to avoid first-render logo delay.
 - Add a visual animation when a selected name joins a team.
