@@ -1,16 +1,16 @@
 ---
-name: Midnight Slate
+name: Light Eid
 colors:
-  background: "#0b1326"
-  surface: "#131b2e"
-  surface-container: "#171f33"
-  surface-container-high: "#222a3d"
-  outline: "#44474c"
-  on-surface: "#dae2fd"
-  on-surface-variant: "#c5c6cd"
-  primary: "#b9c7e0"
-  primary-container: "#334155"
-  secondary: "#e0c47e"
+  background: "#f8f3e8"
+  surface: "#fffaf2"
+  surface-container: "#ffffff"
+  surface-container-high: "#fff3d8"
+  outline: "rgba(107, 54, 6, 0.18)"
+  on-surface: "#271a10"
+  on-surface-variant: "#6e6254"
+  primary: "#7a3f08"
+  primary-container: "#fff3d8"
+  secondary: "#f0cf86"
   tertiary: "#8bd6b6"
 typography:
   headline:
@@ -21,7 +21,7 @@ typography:
     fontWeight: "400"
 rounded:
   DEFAULT: 0.5rem
-  xl: 1.5rem
+  xl: 1rem
 spacing:
   unit: 8px
   container-max: 1200px
@@ -33,15 +33,13 @@ TeamMixer is a high-fidelity responsive web application for ديوانية ال�
 
 ## Visual System
 
-The website uses the Midnight Slate design system from Stitch: dark-mode-first, professional, quiet, and dashboard-oriented. The UI should feel deliberate and precise rather than playful.
+The website uses a Light Eid design system: warm ivory background, paper-like panels, restrained brown and muted gold accents, and the Eid Mubarak reference image as a soft low-opacity background/watermark element. The UI should feel professional, simple, and seasonal without becoming decorative or cluttered.
 
-The palette is deep navy and slate with restrained accents: slate blue for primary functional surfaces, muted gold for premium highlights, and emerald green for status indicators. Avoid candy colors, oversized pill shapes, pink dot-grid decoration, and heavy colored shadows.
-
-Typography uses Inter for interface text and Calibri for Arabic text. Headings should use medium or semibold weight, not extra-bold.
+Typography uses Inter for English/interface text and Calibri for Arabic text. Arabic text must keep connected letterforms with no letter spacing.
 
 ## Components
 
-Cards and panels use tonal layers, 1px low-contrast borders, and subtle shadows. Inputs are recessed dark surfaces with muted gold focus borders. Chips use structured 4px to 8px radii with slate borders. Buttons use a slate blue gradient with a fine top-edge highlight.
+Cards and panels use light surfaces, 1px warm low-contrast borders, and subtle shadows. Inputs are white paper fields with warm brown focus states. Buttons use a deep brown gradient with muted gold warmth. Wheel slices use soft cream, gold, blue-tint, and sage-tint colors with dark Arabic labels for legibility.
 
 ## Workflow
 

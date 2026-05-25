@@ -231,7 +231,7 @@ function describeArc(cx, cy, radius, startAngle, endAngle) {
 function wheelItems() {
   const queue = currentQueue();
   if (queue.length) {
-    const palette = ["#334155", "#584409", "#004a35", "#222a3d", "#515f74", "#8e6f1a", "#00513b", "#2d3449"];
+    const palette = ["#f7d98f", "#e9c272", "#d9edf0", "#eadfcf", "#c9ded6", "#f3eadc", "#d7c49d", "#e7eef1"];
     return queue.map((player, index) => ({ ...player, label: player.name, color: palette[index % palette.length] }));
   }
   return fallbackWheelSegments;
@@ -243,9 +243,9 @@ function renderWheel() {
 
   if (items.length === 1) {
     $("#wheelSvg").innerHTML = `
-      <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#0b1326" stroke-width="5"></circle>
+      <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#fffaf2" stroke-width="5"></circle>
       ${items[0].logo ? `<image href="${items[0].logo}" x="137" y="104" width="46" height="46" preserveAspectRatio="xMidYMid slice"></image>` : ""}
-      <text x="160" y="160" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      <text x="160" y="160" fill="#2b2118" font-family="Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -259,9 +259,9 @@ function renderWheel() {
       const label = polarToCartesian(160, 160, 98, mid);
       const logo = polarToCartesian(160, 160, 70, mid);
       return `
-        <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#0b1326" stroke-width="5"></path>
+        <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#fffaf2" stroke-width="5"></path>
         ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
-        <text x="${label.x}" y="${label.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        <text x="${label.x}" y="${label.y}" fill="#2b2118" font-family="Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
       `;
     })
     .join("");
@@ -295,7 +295,7 @@ function categoryWheelLabel(title) {
 function renderCategoryWheel() {
   const items = categoryWheelItems();
   const segmentSize = 360 / items.length;
-  const palette = ["#334155", "#584409", "#004a35", "#222a3d", "#515f74", "#8e6f1a", "#00513b", "#2d3449"];
+  const palette = ["#f7d98f", "#e9c272", "#d9edf0", "#eadfcf", "#c9ded6", "#f3eadc", "#d7c49d", "#e7eef1"];
 
   $("#categoryWheelSvg").innerHTML = items
     .map((item, index) => {
@@ -308,8 +308,8 @@ function renderCategoryWheel() {
       const lineHeight = fontSize + 1;
       const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
-        <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#0b1326" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#dae2fd" font-family="Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
+        <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#fffaf2" stroke-width="5"></path>
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#2b2118" font-family="Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
           ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}">${line}</tspan>`).join("")}
         </text>
       `;

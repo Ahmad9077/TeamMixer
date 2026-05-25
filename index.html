@@ -38,20 +38,62 @@
         --blue: #b9c7e0;
         --gold: #e0c47e;
         --emerald: #8bd6b6;
+        --eid-brown: #6b3606;
+        --eid-copper: #9c5f19;
+        --eid-gold: #f0cf86;
       }
 
       body {
         font-family: "Inter", "Calibri", ui-sans-serif, system-ui;
         background-color: var(--slate-925);
         background-image:
-          linear-gradient(rgba(185, 199, 224, 0.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(185, 199, 224, 0.035) 1px, transparent 1px),
-          radial-gradient(circle at top left, rgba(185, 199, 224, 0.12), transparent 34%),
+          radial-gradient(circle at 12% 10%, rgba(240, 207, 134, 0.16), transparent 28%),
+          radial-gradient(circle at 88% 14%, rgba(156, 95, 25, 0.2), transparent 30%),
+          radial-gradient(circle at 70% 82%, rgba(139, 214, 182, 0.1), transparent 26%),
+          linear-gradient(rgba(240, 207, 134, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(240, 207, 134, 0.03) 1px, transparent 1px),
           linear-gradient(180deg, #0b1326 0%, #060e20 100%);
-        background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
+        background-size: 100% 100%, 100% 100%, 100% 100%, 34px 34px, 34px 34px, 100% 100%;
         color: var(--text);
         overflow-x: hidden;
         overflow-anchor: none;
+        position: relative;
+      }
+
+      body::before,
+      body::after {
+        pointer-events: none;
+        position: fixed;
+        z-index: 0;
+      }
+
+      body::before {
+        content: "عيدكم مبارك";
+        inset-inline-end: -7vw;
+        top: 12vh;
+        max-width: min(92vw, 1080px);
+        font-family: "Calibri", sans-serif;
+        font-size: clamp(5.5rem, 17vw, 15rem);
+        font-weight: 700;
+        line-height: 0.85;
+        color: rgba(156, 95, 25, 0.16);
+        direction: rtl;
+        letter-spacing: 0;
+        transform: rotate(-6deg);
+        white-space: nowrap;
+        text-shadow: 0 18px 54px rgba(0, 0, 0, 0.22);
+      }
+
+      body::after {
+        content: "";
+        inset: 0;
+        background-image:
+          radial-gradient(circle at 9% 24%, rgba(240, 207, 134, 0.72) 0 1.5px, transparent 2px),
+          radial-gradient(circle at 19% 19%, rgba(240, 207, 134, 0.5) 0 1px, transparent 1.5px),
+          radial-gradient(circle at 83% 29%, rgba(240, 207, 134, 0.62) 0 1.5px, transparent 2px),
+          radial-gradient(circle at 91% 42%, rgba(240, 207, 134, 0.42) 0 1px, transparent 1.5px);
+        background-size: 230px 210px, 260px 230px, 280px 240px, 320px 250px;
+        opacity: 0.45;
       }
 
       .screen {
@@ -60,6 +102,11 @@
 
       .screen.active {
         display: block;
+      }
+
+      .app-shell {
+        position: relative;
+        z-index: 1;
       }
 
       .wheel-wrap {
@@ -96,9 +143,11 @@
       }
 
       .midnight-panel {
-        background: linear-gradient(180deg, rgba(23, 31, 51, 0.96), rgba(19, 27, 46, 0.96));
-        border: 1px solid rgba(142, 145, 151, 0.24);
-        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+        background:
+          linear-gradient(180deg, rgba(23, 31, 51, 0.95), rgba(19, 27, 46, 0.95)),
+          radial-gradient(circle at top right, rgba(240, 207, 134, 0.08), transparent 34%);
+        border: 1px solid rgba(240, 207, 134, 0.2);
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
       }
 
       .midnight-button {
@@ -110,7 +159,7 @@
 
       .midnight-secondary {
         background: #131b2e;
-        border: 1px solid rgba(142, 145, 151, 0.28);
+        border: 1px solid rgba(240, 207, 134, 0.22);
         color: var(--text);
       }
 
@@ -182,10 +231,273 @@
         object-fit: cover;
         object-position: center;
       }
+
+      .eid-hero {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(240, 207, 134, 0.2), transparent 34%),
+          linear-gradient(135deg, rgba(34, 42, 61, 0.96), rgba(11, 19, 38, 0.96));
+      }
+
+      .eid-hero::before {
+        content: "عيدكم مبارك";
+        position: absolute;
+        inset-inline-end: clamp(-24px, -2vw, -8px);
+        top: -0.12em;
+        font-family: "Calibri", sans-serif;
+        font-size: clamp(4.2rem, 12vw, 8.5rem);
+        font-weight: 700;
+        line-height: 1;
+        color: rgba(240, 207, 134, 0.1);
+        direction: rtl;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .eid-hero > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .eid-crescent {
+        position: relative;
+        width: 54px;
+        height: 54px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, var(--eid-gold), #9c5f19);
+        box-shadow: 0 16px 32px rgba(156, 95, 25, 0.24);
+        flex: 0 0 auto;
+      }
+
+      .eid-crescent::after {
+        content: "";
+        position: absolute;
+        inset: 7px 4px 7px 16px;
+        border-radius: 9999px;
+        background: #111a2d;
+      }
+
+      .eid-star {
+        color: var(--eid-gold);
+        font-size: 1.05rem;
+        line-height: 1;
+      }
+
+      @media (max-width: 767px) {
+        body::before {
+          inset-inline-end: -22vw;
+          top: 18vh;
+          font-size: clamp(5rem, 30vw, 9rem);
+          opacity: 0.72;
+        }
+
+        .eid-crescent {
+          width: 44px;
+          height: 44px;
+        }
+      }
+
+      /* Light Eid approval preview */
+      :root {
+        --light-bg: #f8f3e8;
+        --light-paper: #fffaf2;
+        --light-paper-strong: #ffffff;
+        --light-ink: #271a10;
+        --light-muted: #6e6254;
+        --light-border: rgba(107, 54, 6, 0.18);
+      }
+
+      body {
+        background-color: var(--light-bg);
+        background-image:
+          linear-gradient(rgba(107, 54, 6, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(107, 54, 6, 0.03) 1px, transparent 1px),
+          radial-gradient(circle at 8% 8%, rgba(240, 207, 134, 0.34), transparent 34%),
+          radial-gradient(circle at 94% 12%, rgba(156, 95, 25, 0.12), transparent 32%),
+          linear-gradient(180deg, #fffaf2 0%, #f4ead9 100%);
+        background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+        color: var(--light-ink);
+      }
+
+      body::before {
+        content: "";
+        inset: 5vh auto auto 50%;
+        width: min(82vw, 940px);
+        height: min(82vw, 720px);
+        background: url("assets/eid-mubarak-reference.jpg") center / contain no-repeat;
+        opacity: 0.12;
+        mix-blend-mode: multiply;
+        transform: translateX(-50%);
+        filter: sepia(0.65) saturate(0.85);
+      }
+
+      body::after {
+        content: "";
+        inset: 0;
+        background:
+          radial-gradient(circle at 12% 24%, rgba(107, 54, 6, 0.18) 0 1.2px, transparent 1.8px),
+          radial-gradient(circle at 86% 34%, rgba(156, 95, 25, 0.16) 0 1.2px, transparent 1.8px);
+        background-size: 210px 210px, 280px 240px;
+        opacity: 0.55;
+      }
+
+      .midnight-panel,
+      .team-card {
+        background:
+          linear-gradient(180deg, rgba(255, 250, 242, 0.94), rgba(255, 255, 255, 0.9)),
+          radial-gradient(circle at top right, rgba(240, 207, 134, 0.16), transparent 34%);
+        border-color: var(--light-border) !important;
+        box-shadow: 0 16px 38px rgba(107, 54, 6, 0.1);
+      }
+
+      header.midnight-panel {
+        background: rgba(255, 250, 242, 0.92);
+        backdrop-filter: blur(18px);
+      }
+
+      .eid-hero {
+        background:
+          linear-gradient(90deg, rgba(255, 250, 242, 0.92), rgba(255, 255, 255, 0.72)),
+          radial-gradient(circle at 95% 22%, rgba(240, 207, 134, 0.36), transparent 30%);
+        min-height: 136px;
+      }
+
+      .eid-hero::before {
+        content: "";
+        inset: -74px -48px auto auto;
+        width: min(54vw, 560px);
+        height: 290px;
+        background: url("assets/eid-mubarak-reference.jpg") center / contain no-repeat;
+        opacity: 0.18;
+        mix-blend-mode: multiply;
+        filter: sepia(0.65) saturate(0.9);
+        transform: none;
+      }
+
+      .eid-crescent {
+        background: linear-gradient(135deg, #f3d58f, #7a3f08);
+        box-shadow: 0 16px 30px rgba(122, 63, 8, 0.18);
+      }
+
+      .eid-crescent::after {
+        background: var(--light-paper);
+      }
+
+      .midnight-button {
+        background: linear-gradient(180deg, #7a3f08, #4f2803);
+        border-color: rgba(107, 54, 6, 0.26);
+        color: #fffaf2;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px rgba(107, 54, 6, 0.14);
+      }
+
+      .midnight-secondary {
+        background: rgba(255, 250, 242, 0.82);
+        border-color: var(--light-border);
+        color: var(--light-ink);
+      }
+
+      .midnight-input {
+        background: rgba(255, 255, 255, 0.78) !important;
+        border-color: var(--light-border) !important;
+        color: var(--light-ink) !important;
+      }
+
+      .wheel-wrap {
+        background: rgba(255, 250, 242, 0.86) !important;
+        border-color: var(--light-border) !important;
+        filter: drop-shadow(0 28px 32px rgba(107, 54, 6, 0.14));
+      }
+
+      .wheel-center-badge {
+        background: #fffaf2 !important;
+        border-color: rgba(107, 54, 6, 0.22) !important;
+        color: var(--light-ink) !important;
+      }
+
+      .nav-btn {
+        color: #6e6254 !important;
+      }
+
+      .nav-btn.bg-\[\#7c3aed\] {
+        background: #fff3d8 !important;
+        border-color: rgba(107, 54, 6, 0.22) !important;
+        color: var(--light-ink) !important;
+        box-shadow: 0 8px 18px rgba(107, 54, 6, 0.1);
+      }
+
+      nav.fixed {
+        background: rgba(255, 250, 242, 0.96) !important;
+        border-color: rgba(107, 54, 6, 0.16) !important;
+        box-shadow: 0 -14px 36px rgba(107, 54, 6, 0.12) !important;
+      }
+
+      header p,
+      header h1,
+      .eid-hero h2,
+      .eid-hero p,
+      section h2,
+      section h3,
+      [class*="text-[#dae2fd]"] {
+        color: var(--light-ink) !important;
+      }
+
+      [class*="text-[#c5c6cd]"],
+      [class*="text-[#8e9197]"] {
+        color: var(--light-muted) !important;
+      }
+
+      [class*="text-[#e0c47e]"],
+      [class*="text-[#8bd6b6]"],
+      [class*="text-[#b9c7e0]"],
+      .eid-star {
+        color: #7a3f08 !important;
+      }
+
+      [class*="bg-[#0b1326]"],
+      [class*="bg-[#131b2e]"],
+      [class*="bg-[#171f33]"] {
+        background-color: rgba(255, 250, 242, 0.72) !important;
+      }
+
+      [class*="border-[#44474c]"] {
+        border-color: var(--light-border) !important;
+      }
+
+      [class*="border-t-[#064e3b]"] {
+        border-top-color: #7a3f08 !important;
+      }
+
+      #poolGrid article,
+      .team-card,
+      header,
+      aside {
+        border-color: var(--light-border) !important;
+      }
+
+      @media (max-width: 767px) {
+        body::before {
+          inset-block-start: 12vh;
+          width: 118vw;
+          height: 118vw;
+          opacity: 0.1;
+        }
+
+        .eid-hero {
+          min-height: 126px;
+        }
+
+        .eid-hero::before {
+          inset: auto -80px -82px auto;
+          width: 330px;
+          height: 230px;
+          opacity: 0.15;
+        }
+      }
     </style>
   </head>
   <body class="min-h-screen">
-    <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
+    <div class="app-shell bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
       <header class="midnight-panel mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center backdrop-blur md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
         <div class="md:col-start-2">
           <p class="arabic-text text-sm font-semibold text-[#e0c47e]" dir="rtl">ديوانية الجيران</p>
@@ -201,9 +513,18 @@
 
       <main class="flex-1">
         <section id="setup" class="screen active">
+          <div class="eid-hero midnight-panel mb-5 rounded-2xl px-5 py-4 backdrop-blur md:px-6">
+            <div class="flex items-center justify-between gap-4">
+              <div class="min-w-0 text-right" dir="rtl">
+                <h2 class="arabic-text text-3xl font-bold leading-tight text-[#f0cf86] md:text-5xl">عيدكم مبارك</h2>
+                <p class="arabic-text mt-1 text-base font-semibold text-[#dae2fd] md:text-xl">قرعة سين جيم لديوانية الجيران</p>
+              </div>
+              <div class="eid-crescent" aria-hidden="true"></div>
+            </div>
+          </div>
+
           <div class="mb-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#e0c47e]">Teams setup</p>
               <h2 class="arabic-text text-center text-4xl font-bold leading-tight text-[#dae2fd] md:text-5xl" dir="rtl">قرعة لعبة سين جيم<br />ديوانية الجيران</h2>
             </div>
             <div class="midnight-panel rounded-2xl p-5 backdrop-blur">

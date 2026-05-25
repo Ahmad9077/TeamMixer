@@ -37,25 +37,26 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 
 ## Design Direction
 
-Use the Midnight Slate design system:
+Use the Light Eid design system:
 
-- Dark navy/slate background.
-- Professional dashboard feel.
+- Warm ivory/light background with a simple professional feel.
+- Use the Eid Mubarak reference image as a soft, low-opacity background/watermark element.
 - Inter for English/interface text.
 - Calibri for Arabic text.
 - Arabic letters must render connected; avoid letter spacing on Arabic.
-- Use muted gold for premium/highlight accents and emerald for status accents.
-- Use 1px low-contrast borders, tonal panels, and subtle shadows.
+- Use restrained brown and muted gold for premium/highlight accents.
+- Use 1px low-contrast warm borders, paper-like panels, and subtle shadows.
 - Prefer 8px to 16px corner radius. Avoid oversized pill shapes except where already intentional.
 - Avoid playful pink/beige dot-grid styling, bright candy colors, heavy glow shadows, and clutter.
 
 ## Current App Behavior
 
-The app has three screens:
+The app has four screens:
 
 - Setup: edit the three Arabic groups and members.
 - Draw: spin/select names, show active group, progress, and live team lists.
 - Results: final Team 1 and Team 2 lists with share/start-over actions.
+- Categories: spin/select six game categories.
 
 Groups and logos:
 

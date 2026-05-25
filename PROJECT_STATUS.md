@@ -8,7 +8,7 @@ The TeamMixer web app is implemented as a static GitHub Pages site and is public
 
 The app currently supports:
 
-- Midnight Slate dark dashboard styling.
+- Light Eid styling with a warm ivory background, brown/gold accents, and the Eid Mubarak reference image as a soft background/watermark.
 - Arabic title: `قرعة لعبة سين جيم` / `ديوانية الجيران`.
 - Three editable Arabic groups.
 - Default Arabic members for each group.
@@ -29,7 +29,8 @@ The app currently supports:
 - Created `index.html`, `app.js`, `DESIGN.md`, and `README.md`.
 - Created and published GitHub repo `Ahmad9077/TeamMixer`.
 - Enabled GitHub Pages.
-- Applied Midnight Slate design direction from Stitch.
+- Applied the original Midnight Slate design direction from Stitch.
+- Replaced Midnight Slate with a light professional Eid design after user approval.
 - Replaced English default groups/members with Arabic groups/members.
 - Changed Arabic typography to Calibri.
 - Centered the primary Arabic title.
@@ -56,6 +57,8 @@ The app currently supports:
 - Changed category wheel labels to smaller, regular-weight vertical text inside each slice.
 - Limited `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` so only two of those three can be selected in one Categories session.
 - Added lightweight preloading for group logo and category image assets from the existing `pools` and `categories` data.
+- Added the Eid Mubarak reference image as `assets/eid-mubarak-reference.jpg`.
+- Removed the first-page `تصميم العيد` and `Teams setup` labels before deploying the light Eid design.
 
 ## Current Decisions
 
@@ -65,6 +68,7 @@ The app currently supports:
 - `app.js` is the behavior source of truth.
 - `DESIGN.md` documents the visual design direction.
 - `AGENTS.md`, `PROJECT_STATUS.md`, and `TODO.md` should be updated alongside meaningful changes.
+- Current visual direction is Light Eid, not Midnight Slate.
 
 ## Last Verified
 
@@ -91,6 +95,9 @@ Recent local checks confirmed:
 - Local headless Chrome checks after image preloading confirmed mobile `390x844` and desktop `1280x900` had no horizontal overflow.
 - Local headless Chrome checks confirmed all 19 logo/category image assets were requested, no rendered images were broken, and the category wheel still contained no image elements.
 - Local headless Chrome max-scroll checks confirmed Setup, Draw, Results, and Categories content stayed above the fixed mobile tabs.
+- Local Light Eid checks confirmed the `تصميم العيد` and `Teams setup` labels are not displayed.
+- Local Light Eid checks confirmed the Eid reference image loads, mobile `390x844` and desktop `1280x900` have no horizontal overflow, no rendered images are broken, and the category wheel still contains no image elements.
+- Local Light Eid behavior checks confirmed the default draw assigns all 11 players with final teams `5/6` and the category limit rule still allows at most two limited geography/travel/capitals categories.
 
 ## Pending
 
