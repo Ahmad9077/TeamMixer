@@ -59,6 +59,7 @@ The app currently supports:
 - Added lightweight preloading for group logo and category image assets from the existing `pools` and `categories` data.
 - Added the Eid Mubarak reference image as `assets/eid-mubarak-reference.jpg`.
 - Removed the first-page `تصميم العيد` and `Teams setup` labels before deploying the light Eid design.
+- Replaced the setup hero box contents with a dark-ink transparent Eid Mubarak wordmark asset at `assets/eid-mubarak-dark-ink.png`.
 
 ## Current Decisions
 
@@ -101,6 +102,7 @@ Recent local checks confirmed:
 - GitHub Pages reached `built` after deploying the Light Eid design.
 - Public GitHub Pages returned `HTTP 200`, public `assets/eid-mubarak-reference.jpg` returned `HTTP 200`, public HTML contains the Eid background reference, and public HTML no longer contains `تصميم العيد` or `Teams setup`.
 - Public `app.js` contains the light wheel palette and dark wheel label colors.
+- Local hero-box checks confirmed the setup hero contains exactly one dark-ink wordmark image, no hero text, no crescent element, and no broken rendered images on mobile `390x844` or desktop `1280x900`.
 
 ## Pending
 
