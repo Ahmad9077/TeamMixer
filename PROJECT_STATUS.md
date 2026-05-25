@@ -98,6 +98,9 @@ Recent local checks confirmed:
 - Local Light Eid checks confirmed the `تصميم العيد` and `Teams setup` labels are not displayed.
 - Local Light Eid checks confirmed the Eid reference image loads, mobile `390x844` and desktop `1280x900` have no horizontal overflow, no rendered images are broken, and the category wheel still contains no image elements.
 - Local Light Eid behavior checks confirmed the default draw assigns all 11 players with final teams `5/6` and the category limit rule still allows at most two limited geography/travel/capitals categories.
+- GitHub Pages reached `built` after deploying the Light Eid design.
+- Public GitHub Pages returned `HTTP 200`, public `assets/eid-mubarak-reference.jpg` returned `HTTP 200`, public HTML contains the Eid background reference, and public HTML no longer contains `تصميم العيد` or `Teams setup`.
+- Public `app.js` contains the light wheel palette and dark wheel label colors.
 
 ## Pending
 
