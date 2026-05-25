@@ -60,6 +60,8 @@ The app currently supports:
 - Added the Eid Mubarak reference image as `assets/eid-mubarak-reference.jpg`.
 - Removed the first-page `تصميم العيد` and `Teams setup` labels before deploying the light Eid design.
 - Replaced the setup hero box contents with a dark-ink transparent Eid Mubarak wordmark asset at `assets/eid-mubarak-dark-ink.png`.
+- Moved `البريجي` from `الأسود` to `التنانين`.
+- Replaced the `حروف إسلامي` category with `ترتيب إسلامي` using `assets/categories/islamic-order.jpg`.
 
 ## Current Decisions
 
@@ -103,6 +105,7 @@ Recent local checks confirmed:
 - Public GitHub Pages returned `HTTP 200`, public `assets/eid-mubarak-reference.jpg` returned `HTTP 200`, public HTML contains the Eid background reference, and public HTML no longer contains `تصميم العيد` or `Teams setup`.
 - Public `app.js` contains the light wheel palette and dark wheel label colors.
 - Local hero-box checks confirmed the setup hero contains exactly one dark-ink wordmark image, no hero text, no crescent element, and no broken rendered images on mobile `390x844` or desktop `1280x900`.
+- Local category/player checks confirmed `البريجي` is in `التنانين`, no longer in `الأسود`, total players remains `11`, the default draw finishes `5/6`, `حروف إسلامي` is removed from the category data, and `ترتيب إسلامي` renders with `assets/categories/islamic-order.jpg`.
 
 ## Pending
 
