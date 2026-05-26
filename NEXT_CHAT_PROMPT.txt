@@ -1,0 +1,107 @@
+Continue work on my TeamMixer project.
+
+Repo:
+https://github.com/Ahmad9077/TeamMixer
+
+Local path:
+/Users/macserver/Documents/Codex/2026-05-21/check-google-search-do-you-have
+
+Live site:
+https://ahmad9077.github.io/TeamMixer/
+
+Before making changes, read these files as source of truth:
+1. AGENTS.md
+2. PROJECT_STATUS.md
+3. TODO.md
+4. DESIGN.md
+5. index.html
+6. app.js
+
+Important constraints:
+- Keep it static HTML/CSS/vanilla JS.
+- Preserve the current Light Eid design unless I explicitly request a new direction.
+- Preserve Arabic Calibri text and connected Arabic letters.
+- Preserve the current player draw workflow, group logo mapping, category workflow, and GitHub Pages deploy from main.
+- No backend, database, storage, auth, analytics, package manager, or build step.
+- Keep AGENTS.md, PROJECT_STATUS.md, TODO.md, and DESIGN.md updated when behavior, design, deployment state, or next steps change.
+
+Current design:
+- Light Eid visual direction.
+- Warm ivory/light background with restrained brown/gold accents.
+- Eid reference image is used as a soft background/watermark: assets/eid-mubarak-reference.jpg.
+- Setup hero box contains only the dark-ink transparent Eid wordmark: assets/eid-mubarak-dark-ink.png.
+- The old hero text/subtitle/crescent inside that box were removed.
+
+Current default groups:
+- التنانين: الملا, جراغ, حميد, بوحمد, طروق, البريجي
+- الأسود: قرطبة
+- الذئاب: حمود, عليوي, الخلف, الهلالي
+
+Current categories:
+- حروف إسلامي was removed.
+- ترتيب إسلامي was added using assets/categories/islamic-order.jpg.
+- Category wheel remains text-only; selected category cards show photos.
+- Categories still select exactly 6 cards in a 3-by-2 selected grid.
+- Only two of دول و عواصم, جغرافيا, and سياحة وسفر can be selected in one Categories session.
+
+Recent completed work:
+- Added image preloading for group logo and category image assets.
+- Replaced Midnight Slate with the approved Light Eid design.
+- Removed "تصميم العيد" and "Teams setup" from the first page.
+- Replaced the marked setup hero box with only the attached Eid wordmark in dark ink.
+- Moved البريجي from الأسود to التنانين.
+- Replaced حروف إسلامي with ترتيب إسلامي.
+
+Recent commits:
+- 5c4a7ee Preload image assets
+- 618371f Apply light Eid design
+- 255fea5 Update Eid deployment status
+- 188c3ff Use dark Eid wordmark hero
+- 443ade8 Update Islamic category and player group
+
+Verification already done after the latest deploy:
+- node --check app.js
+- Local category/player checks passed.
+- ترتيب إسلامي image loaded and rendered from assets/categories/islamic-order.jpg.
+- Total players remained 11.
+- Default draw finished balanced at 5/6.
+- Category wheel stayed text-only.
+- GitHub Pages status reached built.
+- Live site returned HTTP 200.
+- Live assets/categories/islamic-order.jpg returned HTTP 200.
+- Live app.js contains ترتيب إسلامي and no حروف إسلامي.
+- Worktree was clean on main before this handoff file was created.
+
+Standard local verification for future changes:
+```bash
+git status --short --branch
+node --check app.js
+```
+
+For UI/behavior changes, also use a browser/headless Chrome check around:
+- Mobile viewport 390x844.
+- Desktop viewport 1280x900.
+- No horizontal overflow.
+- Fixed mobile bottom tabs do not cover each screen at max scroll.
+- Draw screen live lists remain visible.
+- Final default draw assigns all 11 players and final counts differ by at most 1.
+- Categories selects exactly 6 categories.
+- Category limited-group rule still passes.
+- Relevant local assets return HTTP 200 and render without broken images.
+
+Standard deployment flow:
+```bash
+git status --short --branch
+node --check app.js
+git add <changed files>
+git commit -m "<clear message>"
+git push
+gh api repos/Ahmad9077/TeamMixer/pages --jq '.status'
+curl -I https://ahmad9077.github.io/TeamMixer/
+```
+
+For asset or JS changes, also verify direct live URLs and live content with curl, for example:
+```bash
+curl -I https://ahmad9077.github.io/TeamMixer/assets/categories/islamic-order.jpg
+curl -fsSL 'https://ahmad9077.github.io/TeamMixer/app.js?commit=<commit>' | rg 'ترتيب إسلامي|حروف إسلامي|البريجي'
+```
