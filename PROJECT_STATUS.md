@@ -77,6 +77,14 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-05-26, the live GitHub Pages site returned `HTTP 200`.
+- On 2026-05-26, live `assets/eid-mubarak-reference.jpg`, `assets/eid-mubarak-dark-ink.png`, and `assets/categories/islamic-order.jpg` returned `HTTP 200`.
+- On 2026-05-26, live `app.js` still contained `ترتيب إسلامي` and `البريجي`.
+- On 2026-05-26, local syntax verification passed with `node --check app.js`.
+- On 2026-05-26, local browser checks at mobile `390x844` and desktop `1280x900` confirmed no horizontal overflow and no broken rendered images.
+- On 2026-05-26, local browser checks confirmed the mobile fixed bottom tabs did not cover Setup, Draw, Results, or Categories content at max scroll.
+- On 2026-05-26, local browser checks confirmed the default draw assigned all 11 players, ended `5/6`, and kept the maximum team difference at `1`.
+- On 2026-05-26, local browser checks confirmed Categories selected exactly 6 cards in a 3-column grid, kept the category wheel text-only, and allowed only 1 selected category from the limited geography/travel/capitals group in that run.
 - Mobile Draw wheel bottom stayed above the fixed bottom navigation on `390x844` (`548` vs nav top `777`).
 - Mobile max-scroll checks for Setup, Draw, Results, and Categories ended active content above the fixed bottom tabs.
 - Mobile scroll width stayed `390` during spin.

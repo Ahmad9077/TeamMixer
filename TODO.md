@@ -2,10 +2,10 @@
 
 ## Next Steps
 
-- Review the live GitHub Pages site on an actual phone screen.
+- Review the live GitHub Pages site on an actual physical phone screen.
 - Confirm whether UI labels should stay English or be translated to Arabic.
 - Confirm whether `Team 1` and `Team 2` should be renamed.
-- Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
+- Recheck the updated mobile Draw and Categories screens on a physical phone after deployment. Browser viewport checks passed on 2026-05-26, but physical-device review is still pending.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
 - If needed, replace the cropped category cards with original individual photos.
 
