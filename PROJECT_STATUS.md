@@ -62,6 +62,10 @@ The app currently supports:
 - Replaced the setup hero box contents with a dark-ink transparent Eid Mubarak wordmark asset at `assets/eid-mubarak-dark-ink.png`.
 - Moved `البريجي` from `الأسود` to `التنانين`.
 - Replaced the `حروف إسلامي` category with `ترتيب إسلامي` using `assets/categories/islamic-order.jpg`.
+- Replaced the setup hero box contents with the attached `البريجي يغني لكم لعبا ممتعا` image at `assets/breiji-game-wordmark.jpg`.
+- Moved `بوحمد` from `التنانين` to `الأسود`.
+- Moved `قرطبة` from `الأسود` to `الذئاب`.
+- Renamed the theater category to `بوستر مسرح كبار` and replaced its poster asset at `assets/categories/theater-poster.jpg`.
 
 ## Current Decisions
 
@@ -77,6 +81,13 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-05-28, local syntax verification passed with `node --check app.js`.
+- On 2026-05-28, local asset checks confirmed `assets/breiji-game-wordmark.jpg` and `assets/categories/theater-poster.jpg` returned `HTTP 200`.
+- On 2026-05-28, local headless Chrome checks at mobile `390x844` and desktop `1280x900` confirmed no horizontal overflow and no broken rendered images.
+- On 2026-05-28, local headless Chrome checks confirmed the setup hero uses `assets/breiji-game-wordmark.jpg`.
+- On 2026-05-28, local headless Chrome checks confirmed the default groups are `التنانين` with 5 players, `الأسود` with `بوحمد`, and `الذئاب` with `قرطبة`.
+- On 2026-05-28, local headless Chrome checks confirmed the default draw assigned all 11 players, ended `5/6`, and kept the maximum team difference at `1`.
+- On 2026-05-28, local headless Chrome checks confirmed Categories selected exactly 6 cards, selected `بوستر مسرح كبار` correctly when it appeared, kept the category wheel text-only, and kept the limited geography/travel/capitals count at `1` in that run.
 - On 2026-05-26, the live GitHub Pages site returned `HTTP 200`.
 - On 2026-05-26, live `assets/eid-mubarak-reference.jpg`, `assets/eid-mubarak-dark-ink.png`, and `assets/categories/islamic-order.jpg` returned `HTTP 200`.
 - On 2026-05-26, live `app.js` still contained `ترتيب إسلامي` and `البريجي`.

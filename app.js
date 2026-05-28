@@ -1,7 +1,7 @@
 const pools = [
-  { id: "poolA", title: "التنانين", accent: "#b9c7e0", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "بوحمد", "طروق", "البريجي"] },
-  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["قرطبة"] },
-  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "الخلف", "الهلالي"] },
+  { id: "poolA", title: "التنانين", accent: "#b9c7e0", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
+  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["بوحمد"] },
+  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "الخلف", "الهلالي", "قرطبة"] },
 ];
 
 const categories = [
@@ -17,7 +17,7 @@ const categories = [
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
-  { id: "theater-poster", title: "مجمعات الكويت/ بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
+  { id: "theater-poster", title: "بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
   { id: "islamic-order", title: "ترتيب إسلامي", image: "assets/categories/islamic-order.jpg" },
   { id: "sports", title: "رياضة", image: "assets/categories/sports.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },

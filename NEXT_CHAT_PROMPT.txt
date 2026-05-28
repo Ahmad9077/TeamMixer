@@ -29,17 +29,18 @@ Current design:
 - Light Eid visual direction.
 - Warm ivory/light background with restrained brown/gold accents.
 - Eid reference image is used as a soft background/watermark: assets/eid-mubarak-reference.jpg.
-- Setup hero box contains only the dark-ink transparent Eid wordmark: assets/eid-mubarak-dark-ink.png.
+- Setup hero box contains only the attached البريجي wordmark image: assets/breiji-game-wordmark.jpg.
 - The old hero text/subtitle/crescent inside that box were removed.
 
 Current default groups:
-- التنانين: الملا, جراغ, حميد, بوحمد, طروق, البريجي
-- الأسود: قرطبة
-- الذئاب: حمود, عليوي, الخلف, الهلالي
+- التنانين: الملا, جراغ, حميد, طروق, البريجي
+- الأسود: بوحمد
+- الذئاب: حمود, عليوي, الخلف, الهلالي, قرطبة
 
 Current categories:
 - حروف إسلامي was removed.
 - ترتيب إسلامي was added using assets/categories/islamic-order.jpg.
+- بوستر مسرح كبار uses assets/categories/theater-poster.jpg.
 - Category wheel remains text-only; selected category cards show photos.
 - Categories still select exactly 6 cards in a 3-by-2 selected grid.
 - Only two of دول و عواصم, جغرافيا, and سياحة وسفر can be selected in one Categories session.
@@ -51,8 +52,12 @@ Recent completed work:
 - Replaced the marked setup hero box with only the attached Eid wordmark in dark ink.
 - Moved البريجي from الأسود to التنانين.
 - Replaced حروف إسلامي with ترتيب إسلامي.
+- Replaced the setup hero box image with assets/breiji-game-wordmark.jpg.
+- Moved بوحمد to الأسود and قرطبة to الذئاب.
+- Renamed مجمعات الكويت/ بوستر مسرح كبار to بوستر مسرح كبار and replaced its poster image.
 
 Recent commits:
+- 61ea74a Update TeamMixer verification status
 - 5c4a7ee Preload image assets
 - 618371f Apply light Eid design
 - 255fea5 Update Eid deployment status
