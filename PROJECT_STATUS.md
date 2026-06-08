@@ -66,6 +66,11 @@ The app currently supports:
 - Moved `بوحمد` from `التنانين` to `الأسود`.
 - Moved `قرطبة` from `الأسود` to `الذئاب`.
 - Renamed the theater category to `بوستر مسرح كبار` and replaced its poster asset at `assets/categories/theater-poster.jpg`.
+- Removed the `بوستر مسرح كبار` and `رياضة` categories.
+- Added the `ترتيب` category with `assets/categories/order.jpg`.
+- Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
+- Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
+- Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
 
 ## Current Decisions
 
@@ -81,6 +86,13 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-08, local syntax verification passed with `node --check app.js`.
+- On 2026-06-08, local asset checks confirmed `assets/categories/order.jpg` and `assets/categories/celebrity-voice.jpg` returned `HTTP 200`.
+- On 2026-06-08, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed no horizontal overflow, no broken rendered images, and no images inside the category wheel.
+- On 2026-06-08, local headless Chrome checks confirmed active Categories has 16 entries, includes `ترتيب`, `صوت المشهور`, and `ترتيب إسلامي`, and excludes `بوستر مسرح كبار` and `رياضة`.
+- On 2026-06-08, local headless Chrome checks confirmed six selected category cards stay equal-height and selected category images remain inside their card slots on mobile, tablet, and desktop.
+- On 2026-06-08, local headless Chrome checks confirmed the default groups include `الخلف`, `الهلالي`, and `قرطبة` in `الأسود`, include `موسى` in `الذئاب`, and the default draw assigns all 12 players with final teams `6/6`.
+- On 2026-06-08, local headless Chrome checks confirmed the category limit rule still excludes the third geography/travel/capitals category after two limited categories are selected.
 - On 2026-05-28, local syntax verification passed with `node --check app.js`.
 - On 2026-05-28, local asset checks confirmed `assets/breiji-game-wordmark.jpg` and `assets/categories/theater-poster.jpg` returned `HTTP 200`.
 - On 2026-05-28, local headless Chrome checks at mobile `390x844` and desktop `1280x900` confirmed no horizontal overflow and no broken rendered images.

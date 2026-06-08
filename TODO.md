@@ -18,7 +18,7 @@
 - Verify no horizontal overflow during spin.
 - Verify live team lists are visible during spin.
 - Verify final-player assignment does not spin.
-- Verify all default 11 players are assigned.
+- Verify all default players are assigned.
 - Verify final counts differ by at most 1.
 - Verify Categories selects exactly 6 categories and keeps them in a 3-by-2 selected grid.
 - Verify Categories allows at most two of `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` in one session.

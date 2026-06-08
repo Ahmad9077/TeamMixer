@@ -67,8 +67,8 @@ Groups and logos:
 Default members:
 
 - `التنانين`: `الملا`, `جراغ`, `حميد`, `طروق`, `البريجي`
-- `الأسود`: `بوحمد`
-- `الذئاب`: `حمود`, `عليوي`, `الخلف`, `الهلالي`, `قرطبة`
+- `الأسود`: `بوحمد`, `الخلف`, `الهلالي`, `قرطبة`
+- `الذئاب`: `حمود`, `عليوي`, `موسى`
 
 Rules:
 
@@ -106,8 +106,8 @@ For UI/behavior changes, also run a Playwright smoke test or equivalent browser 
 - Desktop viewport around `1280x900`.
 - No horizontal overflow during spin.
 - Draw screen live lists visible.
-- Final draw completes all default 11 players.
-- Final team counts are `5/6` or `6/5`, never differing by 2.
+- Final draw completes all default players.
+- Final team counts never differ by 2.
 - Attached assets load from `assets/`.
 
 ## Deployment

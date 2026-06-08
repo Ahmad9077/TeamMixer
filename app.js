@@ -1,7 +1,7 @@
 const pools = [
   { id: "poolA", title: "التنانين", accent: "#b9c7e0", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
-  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["بوحمد"] },
-  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "الخلف", "الهلالي", "قرطبة"] },
+  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي", "قرطبة"] },
+  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى"] },
 ];
 
 const categories = [
@@ -17,9 +17,9 @@ const categories = [
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
-  { id: "theater-poster", title: "بوستر مسرح كبار", image: "assets/categories/theater-poster.jpg" },
+  { id: "order", title: "ترتيب", image: "assets/categories/order.jpg" },
   { id: "islamic-order", title: "ترتيب إسلامي", image: "assets/categories/islamic-order.jpg" },
-  { id: "sports", title: "رياضة", image: "assets/categories/sports.jpg" },
+  { id: "celebrity-voice", title: "صوت المشهور", image: "assets/categories/celebrity-voice.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
 
@@ -501,16 +501,16 @@ function renderResults() {
 function categoryCard(category, index) {
   if (!category) {
     return `
-      <div class="flex min-h-36 flex-col items-center justify-center rounded-xl border border-dashed border-[#44474c] bg-[#0b1326]/70 p-3 text-center">
+      <div class="category-card flex flex-col items-center justify-center rounded-xl border border-dashed border-[#44474c] bg-[#0b1326]/70 p-3 text-center">
         <span class="text-xs font-semibold uppercase tracking-[0.14em] text-[#8e9197]">Slot ${index + 1}</span>
       </div>
     `;
   }
 
   return `
-    <div class="rounded-xl border border-[#44474c] bg-[#131b2e] p-2 shadow-pulse">
+    <div class="category-card rounded-xl border border-[#44474c] bg-[#131b2e] p-2 shadow-pulse">
       <img src="${category.image}" alt="${category.title}" class="category-card-image w-full rounded-lg border border-[#44474c]" />
-      <p class="arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight text-[#dae2fd]" dir="rtl">${category.title}</p>
+      <p class="category-card-title arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight text-[#dae2fd]" dir="rtl">${category.title}</p>
     </div>
   `;
 }

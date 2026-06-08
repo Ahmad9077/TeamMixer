@@ -227,9 +227,30 @@
       }
 
       .category-card-image {
-        aspect-ratio: 0.78;
+        height: clamp(88px, 15vw, 168px);
         object-fit: cover;
         object-position: center;
+      }
+
+      .category-card {
+        display: flex;
+        min-width: 0;
+        height: clamp(142px, 22vw, 230px);
+        min-height: 0;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .category-card-title {
+        flex: 0 0 auto;
+      }
+
+      #selectedCategories {
+        align-items: stretch;
+      }
+
+      #selectedCategories > * {
+        min-width: 0;
       }
 
       .eid-hero {
@@ -484,6 +505,14 @@
         .setup-hero-image {
           width: 86%;
           max-height: 126px;
+        }
+
+        .category-card {
+          height: 144px;
+        }
+
+        .category-card-image {
+          height: 92px;
         }
       }
     </style>

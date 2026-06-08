@@ -34,15 +34,18 @@ Current design:
 
 Current default groups:
 - التنانين: الملا, جراغ, حميد, طروق, البريجي
-- الأسود: بوحمد
-- الذئاب: حمود, عليوي, الخلف, الهلالي, قرطبة
+- الأسود: بوحمد, الخلف, الهلالي, قرطبة
+- الذئاب: حمود, عليوي, موسى
 
 Current categories:
 - حروف إسلامي was removed.
 - ترتيب إسلامي was added using assets/categories/islamic-order.jpg.
-- بوستر مسرح كبار uses assets/categories/theater-poster.jpg.
+- بوستر مسرح كبار and رياضة were removed.
+- ترتيب was added using assets/categories/order.jpg.
+- صوت المشهور was added using assets/categories/celebrity-voice.jpg.
 - Category wheel remains text-only; selected category cards show photos.
 - Categories still select exactly 6 cards in a 3-by-2 selected grid.
+- Selected category cards use constrained dimensions so tall images do not stretch the tablet layout.
 - Only two of دول و عواصم, جغرافيا, and سياحة وسفر can be selected in one Categories session.
 
 Recent completed work:
@@ -55,6 +58,10 @@ Recent completed work:
 - Replaced the setup hero box image with assets/breiji-game-wordmark.jpg.
 - Moved بوحمد to الأسود and قرطبة to الذئاب.
 - Renamed مجمعات الكويت/ بوستر مسرح كبار to بوستر مسرح كبار and replaced its poster image.
+- Removed بوستر مسرح كبار and رياضة.
+- Added ترتيب and صوت المشهور with their attached images.
+- Moved الخلف, الهلالي, and قرطبة to الأسود, and added موسى to الذئاب.
+- Fixed selected category card dimensions for tablet smoothness.
 
 Recent commits:
 - 61ea74a Update TeamMixer verification status
@@ -89,7 +96,7 @@ For UI/behavior changes, also use a browser/headless Chrome check around:
 - No horizontal overflow.
 - Fixed mobile bottom tabs do not cover each screen at max scroll.
 - Draw screen live lists remain visible.
-- Final default draw assigns all 11 players and final counts differ by at most 1.
+- Final default draw assigns all default players and final counts differ by at most 1.
 - Categories selects exactly 6 categories.
 - Category limited-group rule still passes.
 - Relevant local assets return HTTP 200 and render without broken images.
