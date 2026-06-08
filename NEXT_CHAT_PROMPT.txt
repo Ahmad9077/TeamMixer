@@ -64,6 +64,7 @@ Recent completed work:
 - Fixed selected category card dimensions for tablet smoothness.
 
 Recent commits:
+- c35e36f Update categories and player groups
 - 61ea74a Update TeamMixer verification status
 - 5c4a7ee Preload image assets
 - 618371f Apply light Eid design
@@ -73,16 +74,17 @@ Recent commits:
 
 Verification already done after the latest deploy:
 - node --check app.js
-- Local category/player checks passed.
-- ترتيب إسلامي image loaded and rendered from assets/categories/islamic-order.jpg.
-- Total players remained 11.
-- Default draw finished balanced at 5/6.
+- Local category/player checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
+- ترتيب, صوت المشهور, and ترتيب إسلامي images loaded and rendered.
+- Total default players are 12.
+- Default draw finished balanced at 6/6.
+- Selected category cards stayed equal-height and images stayed inside their card slots on mobile, tablet, and desktop.
 - Category wheel stayed text-only.
 - GitHub Pages status reached built.
 - Live site returned HTTP 200.
-- Live assets/categories/islamic-order.jpg returned HTTP 200.
-- Live app.js contains ترتيب إسلامي and no حروف إسلامي.
-- Worktree was clean on main before this handoff file was created.
+- Live assets/categories/order.jpg and assets/categories/celebrity-voice.jpg returned HTTP 200.
+- Live app.js contains ترتيب, صوت المشهور, موسى, and the updated الأسود players.
+- Live app.js has no active بوستر مسرح كبار, رياضة, theater-poster, or sports category entries.
 
 Standard local verification for future changes:
 ```bash

@@ -86,6 +86,9 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-08, GitHub Pages reached `built` after deploying `c35e36f`.
+- On 2026-06-08, public GitHub Pages returned `HTTP 200`, and public `assets/categories/order.jpg` and `assets/categories/celebrity-voice.jpg` returned `HTTP 200`.
+- On 2026-06-08, public `app.js` contains `ترتيب`, `صوت المشهور`, `موسى`, and `الخلف`/`الهلالي`/`قرطبة` under `الأسود`, with no active `بوستر مسرح كبار`, `رياضة`, `theater-poster`, or `sports` category entries.
 - On 2026-06-08, local syntax verification passed with `node --check app.js`.
 - On 2026-06-08, local asset checks confirmed `assets/categories/order.jpg` and `assets/categories/celebrity-voice.jpg` returned `HTTP 200`.
 - On 2026-06-08, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed no horizontal overflow, no broken rendered images, and no images inside the category wheel.
