@@ -65,6 +65,7 @@ Recent completed work:
 - Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
 
 Recent commits:
+- e310150 Replace setup hero image
 - c35e36f Update categories and player groups
 - 61ea74a Update TeamMixer verification status
 - 5c4a7ee Preload image assets
@@ -87,6 +88,7 @@ Verification already done after the latest deploy:
 - Live assets/categories/order.jpg and assets/categories/celebrity-voice.jpg returned HTTP 200.
 - Live app.js contains ترتيب, صوت المشهور, موسى, and the updated الأسود players.
 - Live app.js has no active بوستر مسرح كبار, رياضة, theater-poster, or sports category entries.
+- Live HTML references assets/adnan-return-wordmark.jpg and live assets/adnan-return-wordmark.jpg returned HTTP 200.
 
 Standard local verification for future changes:
 ```bash
