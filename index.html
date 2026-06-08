@@ -226,19 +226,31 @@
         border-radius: 9999px;
       }
 
-      .category-card-image {
-        height: clamp(88px, 15vw, 168px);
-        object-fit: cover;
-        object-position: center;
-      }
-
       .category-card {
         display: flex;
         min-width: 0;
-        height: clamp(142px, 22vw, 230px);
         min-height: 0;
         flex-direction: column;
         overflow: hidden;
+      }
+
+      .category-card-art {
+        aspect-ratio: 0.78;
+        background: #fffaf2;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .category-card-image {
+        display: block;
+        inset: 0;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
       }
 
       .category-card-title {
@@ -507,13 +519,6 @@
           max-height: 126px;
         }
 
-        .category-card {
-          height: 144px;
-        }
-
-        .category-card-image {
-          height: 92px;
-        }
       }
     </style>
   </head>

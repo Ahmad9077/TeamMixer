@@ -51,7 +51,7 @@ Within each group, selected names alternate between Team 1 and Team 2. If a grou
 
 Results: final cards for Team 1 and Team 2 with share and start-over actions.
 
-Categories: a fourth tab after Results. It uses a separate text-only wheel for category selection, with regular-weight vertical labels inside the wheel slices. Selected categories appear above the wheel as six fixed-size cards arranged in a 3-by-2 grid, with card artwork constrained inside each slot and Arabic category names.
+Categories: a fourth tab after Results. It uses a separate text-only wheel for category selection, with regular-weight vertical labels inside the wheel slices. Selected categories appear above the wheel as six cards arranged in a 3-by-2 grid, with portrait artwork slots that preserve the full category image and Arabic category names.
 
 In one Categories session, only two categories from this group may be selected: دول و عواصم, جغرافيا, and سياحة وسفر. After two are selected, the remaining category from that group is excluded from the wheel.
 

@@ -509,7 +509,9 @@ function categoryCard(category, index) {
 
   return `
     <div class="category-card rounded-xl border border-[#44474c] bg-[#131b2e] p-2 shadow-pulse">
-      <img src="${category.image}" alt="${category.title}" class="category-card-image w-full rounded-lg border border-[#44474c]" />
+      <div class="category-card-art rounded-lg border border-[#44474c]">
+        <img src="${category.image}" alt="${category.title}" class="category-card-image" />
+      </div>
       <p class="category-card-title arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight text-[#dae2fd]" dir="rtl">${category.title}</p>
     </div>
   `;
