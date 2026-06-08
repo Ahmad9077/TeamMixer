@@ -71,6 +71,7 @@ The app currently supports:
 - Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
+- Replaced the setup hero box image with the attached `عدنا والعود أحمد` image at `assets/adnan-return-wordmark.jpg`.
 
 ## Current Decisions
 
@@ -86,6 +87,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-08, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed the setup hero uses `assets/adnan-return-wordmark.jpg`, the image loads at `980x687`, stays inside the hero box, has no broken rendered images, and creates no horizontal overflow.
 - On 2026-06-08, GitHub Pages reached `built` after deploying `c35e36f`.
 - On 2026-06-08, public GitHub Pages returned `HTTP 200`, and public `assets/categories/order.jpg` and `assets/categories/celebrity-voice.jpg` returned `HTTP 200`.
 - On 2026-06-08, public `app.js` contains `ترتيب`, `صوت المشهور`, `موسى`, and `الخلف`/`الهلالي`/`قرطبة` under `الأسود`, with no active `بوستر مسرح كبار`, `رياضة`, `theater-poster`, or `sports` category entries.

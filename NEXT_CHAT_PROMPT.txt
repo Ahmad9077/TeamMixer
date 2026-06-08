@@ -62,6 +62,7 @@ Recent completed work:
 - Added ترتيب and صوت المشهور with their attached images.
 - Moved الخلف, الهلالي, and قرطبة to الأسود, and added موسى to الذئاب.
 - Fixed selected category card dimensions for tablet smoothness.
+- Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
 
 Recent commits:
 - c35e36f Update categories and player groups
@@ -74,6 +75,7 @@ Recent commits:
 
 Verification already done after the latest deploy:
 - node --check app.js
+- Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/adnan-return-wordmark.jpg.
 - Local category/player checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
 - ترتيب, صوت المشهور, and ترتيب إسلامي images loaded and rendered.
 - Total default players are 12.

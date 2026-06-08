@@ -33,7 +33,7 @@ TeamMixer is a high-fidelity responsive web application for ديوانية ال�
 
 ## Visual System
 
-The website uses a Light Eid design system: warm ivory background, paper-like panels, restrained brown and muted gold accents, and the Eid Mubarak reference image as a soft low-opacity background/watermark element. The setup hero uses the attached `البريجي يغني لكم لعبا ممتعا` wordmark image as the only content inside the hero box. The UI should feel professional, simple, and seasonal without becoming decorative or cluttered.
+The website uses a Light Eid design system: warm ivory background, paper-like panels, restrained brown and muted gold accents, and the Eid Mubarak reference image as a soft low-opacity background/watermark element. The setup hero uses the attached `عدنا والعود أحمد` wordmark image as the only content inside the hero box. The UI should feel professional, simple, and seasonal without becoming decorative or cluttered.
 
 Typography uses Inter for English/interface text and Calibri for Arabic text. Arabic text must keep connected letterforms with no letter spacing.
 
