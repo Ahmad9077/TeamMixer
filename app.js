@@ -120,7 +120,10 @@ let masterGain = null;
 // Voice clips that can replace the synthesized spin sound. Each entry is
 // fetched eagerly, decoded lazily once the AudioContext exists, and picked
 // at random per spin so the wheel never sounds the same twice in a row.
-const spinClips = [{ url: "assets/sounds/spin-voice-1.mp3", data: null, buffer: null }];
+const spinClips = [
+  { url: "assets/sounds/spin-voice-1.mp3", data: null, buffer: null },
+  { url: "assets/sounds/spin-voice-2.mp3", data: null, buffer: null },
+];
 
 function fetchSpinClips() {
   spinClips.forEach((clip) => {
