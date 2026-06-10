@@ -284,13 +284,14 @@ function playCelebration(allowClips = false) {
     if (!audio()) return;
     // Celebration voice clips only join the pool when this player's spin
     // did not already use a voice clip (no two mp3 sounds per player).
+    // When eligible, the clips get a 50/50 chance against the whole
+    // synthesized pool so they are heard regularly.
     const readyClips = allowClips && !spinClipUsed ? celebrationClips.filter((clip) => clip.buffer) : [];
     spinClipUsed = false;
-    const slot = randomInt(celebrationSfx.length + readyClips.length);
-    if (slot >= celebrationSfx.length) {
-      playVoiceClip(readyClips[slot - celebrationSfx.length]);
+    if (readyClips.length && randomInt(2) === 0) {
+      playVoiceClip(readyClips[randomInt(readyClips.length)]);
     } else {
-      celebrationSfx[slot]();
+      celebrationSfx[randomInt(celebrationSfx.length)]();
     }
   } catch {
     /* sound must never break the game */
