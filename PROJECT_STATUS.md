@@ -80,12 +80,17 @@ The app currently supports:
 - Replaced `Math.random` randomization with Fisher-Yates and `crypto.getRandomValues` (rejection sampling) for both the name draw and the category draw.
 - Responsive polish: tablet (768px+) now gets the two-column Draw/Categories layouts, three-column setup pools, and two-column results panels (previously desktop-only at 1024px); full-width primary buttons on phones; all buttons at least 44px tall, including larger player-remove buttons.
 - Added explicit `width="980" height="687"` and `fetchpriority="high"` to the setup wordmark image to prevent layout shift.
+- Redesigned the whole UI with a Light Modern Minimal design system (user-approved direction): porcelain `#f7f5f1` background, white panels with 1px `#e9e5dd` borders and soft shadows, deep teal `#0f766e` as the single primary accent (buttons, active nav, eyebrows, wheel pointer, team 1) and amber `#b45309` for team 2, high-contrast group accents (red/amber/blue), and a soft pastel wheel palette with white separators.
+- Replaced the legacy Midnight Slate CSS plus Light Eid override cascade with one clean stylesheet of semantic classes (`.panel`, `.btn-primary`, `.btn-secondary`, `.field`, `.chip`, `.stat-box`, `.row`, `.empty-note`, `.nav-active`, `.wheel-pointer`), and removed arbitrary hex Tailwind classes from `app.js` templates; nav active state now toggles a single `nav-active` class.
+- Removed the Eid watermark background and crescent styling; kept the `عدنا والعود أحمد` hero wordmark.
+- Stacked the Draw screen live team lists in one column at `md` widths (narrow side panel) so player names are not truncated, returning to two columns at `lg`.
 
 ## Current Decisions
 
 - No build system is used.
 - The app remains static; state persists in `localStorage` under `seenjeem_state_v1`.
 - The UI is fully Arabic RTL with Cairo typography and Western digits.
+- Current visual direction is Light Modern Minimal (replaces Light Eid).
 - GitHub Pages deploys from the `main` branch root.
 - `app.js` is the behavior source of truth.
 - `DESIGN.md` documents the visual design direction.
@@ -96,6 +101,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-10, after the Light Modern Minimal redesign, the same 36-check Playwright suite passed again at `360x740`, `375x812`, and `768x1024` (RTL, zero English strings, persistence, clean reset, full 6/6 draw, category rules, no overflow, 44px touch targets, no broken images), and screenshots confirmed the new design renders correctly on all four screens at phone and tablet widths with no truncated player names in the Draw live lists.
 - On 2026-06-10, `node --check app.js` passed and a 36-check local Playwright suite passed at `360x740`, `375x812`, and `768x1024`: full RTL (`lang="ar" dir="rtl"`), zero visible English strings on all four screens, no horizontal overflow, all touch targets at least 44px, full default draw assigns all 12 players ending `6/6`, refresh restores teams/players/picked categories/active screen from `seenjeem_state_v1`, `من جديد` resets clean (players back to defaults, storage cleared), `تصفير الفئات` restores all 16 categories, the limited geography/travel/capitals rule holds, tablet layouts use two/three columns, the wordmark has explicit dimensions, and no images are broken.
 
 - On 2026-06-08, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed selected category cards use portrait artwork slots, all selected category images use `object-fit: contain`, images stay inside their slots, card heights remain equal, no rendered images are broken, and there is no horizontal overflow.

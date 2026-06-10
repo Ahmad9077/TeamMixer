@@ -1,30 +1,30 @@
 ---
-name: Light Eid
+name: Light Modern Minimal
 colors:
-  background: "#f8f3e8"
-  surface: "#fffaf2"
-  surface-container: "#ffffff"
-  surface-container-high: "#fff3d8"
-  outline: "rgba(107, 54, 6, 0.18)"
-  on-surface: "#271a10"
-  on-surface-variant: "#6e6254"
-  primary: "#7a3f08"
-  primary-container: "#fff3d8"
-  secondary: "#f0cf86"
-  tertiary: "#8bd6b6"
+  background: "#f7f5f1"
+  surface: "#ffffff"
+  surface-container: "#faf9f6"
+  outline: "#e9e5dd"
+  on-surface: "#221f1a"
+  on-surface-variant: "#847e74"
+  primary: "#0f766e"
+  primary-strong: "#0b5d57"
+  primary-container: "#e7f2ef"
+  secondary: "#b45309"
+  secondary-container: "#fdf2e2"
 typography:
   headline:
     fontFamily: Cairo
-    fontWeight: "600"
+    fontWeight: "700-800"
   body:
     fontFamily: Cairo
     fontWeight: "400"
 rounded:
-  DEFAULT: 0.5rem
+  DEFAULT: 0.75rem
   xl: 1rem
 spacing:
   unit: 8px
-  container-max: 1200px
+  container-max: 1280px
 ---
 
 ## TeamMixer
@@ -33,13 +33,15 @@ TeamMixer is a high-fidelity responsive web application for ديوانية ال�
 
 ## Visual System
 
-The website uses a Light Eid design system: warm ivory background, paper-like panels, restrained brown and muted gold accents, and the Eid Mubarak reference image as a soft low-opacity background/watermark element. The setup hero uses the attached `عدنا والعود أحمد` wordmark image as the only content inside the hero box. The UI should feel professional, simple, and seasonal without becoming decorative or cluttered.
+The website uses a Light Modern Minimal design system: a warm porcelain background (`#f7f5f1`) with very subtle teal/amber radial tints, clean white panels with 1px low-contrast borders (`#e9e5dd`) and soft layered shadows, bold Cairo typography, and one strong accent color — deep teal (`#0f766e`) — used for primary buttons, the active nav state, eyebrow labels, the wheel pointer, and team 1 identity. Warm amber (`#b45309`) is the secondary identity color for team 2. The setup hero uses the attached `عدنا والعود أحمد` wordmark image as the only content inside the hero box. The UI should feel airy, professional, and contemporary without decoration or clutter.
+
+Styling is built from semantic CSS classes defined in `index.html` (`.panel`, `.btn-primary`, `.btn-secondary`, `.field`, `.chip`, `.chip-remove`, `.stat-box`, `.row`, `.empty-note`, `.count-chip`, `.slot-card`, `.nav-btn`/`.nav-active`, `.wheel-pointer`) plus Tailwind utilities for layout, spacing, and typography only. Avoid arbitrary hex Tailwind classes.
 
 The interface is fully Arabic and right-to-left (`<html lang="ar" dir="rtl">`) with Western digits. Typography uses Cairo from Google Fonts (with `font-display: swap` and Calibri fallback) for all text. Arabic text must keep connected letterforms with no letter spacing.
 
 ## Components
 
-Cards and panels use light surfaces, 1px warm low-contrast borders, and subtle shadows. Inputs are white paper fields with warm brown focus states. Buttons use a deep brown gradient with muted gold warmth. Wheel slices use soft cream, gold, blue-tint, and sage-tint colors with dark Arabic labels for legibility.
+Cards and panels use white surfaces, 1px warm low-contrast borders, and subtle shadows. Inputs are white fields with a teal focus ring. Primary buttons are solid deep teal with white text; secondary buttons are white with a border that warms to teal on hover. Group accents are high-contrast on white: dragon red `#b3403a`, lion amber `#b45309`, wolf blue `#1d4ed8`. Wheel slices use a soft pastel palette (mint, sand, periwinkle, blush, sage) with white separators and dark Arabic labels for legibility.
 
 ## Workflow
 

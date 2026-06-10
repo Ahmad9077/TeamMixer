@@ -1,7 +1,7 @@
 const pools = [
-  { id: "poolA", title: "التنانين", accent: "#b9c7e0", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
-  { id: "poolB", title: "الأسود", accent: "#e0c47e", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي", "قرطبة"] },
-  { id: "poolC", title: "الذئاب", accent: "#8bd6b6", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى"] },
+  { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
+  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي", "قرطبة"] },
+  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى"] },
 ];
 
 const categories = [
@@ -57,11 +57,13 @@ const state = {
   categoryLastResult: defaultCategoryMessage,
 };
 
+const wheelPalette = ["#bfe3df", "#fbe3bb", "#dbe4f5", "#f8ddd3", "#d9eed7", "#f1eadf", "#cfe2e8", "#f7e3ee"];
+
 const fallbackWheelSegments = [
-  { label: "جاهز", color: "#7c3aed" },
-  { label: "قرعة", color: "#34d399" },
-  { label: "اسم", color: "#f472b6" },
-  { label: "سحب", color: "#064e3b" },
+  { label: "جاهز", color: wheelPalette[0] },
+  { label: "قرعة", color: wheelPalette[1] },
+  { label: "اسم", color: wheelPalette[2] },
+  { label: "سحب", color: wheelPalette[3] },
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -283,13 +285,7 @@ function startOver() {
 function showScreen(screen) {
   state.activeScreen = screen;
   $$(".screen").forEach((section) => section.classList.toggle("active", section.id === screen));
-  $$(".nav-btn").forEach((button) => {
-    const active = button.dataset.screen === screen;
-    button.classList.toggle("bg-[#7c3aed]", active);
-    button.classList.toggle("text-white", active);
-    button.classList.toggle("shadow-pulse", active);
-    button.classList.toggle("text-slate-600", !active);
-  });
+  $$(".nav-btn").forEach((button) => button.classList.toggle("nav-active", button.dataset.screen === screen));
   saveState();
 }
 
@@ -313,28 +309,28 @@ function renderPools() {
   $("#poolGrid").innerHTML = pools
     .map(
       (pool) => `
-        <article class="midnight-panel rounded-2xl p-5 backdrop-blur">
+        <article class="panel rounded-2xl p-5">
           <div class="mb-4 flex items-center justify-between gap-3">
             <div>
               <div class="flex items-center gap-3">
                 <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
-                <h3 class="arabic-text text-2xl font-bold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
+                <h3 class="arabic-text text-2xl font-extrabold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
               </div>
             </div>
-            <span class="rounded-md border border-[#44474c] bg-[#0b1326] px-4 py-2 text-sm font-medium" style="color:${pool.accent}">${pool.players.length}</span>
+            <span class="count-chip px-4 py-2 text-sm" style="color:${pool.accent}">${pool.players.length}</span>
           </div>
           <div class="flex gap-2">
-            <input id="input-${pool.id}" class="midnight-input min-w-0 flex-1 rounded-lg border px-4 py-3 text-sm font-normal outline-none transition" placeholder="ضيف اسم اللاعب" />
-            <button class="add-btn midnight-button rounded-lg px-4 py-3 text-sm font-medium text-white" data-pool="${pool.id}">إضافة</button>
+            <input id="input-${pool.id}" class="field min-w-0 flex-1 px-4 py-3 text-sm font-normal" placeholder="ضيف اسم اللاعب" />
+            <button class="add-btn btn-primary px-4 py-3 text-sm" data-pool="${pool.id}">إضافة</button>
           </div>
           <div class="mt-4 flex min-h-28 flex-wrap content-start gap-2">
             ${pool.players
               .map(
                 (player, index) => `
-                  <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-2.5 py-1 text-base font-bold text-[#dae2fd]">
+                  <span class="chip inline-flex items-center gap-2 px-2.5 py-1 text-base font-bold">
                     <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
                     <span class="arabic-text font-bold" dir="rtl">${player}</span>
-                    <button class="remove-btn grid h-11 w-11 place-items-center rounded-lg bg-[#171f33] text-[#c5c6cd] transition hover:border hover:border-[#e0c47e] hover:text-[#e0c47e]" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${player}">×</button>
+                    <button class="remove-btn chip-remove" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${player}">×</button>
                   </span>
                 `
               )
@@ -373,8 +369,7 @@ function describeArc(cx, cy, radius, startAngle, endAngle) {
 function wheelItems() {
   const queue = currentQueue();
   if (queue.length) {
-    const palette = ["#f7d98f", "#e9c272", "#d9edf0", "#eadfcf", "#c9ded6", "#f3eadc", "#d7c49d", "#e7eef1"];
-    return queue.map((player, index) => ({ ...player, label: player.name, color: palette[index % palette.length] }));
+    return queue.map((player, index) => ({ ...player, label: player.name, color: wheelPalette[index % wheelPalette.length] }));
   }
   return fallbackWheelSegments;
 }
@@ -385,9 +380,9 @@ function renderWheel() {
 
   if (items.length === 1) {
     $("#wheelSvg").innerHTML = `
-      <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#fffaf2" stroke-width="5"></circle>
+      <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#ffffff" stroke-width="5"></circle>
       ${items[0].logo ? `<image href="${items[0].logo}" x="137" y="104" width="46" height="46" preserveAspectRatio="xMidYMid slice"></image>` : ""}
-      <text x="160" y="160" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      <text x="160" y="160" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -401,9 +396,9 @@ function renderWheel() {
       const label = polarToCartesian(160, 160, 98, mid);
       const logo = polarToCartesian(160, 160, 70, mid);
       return `
-        <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#fffaf2" stroke-width="5"></path>
+        <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#ffffff" stroke-width="5"></path>
         ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
-        <text x="${label.x}" y="${label.y}" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
       `;
     })
     .join("");
@@ -437,7 +432,6 @@ function categoryWheelLabel(title) {
 function renderCategoryWheel() {
   const items = categoryWheelItems();
   const segmentSize = 360 / items.length;
-  const palette = ["#f7d98f", "#e9c272", "#d9edf0", "#eadfcf", "#c9ded6", "#f3eadc", "#d7c49d", "#e7eef1"];
 
   $("#categoryWheelSvg").innerHTML = items
     .map((item, index) => {
@@ -450,8 +444,8 @@ function renderCategoryWheel() {
       const lineHeight = fontSize + 1;
       const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
-        <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#fffaf2" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
+        <path d="${describeArc(160, 160, 154, start, end)}" fill="${wheelPalette[index % wheelPalette.length]}" stroke="#ffffff" stroke-width="5"></path>
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
           ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}">${line}</tspan>`).join("")}
         </text>
       `;
@@ -609,21 +603,21 @@ function renderProgress() {
 
 function playerRow(player) {
   return `
-    <div class="flex items-center justify-between rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3">
+    <div class="row flex items-center justify-between px-4 py-3">
       <div class="flex items-center gap-3">
         <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-        <span class="arabic-text text-xl font-bold text-[#dae2fd]" dir="rtl">${player.name}</span>
+        <span class="arabic-text text-xl font-bold" dir="rtl">${player.name}</span>
       </div>
-      <span class="arabic-text text-sm font-bold text-[#8e9197]" dir="rtl">${player.pool}</span>
+      <span class="arabic-text text-sm font-bold text-muted" dir="rtl">${player.pool}</span>
     </div>
   `;
 }
 
 function compactPlayerRow(player) {
   return `
-    <div class="flex items-center justify-center gap-3 rounded-lg border border-[#44474c] bg-[#131b2e] px-4 py-3">
+    <div class="row flex items-center justify-center gap-3 px-4 py-3">
       <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-      <span class="arabic-text text-xl font-bold text-[#dae2fd]" dir="rtl">${player.name}</span>
+      <span class="arabic-text text-xl font-bold" dir="rtl">${player.name}</span>
     </div>
   `;
 }
@@ -631,29 +625,29 @@ function compactPlayerRow(player) {
 function renderResults() {
   $("#alphaCount").textContent = `${state.teams.one.length} لاعبين`;
   $("#betaCount").textContent = `${state.teams.two.length} لاعبين`;
-  $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">ما فيه أسماء لحين</p>`;
-  $("#betaList").innerHTML = state.teams.two.length ? state.teams.two.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">ما فيه أسماء لحين</p>`;
+  $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="empty-note px-4 py-3 text-sm font-medium">ما فيه أسماء لحين</p>`;
+  $("#betaList").innerHTML = state.teams.two.length ? state.teams.two.map(playerRow).join("") : `<p class="empty-note px-4 py-3 text-sm font-medium">ما فيه أسماء لحين</p>`;
   $("#drawAlphaCount").textContent = state.teams.one.length;
   $("#drawBetaCount").textContent = state.teams.two.length;
-  $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">ما فيه لاعبين لحين</p>`;
-  $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">ما فيه لاعبين لحين</p>`;
+  $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="empty-note px-3 py-2 text-xs font-medium">ما فيه لاعبين لحين</p>`;
+  $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="empty-note px-3 py-2 text-xs font-medium">ما فيه لاعبين لحين</p>`;
 }
 
 function categoryCard(category, index) {
   if (!category) {
     return `
-      <div class="category-card flex flex-col items-center justify-center rounded-xl border border-dashed border-[#44474c] bg-[#0b1326]/70 p-3 text-center">
-        <span class="text-xs font-semibold text-[#8e9197]">خانة ${index + 1}</span>
+      <div class="category-card slot-card flex flex-col items-center justify-center rounded-xl p-3 text-center">
+        <span class="text-xs font-semibold">خانة ${index + 1}</span>
       </div>
     `;
   }
 
   return `
-    <div class="category-card rounded-xl border border-[#44474c] bg-[#131b2e] p-2 shadow-pulse">
-      <div class="category-card-art rounded-lg border border-[#44474c]">
+    <div class="category-card panel rounded-xl p-2">
+      <div class="category-card-art rounded-lg">
         <img src="${category.image}" alt="${category.title}" class="category-card-image" />
       </div>
-      <p class="category-card-title arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight text-[#dae2fd]" dir="rtl">${category.title}</p>
+      <p class="category-card-title arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight" dir="rtl">${category.title}</p>
     </div>
   `;
 }

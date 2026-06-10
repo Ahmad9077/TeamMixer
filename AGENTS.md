@@ -38,17 +38,16 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 
 ## Design Direction
 
-Use the Light Eid design system:
+Use the Light Modern Minimal design system (see `DESIGN.md` for the full palette):
 
-- Warm ivory/light background with a simple professional feel.
-- Use the Eid Mubarak reference image as a soft, low-opacity background/watermark element.
+- Warm porcelain background `#f7f5f1` with clean white panels, 1px `#e9e5dd` borders, and soft shadows.
+- One strong accent: deep teal `#0f766e` (primary buttons, active nav, eyebrows, wheel pointer, team 1). Amber `#b45309` is the team 2 identity.
 - The whole app is Arabic RTL: `<html lang="ar" dir="rtl">`, all UI strings in Arabic with Western digits (0-9).
-- Cairo (Google Fonts, `font-display: swap`) for all text, with Calibri as fallback.
+- Cairo (Google Fonts, `font-display: swap`) for all text, with Calibri as fallback. Bold/extrabold headings.
 - Arabic letters must render connected; avoid letter spacing on Arabic.
-- Use restrained brown and muted gold for premium/highlight accents.
-- Use 1px low-contrast warm borders, paper-like panels, and subtle shadows.
-- Prefer 8px to 16px corner radius. Avoid oversized pill shapes except where already intentional.
-- Avoid playful pink/beige dot-grid styling, bright candy colors, heavy glow shadows, and clutter.
+- Style through the semantic CSS classes in `index.html` (`.panel`, `.btn-primary`, `.btn-secondary`, `.field`, `.chip`, `.stat-box`, `.row`, `.empty-note`, `.nav-active`, ...); use Tailwind utilities for layout/spacing/typography only and avoid arbitrary hex utility classes.
+- Prefer 12px to 16px corner radius. Avoid oversized pill shapes except where already intentional.
+- Avoid gradients-as-decoration, bright candy colors, heavy glow shadows, and clutter.
 
 ## Current App Behavior
 
