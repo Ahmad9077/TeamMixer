@@ -79,6 +79,11 @@ function preloadImage(url) {
 function preloadAssets() {
   pools.forEach((pool) => preloadImage(pool.logo));
   categories.forEach((category) => preloadImage(category.image));
+  try {
+    fetchSpinClips();
+  } catch {
+    /* sound must never break the game */
+  }
 }
 
 function randomInt(maxExclusive) {
@@ -112,6 +117,39 @@ try {
 let audioCtx = null;
 let masterGain = null;
 
+// Voice clips that can replace the synthesized spin sound. Each entry is
+// fetched eagerly, decoded lazily once the AudioContext exists, and picked
+// at random per spin so the wheel never sounds the same twice in a row.
+const spinClips = [{ url: "assets/sounds/spin-voice-1.mp3", data: null, buffer: null }];
+
+function fetchSpinClips() {
+  spinClips.forEach((clip) => {
+    if (clip.data || clip.buffer) return;
+    fetch(clip.url)
+      .then((response) => (response.ok ? response.arrayBuffer() : null))
+      .then((data) => {
+        clip.data = data;
+        decodeSpinClips();
+      })
+      .catch(() => {});
+  });
+}
+
+function decodeSpinClips() {
+  if (!audioCtx) return;
+  spinClips.forEach((clip) => {
+    if (!clip.data || clip.buffer) return;
+    const data = clip.data;
+    clip.data = null;
+    audioCtx.decodeAudioData(data).then(
+      (buffer) => {
+        clip.buffer = buffer;
+      },
+      () => {}
+    );
+  });
+}
+
 function audio() {
   if (!soundOn) return null;
   try {
@@ -122,6 +160,7 @@ function audio() {
       masterGain = audioCtx.createGain();
       masterGain.gain.value = 0.5;
       masterGain.connect(audioCtx.destination);
+      decodeSpinClips();
     }
     if (audioCtx.state === "suspended") audioCtx.resume();
     return audioCtx;
@@ -229,9 +268,34 @@ function playGrandFinale() {
   }
 }
 
-function playSpinSounds(durationSec, totalDeg, segmentDeg) {
+function playSpinClip(clip, durationSec) {
+  const ctx = audio();
+  if (!ctx || !clip.buffer) return false;
+  const t0 = ctx.currentTime;
+  const source = ctx.createBufferSource();
+  source.buffer = clip.buffer;
+  source.loop = clip.buffer.duration < durationSec;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.linearRampToValueAtTime(0.9, t0 + 0.06);
+  gain.gain.setValueAtTime(0.9, t0 + Math.max(0.06, durationSec - 0.4));
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + durationSec);
+  source.connect(gain).connect(masterGain);
+  source.start(t0);
+  source.stop(t0 + durationSec + 0.05);
+  return true;
+}
+
+function playSpinSounds(durationSec, totalDeg, segmentDeg, allowClips = false) {
   try {
     if (!audio()) return;
+    if (allowClips) {
+      const readyClips = spinClips.filter((clip) => clip.buffer);
+      // Random pick between the voice clips and the synthesized ticks:
+      // each ready clip and the tick sound get an equal slot.
+      const slot = randomInt(readyClips.length + 1);
+      if (slot < readyClips.length && playSpinClip(readyClips[slot], durationSec)) return;
+    }
     noiseBurst({ start: 0, dur: 0.5, peak: 0.14, filterFreq: 500, filterEndFreq: 1600 });
     const ticks = Math.min(Math.floor(totalDeg / segmentDeg), 140);
     for (let k = 1; k <= ticks; k += 1) {
@@ -704,7 +768,7 @@ function spin() {
   state.spinning = true;
   state.rotation += delta;
   state.lastResult = `نسحب اسم من ${currentPool().title}...`;
-  playSpinSounds(4.5, delta, segmentSize);
+  playSpinSounds(4.5, delta, segmentSize, true);
   render();
 
   window.setTimeout(() => {
