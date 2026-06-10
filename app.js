@@ -27,6 +27,12 @@ const limitedCategoryIds = new Set(["travel", "geography", "countries-capitals"]
 const limitedCategoryMax = 2;
 const preloadedAssetUrls = new Set();
 
+const STORAGE_KEY = "seenjeem_state_v1";
+const SCREENS = ["setup", "randomize", "results", "categories"];
+const defaultPlayers = pools.map((pool) => [...pool.players]);
+const defaultDrawMessage = "جاهزين لقرعة جديدة";
+const defaultCategoryMessage = "اختر 6 فئات للعبة";
+
 const state = {
   activeScreen: "setup",
   poolQueues: [],
@@ -48,14 +54,14 @@ const state = {
   selectedCategories: [],
   categorySpinning: false,
   categoryRotation: 0,
-  categoryLastResult: "Choose 6 categories for the game.",
+  categoryLastResult: defaultCategoryMessage,
 };
 
 const fallbackWheelSegments = [
-  { label: "Ready", color: "#7c3aed" },
-  { label: "Draw", color: "#34d399" },
-  { label: "Next", color: "#f472b6" },
-  { label: "Name", color: "#064e3b" },
+  { label: "جاهز", color: "#7c3aed" },
+  { label: "قرعة", color: "#34d399" },
+  { label: "اسم", color: "#f472b6" },
+  { label: "سحب", color: "#064e3b" },
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -73,10 +79,22 @@ function preloadAssets() {
   categories.forEach((category) => preloadImage(category.image));
 }
 
+function randomInt(maxExclusive) {
+  if (maxExclusive <= 1) return 0;
+  const buffer = new Uint32Array(1);
+  const limit = Math.floor(4294967296 / maxExclusive) * maxExclusive;
+  let value;
+  do {
+    crypto.getRandomValues(buffer);
+    value = buffer[0];
+  } while (value >= limit);
+  return value % maxExclusive;
+}
+
 function shuffle(items) {
   const copy = [...items];
   for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = randomInt(i + 1);
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
@@ -87,11 +105,15 @@ function otherTeam(team) {
 }
 
 function teamLabel(team) {
-  return team === "one" ? "Team 1" : "Team 2";
+  return team === "one" ? "الفريق الأول" : "الفريق الثاني";
+}
+
+function playerFromPool(pool, name) {
+  return { name, pool: pool.title, accent: pool.accent, logo: pool.logo, poolId: pool.id };
 }
 
 function allPlayers() {
-  return pools.flatMap((pool) => pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, logo: pool.logo, poolId: pool.id })));
+  return pools.flatMap((pool) => pool.players.map((name) => playerFromPool(pool, name)));
 }
 
 function remainingPlayers() {
@@ -112,8 +134,113 @@ function advanceToNextAvailablePool() {
   }
 }
 
-function resetDraw(message = "Ready for a new draw.") {
-  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => ({ name, pool: pool.title, accent: pool.accent, logo: pool.logo, poolId: pool.id }))));
+function saveState() {
+  try {
+    const payload = {
+      version: 1,
+      players: Object.fromEntries(pools.map((pool) => [pool.id, [...pool.players]])),
+      draw: {
+        poolQueues: state.poolQueues.map((queue) => queue.map((player) => player.name)),
+        groupStartCounts: [...state.groupStartCounts],
+        currentPoolIndex: state.currentPoolIndex,
+        assigned: state.assigned.map((player) => ({ name: player.name, poolId: player.poolId, team: player.team })),
+        teams: {
+          one: state.teams.one.map((player) => ({ name: player.name, poolId: player.poolId })),
+          two: state.teams.two.map((player) => ({ name: player.name, poolId: player.poolId })),
+        },
+        nextTeam: state.nextTeam,
+        bonusTeam: state.bonusTeam,
+        bonusRemaining: state.bonusRemaining,
+        lastResult: state.lastResult,
+        drawReady: state.drawReady,
+      },
+      categories: {
+        queueIds: state.categoryQueue.map((category) => category.id),
+        selectedIds: state.selectedCategories.map((category) => category.id),
+        lastResult: state.categoryLastResult,
+      },
+      activeScreen: state.activeScreen,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    /* storage unavailable; the app keeps working in-memory */
+  }
+}
+
+function clearStoredState() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+function loadState() {
+  let raw = null;
+  try {
+    raw = localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return false;
+  }
+  if (!raw) return false;
+
+  try {
+    const data = JSON.parse(raw);
+    if (!data || data.version !== 1) return false;
+
+    pools.forEach((pool) => {
+      const names = data.players?.[pool.id];
+      if (Array.isArray(names)) pool.players = names.filter((name) => typeof name === "string" && name.trim());
+    });
+
+    const poolById = new Map(pools.map((pool) => [pool.id, pool]));
+    const revivePlayer = (entry) => {
+      if (!entry || typeof entry.name !== "string") return null;
+      const pool = poolById.get(entry.poolId);
+      return pool ? playerFromPool(pool, entry.name) : null;
+    };
+
+    const draw = data.draw || {};
+    state.poolQueues = pools.map((pool, index) => {
+      const names = Array.isArray(draw.poolQueues?.[index]) ? draw.poolQueues[index] : [];
+      return names.filter((name) => typeof name === "string").map((name) => playerFromPool(pool, name));
+    });
+    state.groupStartCounts = Array.isArray(draw.groupStartCounts) ? draw.groupStartCounts.map(Number) : pools.map((pool) => pool.players.length);
+    state.currentPoolIndex = Number.isInteger(draw.currentPoolIndex) ? draw.currentPoolIndex : 0;
+    state.teams.one = (Array.isArray(draw.teams?.one) ? draw.teams.one : []).map(revivePlayer).filter(Boolean);
+    state.teams.two = (Array.isArray(draw.teams?.two) ? draw.teams.two : []).map(revivePlayer).filter(Boolean);
+    state.assigned = (Array.isArray(draw.assigned) ? draw.assigned : [])
+      .map((entry) => {
+        const player = revivePlayer(entry);
+        return player && (entry.team === "one" || entry.team === "two") ? { ...player, team: entry.team } : null;
+      })
+      .filter(Boolean);
+    state.nextTeam = draw.nextTeam === "two" ? "two" : "one";
+    state.bonusTeam = draw.bonusTeam === "one" || draw.bonusTeam === "two" ? draw.bonusTeam : null;
+    state.bonusRemaining = Number.isInteger(draw.bonusRemaining) && draw.bonusRemaining > 0 ? draw.bonusRemaining : 0;
+    state.lastResult = typeof draw.lastResult === "string" ? draw.lastResult : defaultDrawMessage;
+    state.drawReady = Boolean(draw.drawReady);
+    state.spinning = false;
+    state.rotation = 0;
+
+    const categoryById = new Map(categories.map((category) => [category.id, category]));
+    const storedCategories = data.categories || {};
+    state.categoryQueue = (Array.isArray(storedCategories.queueIds) ? storedCategories.queueIds : []).map((id) => categoryById.get(id)).filter(Boolean);
+    state.selectedCategories = (Array.isArray(storedCategories.selectedIds) ? storedCategories.selectedIds : []).map((id) => categoryById.get(id)).filter(Boolean);
+    state.categoryLastResult = typeof storedCategories.lastResult === "string" ? storedCategories.lastResult : defaultCategoryMessage;
+    state.categorySpinning = false;
+    state.categoryRotation = 0;
+
+    state.activeScreen = SCREENS.includes(data.activeScreen) ? data.activeScreen : "setup";
+    advanceToNextAvailablePool();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function resetDraw(message = defaultDrawMessage) {
+  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => playerFromPool(pool, name))));
   state.groupStartCounts = pools.map((pool) => pool.players.length);
   state.currentPoolIndex = 0;
   state.assigned = [];
@@ -130,13 +257,27 @@ function resetDraw(message = "Ready for a new draw.") {
   render();
 }
 
-function resetCategories(message = "Choose 6 categories for the game.") {
+function resetCategories(message = defaultCategoryMessage) {
   state.categoryQueue = shuffle(categories);
   state.selectedCategories = [];
   state.categorySpinning = false;
   state.categoryRotation = 0;
   state.categoryLastResult = message;
   render();
+}
+
+function startOver() {
+  clearStoredState();
+  pools.forEach((pool, index) => {
+    pool.players = [...defaultPlayers[index]];
+  });
+  state.categoryQueue = shuffle(categories);
+  state.selectedCategories = [];
+  state.categorySpinning = false;
+  state.categoryRotation = 0;
+  state.categoryLastResult = defaultCategoryMessage;
+  resetDraw(defaultDrawMessage);
+  showScreen("setup");
 }
 
 function showScreen(screen) {
@@ -149,6 +290,7 @@ function showScreen(screen) {
     button.classList.toggle("shadow-pulse", active);
     button.classList.toggle("text-slate-600", !active);
   });
+  saveState();
 }
 
 function addPlayer(poolId) {
@@ -158,13 +300,13 @@ function addPlayer(poolId) {
   const pool = pools.find((item) => item.id === poolId);
   pool.players.push(value);
   input.value = "";
-  resetDraw("Player added. Start the draw again.");
+  resetDraw("تمت إضافة اللاعب، ابدأ القرعة من جديد");
 }
 
 function removePlayer(poolId, index) {
   const pool = pools.find((item) => item.id === poolId);
   pool.players.splice(index, 1);
-  resetDraw("Player removed. Start the draw again.");
+  resetDraw("تم حذف اللاعب، ابدأ القرعة من جديد");
 }
 
 function renderPools() {
@@ -182,17 +324,17 @@ function renderPools() {
             <span class="rounded-md border border-[#44474c] bg-[#0b1326] px-4 py-2 text-sm font-medium" style="color:${pool.accent}">${pool.players.length}</span>
           </div>
           <div class="flex gap-2">
-            <input id="input-${pool.id}" class="midnight-input min-w-0 flex-1 rounded-lg border px-4 py-3 text-sm font-normal outline-none transition" placeholder="Add player" />
-            <button class="add-btn midnight-button rounded-lg px-4 py-3 text-sm font-medium text-white" data-pool="${pool.id}">Add</button>
+            <input id="input-${pool.id}" class="midnight-input min-w-0 flex-1 rounded-lg border px-4 py-3 text-sm font-normal outline-none transition" placeholder="ضيف اسم اللاعب" />
+            <button class="add-btn midnight-button rounded-lg px-4 py-3 text-sm font-medium text-white" data-pool="${pool.id}">إضافة</button>
           </div>
           <div class="mt-4 flex min-h-28 flex-wrap content-start gap-2">
             ${pool.players
               .map(
                 (player, index) => `
-                  <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-3 py-2 text-base font-bold text-[#dae2fd]">
+                  <span class="inline-flex items-center gap-2 rounded-md border border-[#44474c] bg-[#0b1326] px-2.5 py-1 text-base font-bold text-[#dae2fd]">
                     <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
                     <span class="arabic-text font-bold" dir="rtl">${player}</span>
-                    <button class="remove-btn grid h-6 w-6 place-items-center rounded bg-[#171f33] text-[#c5c6cd] transition hover:border hover:border-[#e0c47e] hover:text-[#e0c47e]" data-pool="${pool.id}" data-index="${index}" aria-label="Remove ${player}">x</button>
+                    <button class="remove-btn grid h-11 w-11 place-items-center rounded-lg bg-[#171f33] text-[#c5c6cd] transition hover:border hover:border-[#e0c47e] hover:text-[#e0c47e]" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${player}">×</button>
                   </span>
                 `
               )
@@ -245,7 +387,7 @@ function renderWheel() {
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#fffaf2" stroke-width="5"></circle>
       ${items[0].logo ? `<image href="${items[0].logo}" x="137" y="104" width="46" height="46" preserveAspectRatio="xMidYMid slice"></image>` : ""}
-      <text x="160" y="160" fill="#2b2118" font-family="Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      <text x="160" y="160" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -261,7 +403,7 @@ function renderWheel() {
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#fffaf2" stroke-width="5"></path>
         ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
-        <text x="${label.x}" y="${label.y}" fill="#2b2118" font-family="Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        <text x="${label.x}" y="${label.y}" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
       `;
     })
     .join("");
@@ -309,7 +451,7 @@ function renderCategoryWheel() {
       const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${palette[index % palette.length]}" stroke="#fffaf2" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#2b2118" font-family="Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#2b2118" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
           ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}">${line}</tspan>`).join("")}
         </text>
       `;
@@ -338,7 +480,7 @@ function completeCurrentGroupIfNeeded() {
   if (wasOdd && hasNextGroup) {
     state.bonusTeam = balancedTeam(state.nextTeam);
     state.bonusRemaining = 2;
-    state.lastResult += ` ${teamLabel(state.bonusTeam)} receives the first two picks from the next group.`;
+    state.lastResult += ` ${teamLabel(state.bonusTeam)} ياخذ أول اختيارين من المجموعة الجاية.`;
   }
 
   state.currentPoolIndex += 1;
@@ -364,7 +506,7 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
   }
 
   state.spinning = false;
-  state.lastResult = usedSpin ? `${assigned.name} joined ${teamLabel(team)}.` : `${assigned.name} was the final name in ${assigned.pool} and joined ${teamLabel(team)}.`;
+  state.lastResult = usedSpin ? `${assigned.name} انضم إلى ${teamLabel(team)}` : `${assigned.name} آخر اسم في ${assigned.pool} وانضم إلى ${teamLabel(team)}`;
   completeCurrentGroupIfNeeded();
   render();
   if (!remainingPlayers().length) showScreen("results");
@@ -372,34 +514,33 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
 
 function spin() {
   if (state.spinning) return;
-  if (!state.drawReady) resetDraw("Draw started.");
+  if (!state.drawReady) resetDraw("بدأت القرعة");
   advanceToNextAvailablePool();
 
   const queue = currentQueue();
   if (!queue.length) {
-    state.lastResult = allPlayers().length ? "All players are assigned." : "Add players before spinning.";
+    state.lastResult = allPlayers().length ? "توزع كل اللاعبين" : "ضيف اللاعبين قبل ما تسحب";
     render();
     showScreen(allPlayers().length ? "results" : "setup");
     return;
   }
 
-  const selectedIndex = Math.floor(Math.random() * queue.length);
+  const selectedIndex = randomInt(queue.length);
   if (queue.length === 1) {
     assignSelectedPlayer(selectedIndex, false);
     return;
   }
 
-  const selected = queue[selectedIndex];
   const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
   const desiredPointerAngle = 360 - segmentCenter;
   const currentNormalized = ((state.rotation % 360) + 360) % 360;
-  const extraTurns = 4 + Math.floor(Math.random() * 3);
+  const extraTurns = 4 + randomInt(3);
   const delta = extraTurns * 360 + ((desiredPointerAngle - currentNormalized + 360) % 360);
 
   state.spinning = true;
   state.rotation += delta;
-  state.lastResult = `Spinning for a name from ${currentPool().title}...`;
+  state.lastResult = `نسحب اسم من ${currentPool().title}...`;
   render();
 
   window.setTimeout(() => {
@@ -411,7 +552,7 @@ function assignCategory(selectedIndex) {
   const category = availableCategoryQueue()[selectedIndex];
   if (!category) {
     state.categorySpinning = false;
-    state.categoryLastResult = "No category available for this rule set.";
+    state.categoryLastResult = "ما فيه فئة متاحة حسب القوانين";
     render();
     return;
   }
@@ -419,7 +560,7 @@ function assignCategory(selectedIndex) {
   state.categoryQueue = state.categoryQueue.filter((item) => item.id !== category.id);
   state.selectedCategories.push(category);
   state.categorySpinning = false;
-  state.categoryLastResult = state.selectedCategories.length === 6 ? "All 6 categories are selected." : `${category.title} selected.`;
+  state.categoryLastResult = state.selectedCategories.length === 6 ? "تم اختيار كل الفئات الست" : `تم اختيار ${category.title}`;
   render();
 }
 
@@ -429,22 +570,22 @@ function spinCategory() {
 
   const queue = availableCategoryQueue();
   if (!queue.length) {
-    state.categoryLastResult = "No category available for this rule set.";
+    state.categoryLastResult = "ما فيه فئة متاحة حسب القوانين";
     render();
     return;
   }
 
-  const selectedIndex = Math.floor(Math.random() * queue.length);
+  const selectedIndex = randomInt(queue.length);
   const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
   const desiredPointerAngle = 360 - segmentCenter;
   const currentNormalized = ((state.categoryRotation % 360) + 360) % 360;
-  const extraTurns = 4 + Math.floor(Math.random() * 3);
+  const extraTurns = 4 + randomInt(3);
   const delta = extraTurns * 360 + ((desiredPointerAngle - currentNormalized + 360) % 360);
 
   state.categorySpinning = true;
   state.categoryRotation += delta;
-  state.categoryLastResult = "Spinning for a category...";
+  state.categoryLastResult = "نسحب فئة...";
   render();
 
   window.setTimeout(() => {
@@ -459,9 +600,9 @@ function renderProgress() {
   $("#totalPlayers").textContent = total;
 
   const pool = currentPool();
-  const nextTeamText = remainingPlayers().length ? `Next assignment: ${teamLabel(nextAssignedTeam())}` : "Open results to review the teams.";
-  $("#upNextName").textContent = pool && currentQueue().length ? pool.title : remainingPlayers().length ? "Moving to next group" : "All players assigned";
-  $("#upNextPool").textContent = pool && currentQueue().length ? `${currentQueue().length} names remaining. ${nextTeamText}` : nextTeamText;
+  const nextTeamText = remainingPlayers().length ? `الاختيار الجاي: ${teamLabel(nextAssignedTeam())}` : "افتح النتائج وشوف الفرق";
+  $("#upNextName").textContent = pool && currentQueue().length ? pool.title : remainingPlayers().length ? "ننتقل للمجموعة الجاية" : "توزع كل اللاعبين";
+  $("#upNextPool").textContent = pool && currentQueue().length ? `باقي ${currentQueue().length} أسماء. ${nextTeamText}` : nextTeamText;
   $("#spinStatus").textContent = state.lastResult || "";
   $("#spinBtn").disabled = state.spinning || total === 0 || (state.drawReady && remainingPlayers().length === 0);
 }
@@ -488,21 +629,21 @@ function compactPlayerRow(player) {
 }
 
 function renderResults() {
-  $("#alphaCount").textContent = `${state.teams.one.length} players`;
-  $("#betaCount").textContent = `${state.teams.two.length} players`;
-  $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">No assignments yet.</p>`;
-  $("#betaList").innerHTML = state.teams.two.length ? state.teams.two.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">No assignments yet.</p>`;
+  $("#alphaCount").textContent = `${state.teams.one.length} لاعبين`;
+  $("#betaCount").textContent = `${state.teams.two.length} لاعبين`;
+  $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">ما فيه أسماء لحين</p>`;
+  $("#betaList").innerHTML = state.teams.two.length ? state.teams.two.map(playerRow).join("") : `<p class="rounded-lg border border-[#44474c] bg-[#0b1326] px-4 py-3 text-sm font-medium text-[#8e9197]">ما فيه أسماء لحين</p>`;
   $("#drawAlphaCount").textContent = state.teams.one.length;
   $("#drawBetaCount").textContent = state.teams.two.length;
-  $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">No players yet.</p>`;
-  $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">No players yet.</p>`;
+  $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">ما فيه لاعبين لحين</p>`;
+  $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="rounded-md border border-[#44474c] bg-[#131b2e] px-3 py-2 text-xs font-medium text-[#8e9197]">ما فيه لاعبين لحين</p>`;
 }
 
 function categoryCard(category, index) {
   if (!category) {
     return `
       <div class="category-card flex flex-col items-center justify-center rounded-xl border border-dashed border-[#44474c] bg-[#0b1326]/70 p-3 text-center">
-        <span class="text-xs font-semibold uppercase tracking-[0.14em] text-[#8e9197]">Slot ${index + 1}</span>
+        <span class="text-xs font-semibold text-[#8e9197]">خانة ${index + 1}</span>
       </div>
     `;
   }
@@ -528,23 +669,6 @@ function renderCategories() {
   $("#spinCategoryBtn").disabled = state.categorySpinning || state.selectedCategories.length >= 6 || availableCategoryQueue().length === 0;
 }
 
-function shareResults() {
-  const text = [
-    "قرعة لعبة سين جيم - ديوانية الجيران",
-    "",
-    `Team 1: ${state.teams.one.map((player) => player.name).join(", ") || "No players"}`,
-    `Team 2: ${state.teams.two.map((player) => player.name).join(", ") || "No players"}`,
-  ].join("\n");
-
-  if (navigator.share) {
-    navigator.share({ title: "قرعة لعبة سين جيم", text }).catch(() => {});
-  } else {
-    navigator.clipboard?.writeText(text);
-    state.lastResult = "Results copied to clipboard.";
-    render();
-  }
-}
-
 function render() {
   renderPools();
   renderWheel();
@@ -557,18 +681,19 @@ function render() {
 
 $$(".nav-btn").forEach((button) => button.addEventListener("click", () => showScreen(button.dataset.screen)));
 $("#shuffleQueueBtn").addEventListener("click", () => {
-  resetDraw("Draw started.");
+  resetDraw("بدأت القرعة");
   showScreen("randomize");
 });
 $("#spinBtn").addEventListener("click", spin);
 $("#spinCategoryBtn").addEventListener("click", spinCategory);
-$("#resetCategoriesBtn").addEventListener("click", resetCategories);
-$("#shareBtn").addEventListener("click", shareResults);
-$("#startOverBtn").addEventListener("click", () => {
-  resetDraw("Ready for a fresh draw.");
-  showScreen("setup");
-});
+$("#resetCategoriesBtn").addEventListener("click", () => resetCategories());
+$("#startOverBtn").addEventListener("click", startOver);
 
 preloadAssets();
-resetCategories();
-resetDraw("Ready to start.");
+if (loadState()) {
+  render();
+} else {
+  state.categoryQueue = shuffle(categories);
+  state.categoryLastResult = defaultCategoryMessage;
+  resetDraw("جاهزين للبداية");
+}

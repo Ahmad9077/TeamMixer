@@ -2,12 +2,12 @@
 
 ## Next Steps
 
+- User review of the 2026-06-10 Arabic RTL localization, localStorage persistence, fair shuffle, and responsive changes, then push and deploy.
 - Review the live GitHub Pages site on an actual physical phone screen.
-- Confirm whether UI labels should stay English or be translated to Arabic.
-- Confirm whether `Team 1` and `Team 2` should be renamed.
-- Recheck the updated mobile Draw and Categories screens on a physical phone after deployment. Browser viewport checks passed on 2026-05-26, but physical-device review is still pending.
+- Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
 - If needed, replace the cropped category cards with original individual photos.
+- Optionally convert the setup wordmark to WebP.
 
 ## Verification Checklist For Future Changes
 
@@ -23,11 +23,13 @@
 - Verify Categories selects exactly 6 categories and keeps them in a 3-by-2 selected grid.
 - Verify Categories allows at most two of `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` in one session.
 - Verify fixed mobile bottom tabs do not cover the bottom of each screen at max scroll.
+- Verify no visible English strings remain on any screen.
+- Verify refresh restores state from `seenjeem_state_v1`, `من جديد` resets clean, and `تصفير الفئات` restores all 16 categories.
+- Verify touch targets are at least 44px.
 - Verify public GitHub Pages deployment after push.
 
 ## Backlog Ideas
 
-- Add Arabic versions of status messages.
 - Add a small draw history log.
 - Add a compact landscape mobile layout.
 - Add a visual animation when a selected name joins a team.

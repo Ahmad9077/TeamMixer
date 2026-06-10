@@ -73,11 +73,19 @@ The app currently supports:
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
 - Replaced the setup hero box image with the attached `عدنا والعود أحمد` image at `assets/adnan-return-wordmark.jpg`.
 - Changed selected category cards to portrait artwork slots that use `object-fit: contain` so selected category photos appear nearly complete instead of being cropped.
+- Localized the entire UI to Arabic RTL: `<html lang="ar" dir="rtl">`, all visible English strings replaced with Arabic (الإعداد/القرعة/النتائج/الفئات, الفريق الأول/الفريق الثاني, اسحب اسم/اسحب فئة, etc.) while keeping Western digits.
+- Replaced Inter/Calibri with Cairo from Google Fonts (preconnect + `font-display: swap`, Calibri fallback) applied globally including SVG wheel labels.
+- Removed the Share Results feature; the Results screen keeps only `من جديد`.
+- Added `localStorage` persistence under `seenjeem_state_v1` (players, draw progress, teams, picked categories, active screen) saved on every state change and restored on load. `من جديد` clears all stored state and restores default players; `تصفير الفئات` resets only category state. No cross-session history: shuffles are fresh each session and used categories are never excluded.
+- Replaced `Math.random` randomization with Fisher-Yates and `crypto.getRandomValues` (rejection sampling) for both the name draw and the category draw.
+- Responsive polish: tablet (768px+) now gets the two-column Draw/Categories layouts, three-column setup pools, and two-column results panels (previously desktop-only at 1024px); full-width primary buttons on phones; all buttons at least 44px tall, including larger player-remove buttons.
+- Added explicit `width="980" height="687"` and `fetchpriority="high"` to the setup wordmark image to prevent layout shift.
 
 ## Current Decisions
 
 - No build system is used.
-- The app remains static and state is in-memory only.
+- The app remains static; state persists in `localStorage` under `seenjeem_state_v1`.
+- The UI is fully Arabic RTL with Cairo typography and Western digits.
 - GitHub Pages deploys from the `main` branch root.
 - `app.js` is the behavior source of truth.
 - `DESIGN.md` documents the visual design direction.
@@ -87,6 +95,8 @@ The app currently supports:
 ## Last Verified
 
 Recent local checks confirmed:
+
+- On 2026-06-10, `node --check app.js` passed and a 36-check local Playwright suite passed at `360x740`, `375x812`, and `768x1024`: full RTL (`lang="ar" dir="rtl"`), zero visible English strings on all four screens, no horizontal overflow, all touch targets at least 44px, full default draw assigns all 12 players ending `6/6`, refresh restores teams/players/picked categories/active screen from `seenjeem_state_v1`, `من جديد` resets clean (players back to defaults, storage cleared), `تصفير الفئات` restores all 16 categories, the limited geography/travel/capitals rule holds, tablet layouts use two/three columns, the wordmark has explicit dimensions, and no images are broken.
 
 - On 2026-06-08, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed selected category cards use portrait artwork slots, all selected category images use `object-fit: contain`, images stay inside their slots, card heights remain equal, no rendered images are broken, and there is no horizontal overflow.
 - On 2026-06-08, GitHub Pages reached `built` after deploying `e310150`, public GitHub Pages returned `HTTP 200`, public `assets/adnan-return-wordmark.jpg` returned `HTTP 200`, and public HTML references `assets/adnan-return-wordmark.jpg` with alt text `عدنا والعود أحمد`.
@@ -148,14 +158,14 @@ Recent local checks confirmed:
 
 ## Pending
 
+- User review of the Arabic RTL localization, persistence, and responsive changes before pushing/deploying.
 - Perform any user-requested visual refinements after reviewing the live site.
-- Consider replacing English UI labels such as `Setup`, `Draw`, `Results`, `Team 1`, `Team 2`, `Start Draw`, and `Share Results` with Arabic if requested.
 - Consider adding a simple admin/reset guard only if requested.
 - Confirm the mobile Draw and Categories screens on a physical phone after the next GitHub Pages deployment.
+- Optionally convert `assets/adnan-return-wordmark.jpg` to WebP (no conversion tooling was available in the work environment).
 
 ## Known Constraints
 
-- This is a browser-only app; refresh resets state.
-- The app relies on Tailwind CDN and Google Fonts for Inter.
-- Calibri availability depends on the client system; it is standard on many systems but not guaranteed on every browser/device.
+- This is a browser-only app; state persists in `localStorage` on the same device/browser only.
+- The app relies on Tailwind CDN and Google Fonts for Cairo.
 - The attached JPEG logos are committed as-is and not transparent cutouts.

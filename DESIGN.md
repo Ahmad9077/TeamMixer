@@ -14,10 +14,10 @@ colors:
   tertiary: "#8bd6b6"
 typography:
   headline:
-    fontFamily: Inter
+    fontFamily: Cairo
     fontWeight: "600"
   body:
-    fontFamily: Inter
+    fontFamily: Cairo
     fontWeight: "400"
 rounded:
   DEFAULT: 0.5rem
@@ -35,7 +35,7 @@ TeamMixer is a high-fidelity responsive web application for ديوانية ال�
 
 The website uses a Light Eid design system: warm ivory background, paper-like panels, restrained brown and muted gold accents, and the Eid Mubarak reference image as a soft low-opacity background/watermark element. The setup hero uses the attached `عدنا والعود أحمد` wordmark image as the only content inside the hero box. The UI should feel professional, simple, and seasonal without becoming decorative or cluttered.
 
-Typography uses Inter for English/interface text and Calibri for Arabic text. Arabic text must keep connected letterforms with no letter spacing.
+The interface is fully Arabic and right-to-left (`<html lang="ar" dir="rtl">`) with Western digits. Typography uses Cairo from Google Fonts (with `font-display: swap` and Calibri fallback) for all text. Arabic text must keep connected letterforms with no letter spacing.
 
 ## Components
 
@@ -49,7 +49,7 @@ Draw: a central segmented SVG/CSS spin wheel that displays the remaining names f
 
 Within each group, selected names alternate between Team 1 and Team 2. If a group has an odd count, the next team in the sequence receives the first two selections from the next group.
 
-Results: final cards for Team 1 and Team 2 with share and start-over actions.
+Results: final cards for الفريق الأول and الفريق الثاني with the `من جديد` start-over action.
 
 Categories: a fourth tab after Results. It uses a separate text-only wheel for category selection, with regular-weight vertical labels inside the wheel slices. Selected categories appear above the wheel as six cards arranged in a 3-by-2 grid, with portrait artwork slots that preserve the full category image and Arabic category names.
 

@@ -33,7 +33,8 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 - Tailwind CSS CDN in `index.html`.
 - Vanilla JavaScript state management in `app.js`.
 - Assets live under `assets/`.
-- No build step, package manager, framework, backend, database, or persistence.
+- No build step, package manager, framework, backend, or database.
+- App state persists in `localStorage` under the single key `seenjeem_state_v1` (players, draw progress, team assignments, picked categories, active screen). `من جديد` clears all stored state; `تصفير الفئات` resets only category state. No cross-session draw history: randomness is independent each session and previously used categories are never excluded.
 
 ## Design Direction
 
@@ -41,8 +42,8 @@ Use the Light Eid design system:
 
 - Warm ivory/light background with a simple professional feel.
 - Use the Eid Mubarak reference image as a soft, low-opacity background/watermark element.
-- Inter for English/interface text.
-- Calibri for Arabic text.
+- The whole app is Arabic RTL: `<html lang="ar" dir="rtl">`, all UI strings in Arabic with Western digits (0-9).
+- Cairo (Google Fonts, `font-display: swap`) for all text, with Calibri as fallback.
 - Arabic letters must render connected; avoid letter spacing on Arabic.
 - Use restrained brown and muted gold for premium/highlight accents.
 - Use 1px low-contrast warm borders, paper-like panels, and subtle shadows.
@@ -53,10 +54,10 @@ Use the Light Eid design system:
 
 The app has four screens:
 
-- Setup: edit the three Arabic groups and members.
-- Draw: spin/select names, show active group, progress, and live team lists.
-- Results: final Team 1 and Team 2 lists with share/start-over actions.
-- Categories: spin/select six game categories.
+- Setup (الإعداد): edit the three Arabic groups and members.
+- Draw (القرعة): spin/select names, show active group, progress, and live team lists.
+- Results (النتائج): final الفريق الأول and الفريق الثاني lists with the `من جديد` start-over action. There is no share feature.
+- Categories (الفئات): spin/select six game categories with the `تصفير الفئات` reset action.
 
 Groups and logos:
 
@@ -82,7 +83,9 @@ Rules:
 ## Coding Rules
 
 - Keep the app static and dependency-light.
-- Do not add storage, login, analytics, or backend services unless explicitly requested.
+- Do not add login, analytics, or backend services unless explicitly requested. `localStorage` persistence is intentional and should be preserved.
+- Randomization must stay unbiased: Fisher-Yates with `crypto.getRandomValues` (see `randomInt`/`shuffle` in `app.js`). Do not reintroduce `Math.random` or sort-based shuffles.
+- Touch targets must stay at least 44px tall/wide.
 - Prefer simple, readable vanilla JavaScript over abstraction-heavy code.
 - Do not move behavior out of `app.js` unless there is a clear reason.
 - Keep user-facing Arabic text legible, connected, and large enough on mobile.
