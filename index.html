@@ -350,6 +350,29 @@
         min-width: 0;
       }
 
+      .sound-toggle {
+        position: absolute;
+        inset-inline-start: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        background: var(--surface-soft);
+        border: 1px solid var(--border);
+        font-size: 1.15rem;
+        line-height: 1;
+        touch-action: manipulation;
+        transition: border-color 0.15s ease, background-color 0.15s ease;
+      }
+
+      .sound-toggle:hover {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
       nav.fixed {
         background: rgba(255, 255, 255, 0.94);
         border-top: 1px solid var(--border);
@@ -370,7 +393,8 @@
   </head>
   <body class="min-h-screen">
     <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
-      <header class="panel mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
+      <header class="panel relative mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
+        <button id="soundToggleBtn" class="sound-toggle" aria-label="تبديل الأصوات" aria-pressed="true">🔊</button>
         <div class="md:col-start-2">
           <p class="eyebrow arabic-text" dir="rtl">ديوانية الجيران</p>
           <h1 class="arabic-text text-xl font-extrabold md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>

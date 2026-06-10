@@ -84,6 +84,8 @@ The app currently supports:
 - Replaced the legacy Midnight Slate CSS plus Light Eid override cascade with one clean stylesheet of semantic classes (`.panel`, `.btn-primary`, `.btn-secondary`, `.field`, `.chip`, `.stat-box`, `.row`, `.empty-note`, `.nav-active`, `.wheel-pointer`), and removed arbitrary hex Tailwind classes from `app.js` templates; nav active state now toggles a single `nav-active` class.
 - Removed the Eid watermark background and crescent styling; kept the `عدنا والعود أحمد` hero wordmark.
 - Stacked the Draw screen live team lists in one column at `md` widths (narrow side panel) so player names are not truncated, returning to two columns at `lg`.
+- Added fun synthesized sound effects via the Web Audio API (no audio files, still zero dependencies): a whoosh on spin start, wheel ticks that follow the spin deceleration for both the name and category wheels, a randomized pool of five celebration sounds on each pick (fanfare, party horn, slide whistle, boing, sparkle arpeggio), and a grand finale with applause when the draw completes or the sixth category lands.
+- Added a header 🔊/🔇 sound toggle; the preference persists under `seenjeem_sound_v1` (separate from game state so `من جديد` keeps the setting). The AudioContext is created lazily on first interaction to satisfy autoplay policies, and all sound entry points are wrapped in try/catch so audio can never break the game.
 
 ## Current Decisions
 
@@ -101,6 +103,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-10, after adding sound effects, the 36-check Playwright suite passed again and a dedicated audio smoke test confirmed: the AudioContext is created on the first spin (user gesture) and reaches `running`, muting suspends it and stores `seenjeem_sound_v1=off`, the muted state survives reload, unmuting works, and a full draw plus six category picks complete with zero page errors.
 - On 2026-06-10, after the Light Modern Minimal redesign, the same 36-check Playwright suite passed again at `360x740`, `375x812`, and `768x1024` (RTL, zero English strings, persistence, clean reset, full 6/6 draw, category rules, no overflow, 44px touch targets, no broken images), and screenshots confirmed the new design renders correctly on all four screens at phone and tablet widths with no truncated player names in the Draw live lists.
 - On 2026-06-10, `node --check app.js` passed and a 36-check local Playwright suite passed at `360x740`, `375x812`, and `768x1024`: full RTL (`lang="ar" dir="rtl"`), zero visible English strings on all four screens, no horizontal overflow, all touch targets at least 44px, full default draw assigns all 12 players ending `6/6`, refresh restores teams/players/picked categories/active screen from `seenjeem_state_v1`, `من جديد` resets clean (players back to defaults, storage cleared), `تصفير الفئات` restores all 16 categories, the limited geography/travel/capitals rule holds, tablet layouts use two/three columns, the wordmark has explicit dimensions, and no images are broken.
 

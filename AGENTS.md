@@ -34,6 +34,7 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 - Vanilla JavaScript state management in `app.js`.
 - Assets live under `assets/`.
 - No build step, package manager, framework, backend, or database.
+- Sound effects are synthesized with the Web Audio API in `app.js` (no audio files): deceleration-matched wheel ticks plus a randomized pool of celebration sounds and a grand finale. The header 🔊/🔇 toggle persists separately under `seenjeem_sound_v1` and is not cleared by `من جديد`. Sound code must never break game logic (all entry points are wrapped in try/catch).
 - App state persists in `localStorage` under the single key `seenjeem_state_v1` (players, draw progress, team assignments, picked categories, active screen). `من جديد` clears all stored state; `تصفير الفئات` resets only category state. No cross-session draw history: randomness is independent each session and previously used categories are never excluded.
 
 ## Design Direction

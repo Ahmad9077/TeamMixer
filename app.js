@@ -102,6 +102,170 @@ function shuffle(items) {
   return copy;
 }
 
+const SOUND_KEY = "seenjeem_sound_v1";
+let soundOn = true;
+try {
+  soundOn = localStorage.getItem(SOUND_KEY) !== "off";
+} catch {
+  /* storage unavailable */
+}
+let audioCtx = null;
+let masterGain = null;
+
+function audio() {
+  if (!soundOn) return null;
+  try {
+    if (!audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      audioCtx = new Ctx();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0.5;
+      masterGain.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  } catch {
+    return null;
+  }
+}
+
+function tone({ freq, endFreq = 0, type = "sine", start = 0, dur = 0.2, peak = 0.25, attack = 0.01 }) {
+  const ctx = audio();
+  if (!ctx) return;
+  const t0 = ctx.currentTime + start;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t0);
+  if (endFreq) osc.frequency.exponentialRampToValueAtTime(endFreq, t0 + dur);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.linearRampToValueAtTime(peak, t0 + attack);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  osc.connect(gain).connect(masterGain);
+  osc.start(t0);
+  osc.stop(t0 + dur + 0.05);
+}
+
+function noiseBurst({ start = 0, dur = 0.15, peak = 0.2, filterFreq = 1800, filterEndFreq = 0 }) {
+  const ctx = audio();
+  if (!ctx) return;
+  const t0 = ctx.currentTime + start;
+  const buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * dur) + 1, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i += 1) data[i] = Math.random() * 2 - 1;
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  const filter = ctx.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.Q.value = 0.9;
+  filter.frequency.setValueAtTime(filterFreq, t0);
+  if (filterEndFreq) filter.frequency.exponentialRampToValueAtTime(filterEndFreq, t0 + dur);
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.linearRampToValueAtTime(peak, t0 + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  source.connect(filter).connect(gain).connect(masterGain);
+  source.start(t0);
+  source.stop(t0 + dur + 0.05);
+}
+
+function sfxTada() {
+  [523, 659, 784, 1047].forEach((freq, index) => tone({ freq, type: "triangle", start: index * 0.09, dur: 0.2, peak: 0.26 }));
+  tone({ freq: 1047, type: "triangle", start: 0.38, dur: 0.55, peak: 0.3 });
+  tone({ freq: 1319, type: "sine", start: 0.38, dur: 0.55, peak: 0.12 });
+}
+
+function sfxPartyHorn() {
+  [0, 0.3].forEach((start) => {
+    tone({ freq: 392, endFreq: 360, type: "sawtooth", start, dur: 0.24, peak: 0.2 });
+    tone({ freq: 784, endFreq: 700, type: "square", start, dur: 0.24, peak: 0.05 });
+  });
+  tone({ freq: 392, endFreq: 470, type: "sawtooth", start: 0.62, dur: 0.34, peak: 0.22 });
+}
+
+function sfxSlideWhistle() {
+  tone({ freq: 320, endFreq: 1300, type: "sine", dur: 0.45, peak: 0.3 });
+  tone({ freq: 1300, endFreq: 980, type: "sine", start: 0.46, dur: 0.2, peak: 0.22 });
+}
+
+function sfxBoing() {
+  tone({ freq: 540, endFreq: 130, type: "triangle", dur: 0.34, peak: 0.32 });
+  tone({ freq: 400, endFreq: 120, type: "triangle", start: 0.32, dur: 0.28, peak: 0.2 });
+}
+
+function sfxSparkle() {
+  [523, 587, 659, 784, 880, 1047].forEach((freq, index) => {
+    tone({ freq, type: "triangle", start: index * 0.07, dur: 0.16, peak: 0.22 });
+    tone({ freq: freq * 2, type: "sine", start: index * 0.07 + 0.02, dur: 0.1, peak: 0.07 });
+  });
+}
+
+function sfxApplause(start = 0, claps = 26) {
+  for (let i = 0; i < claps; i += 1) {
+    noiseBurst({ start: start + i * 0.05 + Math.random() * 0.03, dur: 0.04 + Math.random() * 0.05, peak: 0.08 + Math.random() * 0.1, filterFreq: 1200 + Math.random() * 2200 });
+  }
+}
+
+const celebrationSfx = [sfxTada, sfxPartyHorn, sfxSlideWhistle, sfxBoing, sfxSparkle];
+
+function playCelebration() {
+  try {
+    if (!audio()) return;
+    celebrationSfx[randomInt(celebrationSfx.length)]();
+  } catch {
+    /* sound must never break the game */
+  }
+}
+
+function playGrandFinale() {
+  try {
+    if (!audio()) return;
+    sfxSlideWhistle();
+    sfxTada();
+    sfxApplause(0.35, 34);
+  } catch {
+    /* sound must never break the game */
+  }
+}
+
+function playSpinSounds(durationSec, totalDeg, segmentDeg) {
+  try {
+    if (!audio()) return;
+    noiseBurst({ start: 0, dur: 0.5, peak: 0.14, filterFreq: 500, filterEndFreq: 1600 });
+    const ticks = Math.min(Math.floor(totalDeg / segmentDeg), 140);
+    for (let k = 1; k <= ticks; k += 1) {
+      const progress = (k * segmentDeg) / totalDeg;
+      const time = 1 - Math.cbrt(1 - progress);
+      tone({ freq: 1900 + Math.random() * 500, type: "square", start: time * durationSec, dur: 0.025, peak: 0.1, attack: 0.002 });
+    }
+  } catch {
+    /* sound must never break the game */
+  }
+}
+
+function updateSoundToggle() {
+  const button = $("#soundToggleBtn");
+  button.textContent = soundOn ? "🔊" : "🔇";
+  button.setAttribute("aria-pressed", String(soundOn));
+  button.title = soundOn ? "إيقاف الأصوات" : "تشغيل الأصوات";
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  try {
+    localStorage.setItem(SOUND_KEY, soundOn ? "on" : "off");
+  } catch {
+    /* storage unavailable */
+  }
+  if (!soundOn && audioCtx) audioCtx.suspend();
+  if (soundOn) {
+    audio();
+    sfxSparkle();
+  }
+  updateSoundToggle();
+}
+
 function otherTeam(team) {
   return team === "one" ? "two" : "one";
 }
@@ -503,7 +667,12 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
   state.lastResult = usedSpin ? `${assigned.name} انضم إلى ${teamLabel(team)}` : `${assigned.name} آخر اسم في ${assigned.pool} وانضم إلى ${teamLabel(team)}`;
   completeCurrentGroupIfNeeded();
   render();
-  if (!remainingPlayers().length) showScreen("results");
+  if (!remainingPlayers().length) {
+    playGrandFinale();
+    showScreen("results");
+  } else {
+    playCelebration();
+  }
 }
 
 function spin() {
@@ -535,6 +704,7 @@ function spin() {
   state.spinning = true;
   state.rotation += delta;
   state.lastResult = `نسحب اسم من ${currentPool().title}...`;
+  playSpinSounds(4.5, delta, segmentSize);
   render();
 
   window.setTimeout(() => {
@@ -555,6 +725,11 @@ function assignCategory(selectedIndex) {
   state.selectedCategories.push(category);
   state.categorySpinning = false;
   state.categoryLastResult = state.selectedCategories.length === 6 ? "تم اختيار كل الفئات الست" : `تم اختيار ${category.title}`;
+  if (state.selectedCategories.length === 6) {
+    playGrandFinale();
+  } else {
+    playCelebration();
+  }
   render();
 }
 
@@ -580,6 +755,7 @@ function spinCategory() {
   state.categorySpinning = true;
   state.categoryRotation += delta;
   state.categoryLastResult = "نسحب فئة...";
+  playSpinSounds(4.5, delta, segmentSize);
   render();
 
   window.setTimeout(() => {
@@ -682,7 +858,9 @@ $("#spinBtn").addEventListener("click", spin);
 $("#spinCategoryBtn").addEventListener("click", spinCategory);
 $("#resetCategoriesBtn").addEventListener("click", () => resetCategories());
 $("#startOverBtn").addEventListener("click", startOver);
+$("#soundToggleBtn").addEventListener("click", toggleSound);
 
+updateSoundToggle();
 preloadAssets();
 if (loadState()) {
   render();
