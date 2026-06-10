@@ -130,10 +130,17 @@ const spinClips = [
 // clip, so two mp3 sounds never stack for the same player.
 const celebrationClips = [{ url: "assets/sounds/celebration-voice-1.mp3", data: null, buffer: null }];
 
+// Per-player clips, keyed by player name. When that player is chosen, their
+// clip plays after the selection and no other voice clip plays for them —
+// neither during their spin nor as their celebration.
+const playerClips = {
+  "البريجي": { url: "assets/sounds/player-breiji.mp3", data: null, buffer: null },
+};
+
 let spinClipUsed = false;
 
 function allVoiceClips() {
-  return [...spinClips, ...celebrationClips];
+  return [...spinClips, ...celebrationClips, ...Object.values(playerClips)];
 }
 
 function fetchSpinClips() {
@@ -261,6 +268,16 @@ function sfxApplause(start = 0, claps = 26) {
 }
 
 const celebrationSfx = [sfxTada, sfxPartyHorn, sfxSlideWhistle, sfxBoing, sfxSparkle];
+
+function playPlayerClip(player) {
+  try {
+    const clip = playerClips[player.name];
+    if (!clip || !audio()) return false;
+    return playVoiceClip(clip);
+  } catch {
+    return false;
+  }
+}
 
 function playCelebration(allowClips = false) {
   try {
@@ -762,8 +779,20 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
   completeCurrentGroupIfNeeded();
   render();
   if (!remainingPlayers().length) {
-    playGrandFinale();
+    if (playPlayerClip(assigned)) {
+      try {
+        sfxApplause(0.3, 30);
+      } catch {
+        /* sound must never break the game */
+      }
+    } else {
+      playGrandFinale();
+    }
     showScreen("results");
+  } else if (playerClips[assigned.name]) {
+    // Dedicated player clip; if it is not ready yet, fall back to the
+    // synthesized celebrations only (no other voice clip for this player).
+    if (!playPlayerClip(assigned)) playCelebration(false);
   } else {
     playCelebration(true);
   }
@@ -790,6 +819,7 @@ function spin() {
     return;
   }
 
+  const selected = queue[selectedIndex];
   const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
   const desiredPointerAngle = 360 - segmentCenter;
@@ -800,7 +830,7 @@ function spin() {
   state.spinning = true;
   state.rotation += delta;
   state.lastResult = `نسحب اسم من ${currentPool().title}...`;
-  playSpinSounds(4.5, delta, segmentSize, true);
+  playSpinSounds(4.5, delta, segmentSize, !playerClips[selected.name]);
   render();
 
   window.setTimeout(() => {
