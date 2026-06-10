@@ -92,6 +92,8 @@ The app currently supports:
 
 - Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
 
+- Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3` (14.5s), dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including as the final direct-assigned player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him.
+
 ## Current Decisions
 
 - No build system is used.
