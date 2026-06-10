@@ -79,6 +79,7 @@ Rules:
 - If there is only one player left in the current group, do not spin; assign that player directly.
 - Team counts must never differ by 2 or more. Keep the balance guard in place.
 - Live Team 1 and Team 2 lists must remain visible on the Draw screen and update after every assignment.
+- After a spin lands, the wheel keeps showing the landed segments (including the selected player) until the next spin starts; only then is the assigned player removed from the wheel (`frozenWheelItems` in `app.js`).
 
 ## Coding Rules
 

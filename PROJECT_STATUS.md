@@ -90,6 +90,8 @@ The app currently supports:
 
 - Added the user's voice clips as `assets/sounds/spin-voice-1.mp3` (6.9s) and `assets/sounds/spin-voice-2.mp3` (6.8s) and mixed them into the player wheel spin: each spin randomly picks between the voice clips and the synthesized ticks (equal slots via `spinClips` in `app.js`), with a chosen clip always playing to its natural end even after the wheel lands. The category wheel keeps ticks only. Clip playback routes through the master gain so the 🔊/🔇 toggle controls it.
 
+- Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
+
 ## Current Decisions
 
 - No build system is used.
