@@ -125,8 +125,19 @@ const spinClips = [
   { url: "assets/sounds/spin-voice-2.mp3", data: null, buffer: null },
 ];
 
+// Clips that can replace a synthesized celebration after a player is
+// selected. They never play for a player whose spin already used a voice
+// clip, so two mp3 sounds never stack for the same player.
+const celebrationClips = [{ url: "assets/sounds/celebration-voice-1.mp3", data: null, buffer: null }];
+
+let spinClipUsed = false;
+
+function allVoiceClips() {
+  return [...spinClips, ...celebrationClips];
+}
+
 function fetchSpinClips() {
-  spinClips.forEach((clip) => {
+  allVoiceClips().forEach((clip) => {
     if (clip.data || clip.buffer) return;
     fetch(clip.url)
       .then((response) => (response.ok ? response.arrayBuffer() : null))
@@ -140,7 +151,7 @@ function fetchSpinClips() {
 
 function decodeSpinClips() {
   if (!audioCtx) return;
-  spinClips.forEach((clip) => {
+  allVoiceClips().forEach((clip) => {
     if (!clip.data || clip.buffer) return;
     const data = clip.data;
     clip.data = null;
@@ -251,10 +262,19 @@ function sfxApplause(start = 0, claps = 26) {
 
 const celebrationSfx = [sfxTada, sfxPartyHorn, sfxSlideWhistle, sfxBoing, sfxSparkle];
 
-function playCelebration() {
+function playCelebration(allowClips = false) {
   try {
     if (!audio()) return;
-    celebrationSfx[randomInt(celebrationSfx.length)]();
+    // Celebration voice clips only join the pool when this player's spin
+    // did not already use a voice clip (no two mp3 sounds per player).
+    const readyClips = allowClips && !spinClipUsed ? celebrationClips.filter((clip) => clip.buffer) : [];
+    spinClipUsed = false;
+    const slot = randomInt(celebrationSfx.length + readyClips.length);
+    if (slot >= celebrationSfx.length) {
+      playVoiceClip(readyClips[slot - celebrationSfx.length]);
+    } else {
+      celebrationSfx[slot]();
+    }
   } catch {
     /* sound must never break the game */
   }
@@ -271,7 +291,7 @@ function playGrandFinale() {
   }
 }
 
-function playSpinClip(clip) {
+function playVoiceClip(clip) {
   const ctx = audio();
   if (!ctx || !clip.buffer) return false;
   // Clips always play to their natural end, even after the wheel lands.
@@ -294,7 +314,10 @@ function playSpinSounds(durationSec, totalDeg, segmentDeg, allowClips = false) {
       // Random pick between the voice clips and the synthesized ticks:
       // each ready clip and the tick sound get an equal slot.
       const slot = randomInt(readyClips.length + 1);
-      if (slot < readyClips.length && playSpinClip(readyClips[slot])) return;
+      if (slot < readyClips.length && playVoiceClip(readyClips[slot])) {
+        spinClipUsed = true;
+        return;
+      }
     }
     noiseBurst({ start: 0, dur: 0.5, peak: 0.14, filterFreq: 500, filterEndFreq: 1600 });
     const ticks = Math.min(Math.floor(totalDeg / segmentDeg), 140);
@@ -735,12 +758,13 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
     playGrandFinale();
     showScreen("results");
   } else {
-    playCelebration();
+    playCelebration(true);
   }
 }
 
 function spin() {
   if (state.spinning) return;
+  spinClipUsed = false;
   if (!state.drawReady) resetDraw("بدأت القرعة");
   advanceToNextAvailablePool();
 
