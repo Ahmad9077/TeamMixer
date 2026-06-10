@@ -268,21 +268,18 @@ function playGrandFinale() {
   }
 }
 
-function playSpinClip(clip, durationSec) {
+function playSpinClip(clip) {
   const ctx = audio();
   if (!ctx || !clip.buffer) return false;
+  // Clips always play to their natural end, even after the wheel lands.
   const t0 = ctx.currentTime;
   const source = ctx.createBufferSource();
   source.buffer = clip.buffer;
-  source.loop = clip.buffer.duration < durationSec;
   const gain = ctx.createGain();
   gain.gain.setValueAtTime(0.0001, t0);
   gain.gain.linearRampToValueAtTime(0.9, t0 + 0.06);
-  gain.gain.setValueAtTime(0.9, t0 + Math.max(0.06, durationSec - 0.4));
-  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + durationSec);
   source.connect(gain).connect(masterGain);
   source.start(t0);
-  source.stop(t0 + durationSec + 0.05);
   return true;
 }
 
@@ -294,7 +291,7 @@ function playSpinSounds(durationSec, totalDeg, segmentDeg, allowClips = false) {
       // Random pick between the voice clips and the synthesized ticks:
       // each ready clip and the tick sound get an equal slot.
       const slot = randomInt(readyClips.length + 1);
-      if (slot < readyClips.length && playSpinClip(readyClips[slot], durationSec)) return;
+      if (slot < readyClips.length && playSpinClip(readyClips[slot])) return;
     }
     noiseBurst({ start: 0, dur: 0.5, peak: 0.14, filterFreq: 500, filterEndFreq: 1600 });
     const ticks = Math.min(Math.floor(totalDeg / segmentDeg), 140);

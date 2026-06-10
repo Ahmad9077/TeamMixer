@@ -87,7 +87,7 @@ The app currently supports:
 - Added fun synthesized sound effects via the Web Audio API (no audio files, still zero dependencies): a whoosh on spin start, wheel ticks that follow the spin deceleration for both the name and category wheels, a randomized pool of five celebration sounds on each pick (fanfare, party horn, slide whistle, boing, sparkle arpeggio), and a grand finale with applause when the draw completes or the sixth category lands.
 - Added a header 🔊/🔇 sound toggle; the preference persists under `seenjeem_sound_v1` (separate from game state so `من جديد` keeps the setting). The AudioContext is created lazily on first interaction to satisfy autoplay policies, and all sound entry points are wrapped in try/catch so audio can never break the game.
 
-- Added the user's voice clip as `assets/sounds/spin-voice-1.mp3` (6.9s) and mixed it into the player wheel spin: each spin randomly picks between the voice clip and the synthesized ticks (equal slots via `spinClips` in `app.js`), with the clip faded out exactly when the wheel lands. The category wheel keeps ticks only. Clip playback routes through the master gain so the 🔊/🔇 toggle controls it.
+- Added the user's voice clip as `assets/sounds/spin-voice-1.mp3` (6.9s) and mixed it into the player wheel spin: each spin randomly picks between the voice clip and the synthesized ticks (equal slots via `spinClips` in `app.js`), with the clip always playing to its natural end even after the wheel lands. The category wheel keeps ticks only. Clip playback routes through the master gain so the 🔊/🔇 toggle controls it.
 
 ## Current Decisions
 
