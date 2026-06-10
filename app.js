@@ -493,6 +493,7 @@ function loadState() {
 }
 
 function resetDraw(message = defaultDrawMessage) {
+  frozenWheelItems = null;
   state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => playerFromPool(pool, name))));
   state.groupStartCounts = pools.map((pool) => pool.players.length);
   state.currentPoolIndex = 0;
@@ -617,7 +618,12 @@ function describeArc(cx, cy, radius, startAngle, endAngle) {
   return `M ${cx} ${cy} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y} Z`;
 }
 
+// After a spin lands, the wheel keeps showing the segments it landed on
+// (including the selected player) until the next spin starts.
+let frozenWheelItems = null;
+
 function wheelItems() {
+  if (frozenWheelItems) return frozenWheelItems;
   const queue = currentQueue();
   if (queue.length) {
     return queue.map((player, index) => ({ ...player, label: player.name, color: wheelPalette[index % wheelPalette.length] }));
@@ -734,6 +740,7 @@ function completeCurrentGroupIfNeeded() {
 
 function assignSelectedPlayer(selectedIndex, usedSpin) {
   const queue = currentQueue();
+  frozenWheelItems = wheelItems();
   const [assigned] = queue.splice(selectedIndex, 1);
   const preferredTeam = nextAssignedTeam();
   const team = balancedTeam(preferredTeam);
@@ -765,6 +772,7 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
 function spin() {
   if (state.spinning) return;
   spinClipUsed = false;
+  frozenWheelItems = null;
   if (!state.drawReady) resetDraw("بدأت القرعة");
   advanceToNextAvailablePool();
 
