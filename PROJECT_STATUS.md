@@ -111,6 +111,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, GitHub Pages reached `built` after deploying `6f5d7dc`, public GitHub Pages returned `HTTP 200`, public `assets/khamis-wanees-wordmark.jpg` returned `HTTP 200`, and public HTML references `assets/khamis-wanees-wordmark.jpg` with alt text `الخميس الونيس`.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed the setup hero uses `assets/khamis-wanees-wordmark.jpg`, the image loads at `1280x1187`, stays inside the hero box, has no broken rendered images, and creates no horizontal overflow.
 - On 2026-06-10, after adding sound effects, the 36-check Playwright suite passed again and a dedicated audio smoke test confirmed: the AudioContext is created on the first spin (user gesture) and reaches `running`, muting suspends it and stores `seenjeem_sound_v1=off`, the muted state survives reload, unmuting works, and a full draw plus six category picks complete with zero page errors.
 - On 2026-06-10, after the Light Modern Minimal redesign, the same 36-check Playwright suite passed again at `360x740`, `375x812`, and `768x1024` (RTL, zero English strings, persistence, clean reset, full 6/6 draw, category rules, no overflow, 44px touch targets, no broken images), and screenshots confirmed the new design renders correctly on all four screens at phone and tablet widths with no truncated player names in the Draw live lists.
