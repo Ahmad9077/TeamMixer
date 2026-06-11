@@ -69,6 +69,7 @@ The app currently supports:
 - Removed the `بوستر مسرح كبار` and `رياضة` categories.
 - Added the `ترتيب` category with `assets/categories/order.jpg`.
 - Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
+- Replaced the active `ترتيب إسلامي` category with `سيرة ذاتية` using `assets/categories/biography.jpg`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
 - Replaced the setup hero box image with the attached `عدنا والعود أحمد` image at `assets/adnan-return-wordmark.jpg`.
@@ -111,6 +112,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed active Categories still has 16 entries, includes `سيرة ذاتية` with `assets/categories/biography.jpg`, excludes active `ترتيب إسلامي`/`islamic-order`, renders the new selected category card with `object-fit: contain`, has no broken rendered images, and creates no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `6f5d7dc`, public GitHub Pages returned `HTTP 200`, public `assets/khamis-wanees-wordmark.jpg` returned `HTTP 200`, and public HTML references `assets/khamis-wanees-wordmark.jpg` with alt text `الخميس الونيس`.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed the setup hero uses `assets/khamis-wanees-wordmark.jpg`, the image loads at `1280x1187`, stays inside the hero box, has no broken rendered images, and creates no horizontal overflow.
 - On 2026-06-10, after adding sound effects, the 36-check Playwright suite passed again and a dedicated audio smoke test confirmed: the AudioContext is created on the first spin (user gesture) and reaches `running`, muting suspends it and stores `seenjeem_sound_v1=off`, the muted state survives reload, unmuting works, and a full draw plus six category picks complete with zero page errors.

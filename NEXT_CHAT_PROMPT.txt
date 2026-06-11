@@ -39,7 +39,7 @@ Current default groups:
 
 Current categories:
 - حروف إسلامي was removed.
-- ترتيب إسلامي was added using assets/categories/islamic-order.jpg.
+- ترتيب إسلامي was replaced by سيرة ذاتية using assets/categories/biography.jpg.
 - بوستر مسرح كبار and رياضة were removed.
 - ترتيب was added using assets/categories/order.jpg.
 - صوت المشهور was added using assets/categories/celebrity-voice.jpg.
@@ -60,6 +60,7 @@ Recent completed work:
 - Renamed مجمعات الكويت/ بوستر مسرح كبار to بوستر مسرح كبار and replaced its poster image.
 - Removed بوستر مسرح كبار and رياضة.
 - Added ترتيب and صوت المشهور with their attached images.
+- Replaced ترتيب إسلامي with سيرة ذاتية.
 - Moved الخلف, الهلالي, and قرطبة to الأسود, and added موسى to الذئاب.
 - Fixed selected category card dimensions for tablet smoothness.
 - Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
@@ -83,7 +84,7 @@ Verification already done after the latest deploy:
 - Local selected-category portrait-slot checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
 - Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/adnan-return-wordmark.jpg.
 - Local category/player checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
-- ترتيب, صوت المشهور, and ترتيب إسلامي images loaded and rendered.
+- ترتيب, صوت المشهور, and سيرة ذاتية images loaded and rendered.
 - Total default players are 12.
 - Default draw finished balanced at 6/6.
 - Selected category cards stayed equal-height and images stayed inside their card slots on mobile, tablet, and desktop.
@@ -126,6 +127,6 @@ curl -I https://ahmad9077.github.io/TeamMixer/
 
 For asset or JS changes, also verify direct live URLs and live content with curl, for example:
 ```bash
-curl -I https://ahmad9077.github.io/TeamMixer/assets/categories/islamic-order.jpg
-curl -fsSL 'https://ahmad9077.github.io/TeamMixer/app.js?commit=<commit>' | rg 'ترتيب إسلامي|حروف إسلامي|البريجي'
+curl -I https://ahmad9077.github.io/TeamMixer/assets/categories/biography.jpg
+curl -fsSL 'https://ahmad9077.github.io/TeamMixer/app.js?commit=<commit>' | rg 'سيرة ذاتية|ترتيب إسلامي|حروف إسلامي|البريجي'
 ```

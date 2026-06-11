@@ -18,7 +18,7 @@ const categories = [
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
   { id: "order", title: "ترتيب", image: "assets/categories/order.jpg" },
-  { id: "islamic-order", title: "ترتيب إسلامي", image: "assets/categories/islamic-order.jpg" },
+  { id: "biography", title: "سيرة ذاتية", image: "assets/categories/biography.jpg" },
   { id: "celebrity-voice", title: "صوت المشهور", image: "assets/categories/celebrity-voice.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
