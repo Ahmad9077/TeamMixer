@@ -64,6 +64,7 @@ Recent completed work:
 - Fixed selected category card dimensions for tablet smoothness.
 - Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
 - Changed selected category cards to portrait artwork slots with object-fit: contain so selected category photos are not cropped from the top/bottom.
+- Replaced the setup hero box image with assets/khamis-wanees-wordmark.jpg and enlarged the hero image area for the square artwork.
 
 Recent commits:
 - e310150 Replace setup hero image
@@ -77,6 +78,7 @@ Recent commits:
 
 Verification already done after the latest deploy:
 - node --check app.js
+- Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/khamis-wanees-wordmark.jpg.
 - Local selected-category portrait-slot checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
 - Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/adnan-return-wordmark.jpg.
 - Local category/player checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
