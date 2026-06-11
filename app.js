@@ -1,7 +1,7 @@
 const pools = [
   { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
-  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي", "قرطبة"] },
-  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى"] },
+  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي"] },
+  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى", "قرطبة"] },
 ];
 
 const categories = [

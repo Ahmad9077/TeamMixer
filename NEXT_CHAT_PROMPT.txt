@@ -34,8 +34,8 @@ Current design:
 
 Current default groups:
 - التنانين: الملا, جراغ, حميد, طروق, البريجي
-- الأسود: بوحمد, الخلف, الهلالي, قرطبة
-- الذئاب: حمود, عليوي, موسى
+- الأسود: بوحمد, الخلف, الهلالي
+- الذئاب: حمود, عليوي, موسى, قرطبة
 
 Current categories:
 - حروف إسلامي was removed.
@@ -62,6 +62,7 @@ Recent completed work:
 - Added ترتيب and صوت المشهور with their attached images.
 - Replaced ترتيب إسلامي with سيرة ذاتية.
 - Moved الخلف, الهلالي, and قرطبة to الأسود, and added موسى to الذئاب.
+- Moved قرطبة from الأسود back to الذئاب.
 - Fixed selected category card dimensions for tablet smoothness.
 - Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
 - Changed selected category cards to portrait artwork slots with object-fit: contain so selected category photos are not cropped from the top/bottom.
@@ -81,6 +82,7 @@ Recent commits:
 
 Verification already done after the latest deploy:
 - node --check app.js
+- Local group/draw checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900: قرطبة is in الذئاب only, default group counts are 5/3/4, and the default draw finishes 6/6.
 - Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/khamis-wanees-wordmark.jpg.
 - Local selected-category portrait-slot checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
 - Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/adnan-return-wordmark.jpg.

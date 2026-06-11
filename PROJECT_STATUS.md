@@ -71,6 +71,7 @@ The app currently supports:
 - Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
 - Replaced the active `ترتيب إسلامي` category with `سيرة ذاتية` using `assets/categories/biography.jpg`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
+- Moved `قرطبة` from `الأسود` back to `الذئاب`.
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
 - Replaced the setup hero box image with the attached `عدنا والعود أحمد` image at `assets/adnan-return-wordmark.jpg`.
 - Changed selected category cards to portrait artwork slots that use `object-fit: contain` so selected category photos appear nearly complete instead of being cropped.
@@ -112,6 +113,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed `قرطبة` is in `الذئاب` only, default group counts are `5/3/4`, the default draw assigns all 12 players including `قرطبة`, final teams end `6/6`, no rendered images are broken, and there is no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e2d5227`, public GitHub Pages returned `HTTP 200`, public `assets/categories/biography.jpg` returned `HTTP 200`, and public `app.js` contains active `سيرة ذاتية` / `assets/categories/biography.jpg` with no active `ترتيب إسلامي` or `islamic-order` category entry.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed active Categories still has 16 entries, includes `سيرة ذاتية` with `assets/categories/biography.jpg`, excludes active `ترتيب إسلامي`/`islamic-order`, renders the new selected category card with `object-fit: contain`, has no broken rendered images, and creates no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `6f5d7dc`, public GitHub Pages returned `HTTP 200`, public `assets/khamis-wanees-wordmark.jpg` returned `HTTP 200`, and public HTML references `assets/khamis-wanees-wordmark.jpg` with alt text `الخميس الونيس`.
