@@ -69,6 +69,7 @@ Recent completed work:
 - Replaced the setup hero box image with assets/khamis-wanees-wordmark.jpg and enlarged the hero image area for the square artwork.
 
 Recent commits:
+- e533034 Move Qurtuba to wolves
 - e2d5227 Replace Islamic order category with biography
 - 6f5d7dc Replace setup hero with Thursday wordmark
 - e310150 Replace setup hero image
@@ -100,6 +101,7 @@ Verification already done after the latest deploy:
 - Live HTML references assets/adnan-return-wordmark.jpg and live assets/adnan-return-wordmark.jpg returned HTTP 200.
 - Live HTML references assets/khamis-wanees-wordmark.jpg and live assets/khamis-wanees-wordmark.jpg returned HTTP 200.
 - Live app.js contains active سيرة ذاتية / assets/categories/biography.jpg and no active ترتيب إسلامي or islamic-order category entry; live assets/categories/biography.jpg returned HTTP 200.
+- Live app.js shows قرطبة in الذئاب only; الأسود is بوحمد, الخلف, الهلالي and الذئاب is حمود, عليوي, موسى, قرطبة.
 
 Standard local verification for future changes:
 ```bash

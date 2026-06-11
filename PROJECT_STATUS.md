@@ -113,6 +113,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, GitHub Pages reached `built` after deploying `e533034`, public GitHub Pages returned `HTTP 200`, and public `app.js` shows `الأسود` as `بوحمد`, `الخلف`, `الهلالي` and `الذئاب` as `حمود`, `عليوي`, `موسى`, `قرطبة`.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed `قرطبة` is in `الذئاب` only, default group counts are `5/3/4`, the default draw assigns all 12 players including `قرطبة`, final teams end `6/6`, no rendered images are broken, and there is no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e2d5227`, public GitHub Pages returned `HTTP 200`, public `assets/categories/biography.jpg` returned `HTTP 200`, and public `app.js` contains active `سيرة ذاتية` / `assets/categories/biography.jpg` with no active `ترتيب إسلامي` or `islamic-order` category entry.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed active Categories still has 16 entries, includes `سيرة ذاتية` with `assets/categories/biography.jpg`, excludes active `ترتيب إسلامي`/`islamic-order`, renders the new selected category card with `object-fit: contain`, has no broken rendered images, and creates no horizontal overflow.
