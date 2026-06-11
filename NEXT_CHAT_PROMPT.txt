@@ -37,6 +37,11 @@ Current default groups:
 - الأسود: بوحمد, الخلف, الهلالي
 - الذئاب: حمود, عليوي, موسى, قرطبة
 
+Current sound behavior:
+- Player wheel spins can use the two spin voice clips or synthesized ticks.
+- البريجي and حميد are special per-player clips in playerClips: their spins use synthesized ticks only, and their own clips play after they are chosen.
+- Category wheel uses synthesized ticks only.
+
 Current categories:
 - حروف إسلامي was removed.
 - ترتيب إسلامي was replaced by سيرة ذاتية using assets/categories/biography.jpg.
@@ -67,6 +72,7 @@ Recent completed work:
 - Replaced the setup hero box image with assets/adnan-return-wordmark.jpg.
 - Changed selected category cards to portrait artwork slots with object-fit: contain so selected category photos are not cropped from the top/bottom.
 - Replaced the setup hero box image with assets/khamis-wanees-wordmark.jpg and enlarged the hero image area for the square artwork.
+- Added assets/sounds/player-hameed.mp3 for حميد using the same per-player sound rule already used for البريجي.
 
 Recent commits:
 - e533034 Move Qurtuba to wolves

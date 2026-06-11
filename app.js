@@ -135,6 +135,7 @@ const celebrationClips = [{ url: "assets/sounds/celebration-voice-1.mp3", data: 
 // neither during their spin nor as their celebration.
 const playerClips = {
   "البريجي": { url: "assets/sounds/player-breiji.mp3", data: null, buffer: null },
+  "حميد": { url: "assets/sounds/player-hameed.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;

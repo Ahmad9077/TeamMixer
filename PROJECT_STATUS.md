@@ -96,6 +96,7 @@ The app currently supports:
 - Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
 
 - Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3` (14.5s), dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including as the final direct-assigned player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him.
+- Added the user's Hamid voice clip as `assets/sounds/player-hameed.mp3` (2.7s), dedicated to `حميد` via the same `playerClips` rule used for `البريجي`: it plays right after he is chosen, his spin uses synthesized ticks only, and none of the other voice clips play for him.
 
 ## Current Decisions
 
@@ -113,6 +114,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, `node --check app.js` and `git diff --check` passed after adding `assets/sounds/player-hameed.mp3`; local asset checks returned `HTTP 200`, and a headless Chrome runtime check confirmed `حميد` is registered in `playerClips`, the regular spin clip pool remains two clips, his spin calls `playSpinSounds(..., false)`, and his own post-selection clip is requested after he is chosen.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e533034`, public GitHub Pages returned `HTTP 200`, and public `app.js` shows `الأسود` as `بوحمد`, `الخلف`, `الهلالي` and `الذئاب` as `حمود`, `عليوي`, `موسى`, `قرطبة`.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed `قرطبة` is in `الذئاب` only, default group counts are `5/3/4`, the default draw assigns all 12 players including `قرطبة`, final teams end `6/6`, no rendered images are broken, and there is no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e2d5227`, public GitHub Pages returned `HTTP 200`, public `assets/categories/biography.jpg` returned `HTTP 200`, and public `app.js` contains active `سيرة ذاتية` / `assets/categories/biography.jpg` with no active `ترتيب إسلامي` or `islamic-order` category entry.
