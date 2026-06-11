@@ -114,6 +114,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-11, GitHub Pages reached `built` after deploying `36e6aca`, public GitHub Pages returned `HTTP 200`, public `assets/sounds/player-hameed.mp3` returned `HTTP 200`, and public `app.js` contains `assets/sounds/player-hameed.mp3` under `حميد` plus the existing `!playerClips[selected.name]` spin-sound guard.
 - On 2026-06-11, `node --check app.js` and `git diff --check` passed after adding `assets/sounds/player-hameed.mp3`; local asset checks returned `HTTP 200`, and a headless Chrome runtime check confirmed `حميد` is registered in `playerClips`, the regular spin clip pool remains two clips, his spin calls `playSpinSounds(..., false)`, and his own post-selection clip is requested after he is chosen.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e533034`, public GitHub Pages returned `HTTP 200`, and public `app.js` shows `الأسود` as `بوحمد`, `الخلف`, `الهلالي` and `الذئاب` as `حمود`, `عليوي`, `موسى`, `قرطبة`.
 - On 2026-06-11, local headless Chrome checks at mobile `390x844`, tablet `820x1180`, and desktop `1280x900` confirmed `قرطبة` is in `الذئاب` only, default group counts are `5/3/4`, the default draw assigns all 12 players including `قرطبة`, final teams end `6/6`, no rendered images are broken, and there is no horizontal overflow.

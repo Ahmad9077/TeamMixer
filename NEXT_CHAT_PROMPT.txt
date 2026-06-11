@@ -75,6 +75,7 @@ Recent completed work:
 - Added assets/sounds/player-hameed.mp3 for حميد using the same per-player sound rule already used for البريجي.
 
 Recent commits:
+- 36e6aca Add Hamid dedicated voice clip
 - e533034 Move Qurtuba to wolves
 - e2d5227 Replace Islamic order category with biography
 - 6f5d7dc Replace setup hero with Thursday wordmark
@@ -89,6 +90,10 @@ Recent commits:
 
 Verification already done after the latest deploy:
 - node --check app.js
+- git diff --check
+- Local headless Chrome sound-rule check confirmed حميد is registered in playerClips, regular spin voice pool remains two clips, حميد spin uses playSpinSounds(..., false), and حميد post-selection clip is requested after he is chosen.
+- Live assets/sounds/player-hameed.mp3 returned HTTP 200.
+- Live app.js contains assets/sounds/player-hameed.mp3 under حميد and keeps the !playerClips[selected.name] spin-sound guard.
 - Local group/draw checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900: قرطبة is in الذئاب only, default group counts are 5/3/4, and the default draw finishes 6/6.
 - Local hero checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900 for assets/khamis-wanees-wordmark.jpg.
 - Local selected-category portrait-slot checks passed at mobile 390x844, tablet 820x1180, and desktop 1280x900.
