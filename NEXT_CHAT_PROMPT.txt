@@ -47,7 +47,9 @@ Current categories:
 - ترتيب إسلامي was replaced by سيرة ذاتية using assets/categories/biography.jpg.
 - بوستر مسرح كبار and رياضة were removed.
 - ترتيب was added using assets/categories/order.jpg.
-- صوت المشهور was added using assets/categories/celebrity-voice.jpg.
+- سيرة ذاتية and صوت المشهور were removed.
+- مشاهير صغار was added using assets/categories/young-celebrities.jpg.
+- حروف متحركة was added using assets/categories/moving-letters.jpg.
 - Category wheel remains text-only; selected category cards show photos.
 - Categories still select exactly 6 cards in a 3-by-2 selected grid.
 - Selected category cards use constrained dimensions so tall images do not stretch the tablet layout.
@@ -73,6 +75,7 @@ Recent completed work:
 - Changed selected category cards to portrait artwork slots with object-fit: contain so selected category photos are not cropped from the top/bottom.
 - Replaced the setup hero box image with assets/khamis-wanees-wordmark.jpg and enlarged the hero image area for the square artwork.
 - Added assets/sounds/player-hameed.mp3 for حميد using the same per-player sound rule already used for البريجي.
+- Removed سيرة ذاتية and صوت المشهور from active categories, and added مشاهير صغار and حروف متحركة with the attached images.
 
 Recent commits:
 - 36e6aca Add Hamid dedicated voice clip
@@ -91,6 +94,7 @@ Recent commits:
 Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
+- Local headless Chrome at mobile 390x844 confirmed active Categories has 16 entries, includes مشاهير صغار and حروف متحركة with their new images, excludes سيرة ذاتية and صوت المشهور, keeps the category wheel text-only, has no broken rendered images, and has no horizontal overflow.
 - Local headless Chrome sound-rule check confirmed حميد is registered in playerClips, regular spin voice pool remains two clips, حميد spin uses playSpinSounds(..., false), and حميد post-selection clip is requested after he is chosen.
 - Live assets/sounds/player-hameed.mp3 returned HTTP 200.
 - Live app.js contains assets/sounds/player-hameed.mp3 under حميد and keeps the !playerClips[selected.name] spin-sound guard.

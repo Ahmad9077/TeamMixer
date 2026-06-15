@@ -70,6 +70,7 @@ The app currently supports:
 - Added the `ترتيب` category with `assets/categories/order.jpg`.
 - Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
 - Replaced the active `ترتيب إسلامي` category with `سيرة ذاتية` using `assets/categories/biography.jpg`.
+- Removed the active `سيرة ذاتية` and `صوت المشهور` categories, then added `مشاهير صغار` with `assets/categories/young-celebrities.jpg` and `حروف متحركة` with `assets/categories/moving-letters.jpg`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Moved `قرطبة` from `الأسود` back to `الذئاب`.
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
@@ -114,6 +115,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-15, `node --check app.js` and `git diff --check` passed after replacing the active `سيرة ذاتية` and `صوت المشهور` categories with `مشاهير صغار` and `حروف متحركة`; local headless Chrome at mobile `390x844` confirmed the active category count remains 16, the new category images are wired to `assets/categories/young-celebrities.jpg` and `assets/categories/moving-letters.jpg`, the removed categories and old image URLs are no longer active, the category wheel remains text-only, rendered images are not broken, and there is no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `36e6aca`, public GitHub Pages returned `HTTP 200`, public `assets/sounds/player-hameed.mp3` returned `HTTP 200`, and public `app.js` contains `assets/sounds/player-hameed.mp3` under `حميد` plus the existing `!playerClips[selected.name]` spin-sound guard.
 - On 2026-06-11, `node --check app.js` and `git diff --check` passed after adding `assets/sounds/player-hameed.mp3`; local asset checks returned `HTTP 200`, and a headless Chrome runtime check confirmed `حميد` is registered in `playerClips`, the regular spin clip pool remains two clips, his spin calls `playSpinSounds(..., false)`, and his own post-selection clip is requested after he is chosen.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `e533034`, public GitHub Pages returned `HTTP 200`, and public `app.js` shows `الأسود` as `بوحمد`, `الخلف`, `الهلالي` and `الذئاب` as `حمود`, `عليوي`, `موسى`, `قرطبة`.
