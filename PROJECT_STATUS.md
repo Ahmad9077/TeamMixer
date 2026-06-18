@@ -121,6 +121,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `5ea8a7c`; the public site returned `HTTP 200`, and public `app.js` contains only `spin-voice-1.mp3` in `spinClips` with no `spin-voice-2` reference.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after removing `spin-voice-2.mp3` from the active spinning pool. The `spinClips` registry now contains only `spin-voice-1.mp3`, so Voice 2 is neither fetched nor eligible for playback during a spin.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `f7dbe3d`; the public site and all five new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact Arabic player-to-clip mappings for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف`.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after adding dedicated clips for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف`. `ffprobe` confirmed all five published assets are MP3 files. Local headless Chrome decoded all seven dedicated player clips successfully and confirmed each mapped player spins normally with regular ticks only, invokes only their own post-selection clip, completes assignment correctly, and creates no horizontal overflow.
