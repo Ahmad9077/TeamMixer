@@ -79,6 +79,7 @@ Recent completed work:
 - Removed سيرة ذاتية and صوت المشهور from active categories, and added مشاهير صغار and حروف متحركة with the attached images.
 
 Recent commits:
+- 0cfc558 Fix Arabic category wheel labels
 - 354bed8 Replace biography and celebrity voice categories
 - 36e6aca Add Hamid dedicated voice clip
 - e533034 Move Qurtuba to wolves
@@ -97,6 +98,7 @@ Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed all 16 category wheel labels preserve their complete titles, use explicit RTL direction, load Cairo, remain upright around both halves of the wheel, render connected Arabic text, and create no horizontal overflow.
+- Live app.js contains the complete-word label helper, upright category label rotation, and explicit RTL SVG text attributes; the live site returned HTTP 200 after deployment.
 - Local headless Chrome at mobile 390x844 confirmed active Categories has 16 entries, includes مشاهير صغار and حروف متحركة with their new images, excludes سيرة ذاتية and صوت المشهور, keeps the category wheel text-only, has no broken rendered images, and has no horizontal overflow.
 - Live assets/categories/young-celebrities.jpg and assets/categories/moving-letters.jpg returned HTTP 200.
 - Live app.js contains active مشاهير صغار and حروف متحركة, and no active سيرة ذاتية, صوت المشهور, biography, or celebrity-voice category entry.
