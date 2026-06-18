@@ -124,6 +124,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `ef1a668`; the public site returned `HTTP 200`, public `app.js` contains empty `spinClips` and `celebrationClips` arrays, and there is no `celebration-voice-1` reference.
 - On 2026-06-18, `celebrationClips` was emptied and `app.js` no longer contains a `celebration-voice-1.mp3` reference, so the random post-selection voice is neither fetched nor eligible for playback. `spinClips` remains empty, dedicated player mappings are unchanged, and `node --check app.js` plus `git diff --check` passed.
 - On 2026-06-18, commit `e22905b` was deployed after manually retriggering a stalled legacy Pages build; GitHub Pages reached `built`, the public site returned `HTTP 200`, public `app.js` contains an empty `spinClips` array, and the public `player-breiji.mp3` is the updated 9.2-second file.
 - On 2026-06-18, `spinClips` was emptied so neither `spin-voice-1.mp3` nor `spin-voice-2.mp3` can be fetched or selected during a spin. The enhanced `player-breiji.mp3` was rebuilt directly from the original 14.5-second source at `5.3s`; `ffprobe` confirmed a valid 9.2-second, 48 kHz stereo 320 kbps MP3, and loudness measured `-14.8 LUFS`. `node --check app.js` and `git diff --check` passed.
