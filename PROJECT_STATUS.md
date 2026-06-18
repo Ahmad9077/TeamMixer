@@ -126,6 +126,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `c97227f`; the public site returned `HTTP 200`, and direct analysis of the downloaded public `player-mousa.mp3` confirmed the louder `-11.87 LUFS` / `-2.12 dBTP` master is live.
 - On 2026-06-18, `player-mousa.mp3` was remastered from its original supplied source to address low perceived volume. The replacement measures `-11.87 LUFS` and `-2.12 dBTP`, remains a 4.405-second 48 kHz stereo 320 kbps MP3, and passes `ffprobe`; `node --check app.js` and `git diff --check` also passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `c0e7bfa`; the public site and all four new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact mappings for `قرطبة`, `موسى`, `طروق`, and `جراغ` while both random voice pools remain empty.
 - On 2026-06-18, dedicated clips for `قرطبة`, `موسى`, `طروق`, and `جراغ` were enhanced to 48 kHz stereo 320 kbps MP3 at `-14.75` to `-14.87 LUFS`. Local headless Chrome decoded all four through the app's Web Audio path and confirmed exact mappings, normal spins with synthesized sounds only, matching post-selection clips, successful assignment, empty random/spinning voice pools, and no horizontal overflow. `node --check app.js` and `git diff --check` passed.
