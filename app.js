@@ -121,10 +121,9 @@ let masterGain = null;
 // the synthesized whoosh and wheel ticks.
 const spinClips = [];
 
-// Clips that can replace a synthesized celebration after a player is
-// selected. They never play for a player whose spin already used a voice
-// clip, so two mp3 sounds never stack for the same player.
-const celebrationClips = [{ url: "assets/sounds/celebration-voice-1.mp3", data: null, buffer: null }];
+// Random post-selection voice clips are intentionally disabled. Players
+// without a dedicated clip use only synthesized celebration sounds.
+const celebrationClips = [];
 
 // Per-player clips, keyed by player name. When that player is chosen, their
 // clip plays after the selection and no other voice clip plays for them —

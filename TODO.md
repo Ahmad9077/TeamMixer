@@ -18,6 +18,7 @@
 - Verify no horizontal overflow during spin.
 - Verify live team lists are visible during spin.
 - Verify both spinning voice MP3s are absent from the active empty `spinClips` pool and cannot play during a spin.
+- Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` starts at `5.3s` of the original recording and decodes successfully.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
 - Verify dedicated player clips remain near the `-14.9 LUFS` random post-selection reference and decode as 48 kHz stereo MP3 after future audio edits.
