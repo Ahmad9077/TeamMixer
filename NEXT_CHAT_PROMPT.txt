@@ -80,6 +80,7 @@ Recent completed work:
 - Replaced مشاهير صغار with السيرة النبوية, moved بوحمد to التنانين, and moved عليوي to الأسود.
 
 Recent commits:
+- 9505760 Replace category wheel SVG text with native RTL labels
 - 092337f Update prophetic biography category and groups
 - 0cfc558 Fix Arabic category wheel labels
 - 354bed8 Replace biography and celebrity voice categories
@@ -100,6 +101,7 @@ Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed the stronger category RTL implementation uses 16 exact single-node HTML labels with native dir=rtl/lang=ar, connected Cairo text, no wrapping, no SVG text/tspans, labels contained inside the wheel, synchronized 4.5s rotor animation, and no horizontal overflow. Screenshot inspection confirmed full phrases render correctly. Safari WebDriver was unavailable because Allow Remote Automation is disabled, so SVG bidi text was removed instead of relying on Safari-specific behavior.
+- A live Chrome check after deploying 9505760 confirmed the public site has the same 16 native RTL single-node labels, no category SVG text/tspans, the shared wheel rotor, and no horizontal overflow.
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed default groups are 6/3/3 with بوحمد in التنانين and عليوي in الأسود, the full 12-player draw finishes balanced at 6/6, active Categories remains 16 entries with السيرة النبوية and no مشاهير صغار, the new category image renders with object-fit: contain, and there are no broken images or horizontal overflow.
 - Live assets/categories/prophetic-biography.jpg returned HTTP 200; live app.js contains السيرة النبوية, بوحمد in التنانين, عليوي in الأسود, no عليوي in الذئاب, and no active مشاهير صغار or young-celebrities category entry.
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed all 16 category wheel labels preserve their complete titles, use explicit RTL direction, load Cairo, remain upright around both halves of the wheel, render connected Arabic text, and create no horizontal overflow.
