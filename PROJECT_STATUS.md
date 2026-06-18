@@ -103,6 +103,7 @@ The app currently supports:
 - Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3`, dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including when he is the final player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him. The published clip is trimmed to start at `5.1s` of the original 14.5-second recording.
 - Added the user's Hamid voice clip as `assets/sounds/player-hameed.mp3` (2.7s), dedicated to `حميد` via the same `playerClips` rule used for `البريجي`: it plays right after he is chosen, his spin uses synthesized ticks only, and none of the other voice clips play for him.
 - Added dedicated post-selection clips for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف` under `assets/sounds/`. Each follows the existing `البريجي` rule: synthesized ticks during the spin, the player's own clip after selection, and no other MP3 for that player. The supplied `حمود.m4a` was converted to MP3 for consistent browser decoding.
+- Enhanced all seven dedicated player clips to match the random post-selection voice more closely: conservative speech filtering, light compression, loudness normalization near `-15 LUFS`, and consistent 48 kHz stereo 320 kbps MP3 encoding. Clip durations and the `البريجي` 5.1-second start trim remain unchanged.
 - Changed the one-player group state to perform the normal wheel spin instead of assigning directly. Its full name and group logo render radially outside the `سين جيم` center badge and land upright near the pointer.
 
 ## Current Decisions
@@ -121,6 +122,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, all seven dedicated player clips were enhanced with conservative speech filtering, light compression, and loudness normalization against the `celebration-voice-1.mp3` reference. Measurements place the enhanced clips between `-14.6` and `-15.3 LUFS` versus the reference's `-14.9 LUFS`; all are 48 kHz stereo 320 kbps MP3 with unchanged durations. Local headless Chrome decoded every clip through the app's Web Audio path, preserved the 9.4-second `البريجي` trim, and showed no horizontal overflow. `node --check app.js` and `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `6a70b32`; the public site returned `HTTP 200`, and downloading the public `player-breiji.mp3` confirmed GitHub Pages serves the trimmed 9.4-second MP3.
 - On 2026-06-18, `player-breiji.mp3` was accurately re-encoded from the original recording's `5.1s` mark. `ffprobe` confirmed the replacement is a valid 9.4-second MP3, and `node --check app.js` plus `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `5ea8a7c`; the public site returned `HTTP 200`, and public `app.js` contains only `spin-voice-1.mp3` in `spinClips` with no `spin-voice-2` reference.
