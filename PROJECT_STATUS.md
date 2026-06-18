@@ -72,6 +72,8 @@ The app currently supports:
 - Added the `صوت المشهور` category with `assets/categories/celebrity-voice.jpg`.
 - Replaced the active `ترتيب إسلامي` category with `سيرة ذاتية` using `assets/categories/biography.jpg`.
 - Removed the active `سيرة ذاتية` and `صوت المشهور` categories, then added `مشاهير صغار` with `assets/categories/young-celebrities.jpg` and `حروف متحركة` with `assets/categories/moving-letters.jpg`.
+- Replaced the active `مشاهير صغار` category with `السيرة النبوية` using `assets/categories/prophetic-biography.jpg`.
+- Moved `بوحمد` from `الأسود` to `التنانين`, and moved `عليوي` from `الذئاب` to `الأسود`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Moved `قرطبة` from `الأسود` back to `الذئاب`.
 - Constrained selected category card dimensions so tall category images cannot stretch tablet layouts.
@@ -116,6 +118,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `node --check app.js` and `git diff --check` passed after replacing `مشاهير صغار` with `السيرة النبوية`, moving `بوحمد` to `التنانين`, and moving `عليوي` to `الأسود`; local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed default group counts are `6/3/3`, all 12 players are assigned with final teams `6/6` and maximum difference `1`, active Categories remains 16 entries with no `مشاهير صغار`, `assets/categories/prophetic-biography.jpg` renders at `632x777` using `object-fit: contain`, no rendered images are broken, and there is no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `0cfc558`, public GitHub Pages returned `HTTP 200`, and public `app.js` contains the complete-word `categoryWheelLabel` logic, `uprightWheelLabelRotation`, and explicit `direction="rtl"` / `unicode-bidi="embed"` attributes for category wheel labels and lines.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after correcting category wheel Arabic text; local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed all 16 category labels reconstruct their complete titles without cutting words, every SVG label uses explicit `direction="rtl"` and `unicode-bidi="embed"`, Cairo is loaded, label rotations remain upright on both halves of the wheel, the wheel stays text-only, and there is no horizontal overflow. Screenshot inspection confirmed connected Arabic rendering and readable right-to-left lines.
 - On 2026-06-15, GitHub Pages reached `built` after deploying `354bed8`, public GitHub Pages returned `HTTP 200`, public `assets/categories/young-celebrities.jpg` and `assets/categories/moving-letters.jpg` returned `HTTP 200`, and public `app.js` contains active `مشاهير صغار` / `assets/categories/young-celebrities.jpg` and `حروف متحركة` / `assets/categories/moving-letters.jpg` with no active `سيرة ذاتية`, `صوت المشهور`, `biography`, or `celebrity-voice` category entry.

@@ -33,9 +33,9 @@ Current design:
 - The old hero text/subtitle/crescent inside that box were removed.
 
 Current default groups:
-- التنانين: الملا, جراغ, حميد, طروق, البريجي
-- الأسود: بوحمد, الخلف, الهلالي
-- الذئاب: حمود, عليوي, موسى, قرطبة
+- التنانين: الملا, جراغ, حميد, طروق, البريجي, بوحمد
+- الأسود: الخلف, الهلالي, عليوي
+- الذئاب: حمود, موسى, قرطبة
 
 Current sound behavior:
 - Player wheel spins can use the two spin voice clips or synthesized ticks.
@@ -48,7 +48,7 @@ Current categories:
 - بوستر مسرح كبار and رياضة were removed.
 - ترتيب was added using assets/categories/order.jpg.
 - سيرة ذاتية and صوت المشهور were removed.
-- مشاهير صغار was added using assets/categories/young-celebrities.jpg.
+- مشاهير صغار was replaced by السيرة النبوية using assets/categories/prophetic-biography.jpg.
 - حروف متحركة was added using assets/categories/moving-letters.jpg.
 - Category wheel remains text-only; selected category cards show photos.
 - Category wheel labels use explicit Arabic RTL direction, wrap only at complete-word boundaries, and stay upright/readable around both halves of the wheel.
@@ -77,6 +77,7 @@ Recent completed work:
 - Replaced the setup hero box image with assets/khamis-wanees-wordmark.jpg and enlarged the hero image area for the square artwork.
 - Added assets/sounds/player-hameed.mp3 for حميد using the same per-player sound rule already used for البريجي.
 - Removed سيرة ذاتية and صوت المشهور from active categories, and added مشاهير صغار and حروف متحركة with the attached images.
+- Replaced مشاهير صغار with السيرة النبوية, moved بوحمد to التنانين, and moved عليوي to الأسود.
 
 Recent commits:
 - 0cfc558 Fix Arabic category wheel labels
@@ -97,6 +98,7 @@ Recent commits:
 Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
+- Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed default groups are 6/3/3 with بوحمد in التنانين and عليوي in الأسود, the full 12-player draw finishes balanced at 6/6, active Categories remains 16 entries with السيرة النبوية and no مشاهير صغار, the new category image renders with object-fit: contain, and there are no broken images or horizontal overflow.
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed all 16 category wheel labels preserve their complete titles, use explicit RTL direction, load Cairo, remain upright around both halves of the wheel, render connected Arabic text, and create no horizontal overflow.
 - Live app.js contains the complete-word label helper, upright category label rotation, and explicit RTL SVG text attributes; the live site returned HTTP 200 after deployment.
 - Local headless Chrome at mobile 390x844 confirmed active Categories has 16 entries, includes مشاهير صغار and حروف متحركة with their new images, excludes سيرة ذاتية and صوت المشهور, keeps the category wheel text-only, has no broken rendered images, and has no horizontal overflow.

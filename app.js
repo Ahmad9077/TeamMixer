@@ -1,7 +1,7 @@
 const pools = [
-  { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي"] },
-  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["بوحمد", "الخلف", "الهلالي"] },
-  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "عليوي", "موسى", "قرطبة"] },
+  { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي", "بوحمد"] },
+  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["الخلف", "الهلالي", "عليوي"] },
+  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "موسى", "قرطبة"] },
 ];
 
 const categories = [
@@ -18,7 +18,7 @@ const categories = [
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
   { id: "order", title: "ترتيب", image: "assets/categories/order.jpg" },
-  { id: "young-celebrities", title: "مشاهير صغار", image: "assets/categories/young-celebrities.jpg" },
+  { id: "prophetic-biography", title: "السيرة النبوية", image: "assets/categories/prophetic-biography.jpg" },
   { id: "moving-letters", title: "حروف متحركة", image: "assets/categories/moving-letters.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
