@@ -123,6 +123,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, commit `e22905b` was deployed after manually retriggering a stalled legacy Pages build; GitHub Pages reached `built`, the public site returned `HTTP 200`, public `app.js` contains an empty `spinClips` array, and the public `player-breiji.mp3` is the updated 9.2-second file.
 - On 2026-06-18, `spinClips` was emptied so neither `spin-voice-1.mp3` nor `spin-voice-2.mp3` can be fetched or selected during a spin. The enhanced `player-breiji.mp3` was rebuilt directly from the original 14.5-second source at `5.3s`; `ffprobe` confirmed a valid 9.2-second, 48 kHz stereo 320 kbps MP3, and loudness measured `-14.8 LUFS`. `node --check app.js` and `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `f8f4930`; SHA-256 checks confirmed all seven public dedicated player MP3 files exactly match the locally verified enhanced binaries.
 - On 2026-06-18, all seven dedicated player clips were enhanced with conservative speech filtering, light compression, and loudness normalization against the `celebration-voice-1.mp3` reference. Measurements place the enhanced clips between `-14.6` and `-15.3 LUFS` versus the reference's `-14.9 LUFS`; all are 48 kHz stereo 320 kbps MP3 with unchanged durations. Local headless Chrome decoded every clip through the app's Web Audio path, preserved the 9.4-second `البريجي` trim, and showed no horizontal overflow. `node --check app.js` and `git diff --check` passed.
