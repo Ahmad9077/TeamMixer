@@ -121,6 +121,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `6a70b32`; the public site returned `HTTP 200`, and downloading the public `player-breiji.mp3` confirmed GitHub Pages serves the trimmed 9.4-second MP3.
 - On 2026-06-18, `player-breiji.mp3` was accurately re-encoded from the original recording's `5.1s` mark. `ffprobe` confirmed the replacement is a valid 9.4-second MP3, and `node --check app.js` plus `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `5ea8a7c`; the public site returned `HTTP 200`, and public `app.js` contains only `spin-voice-1.mp3` in `spinClips` with no `spin-voice-2` reference.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after removing `spin-voice-2.mp3` from the active spinning pool. The `spinClips` registry now contains only `spin-voice-1.mp3`, so Voice 2 is neither fetched nor eligible for playback during a spin.
