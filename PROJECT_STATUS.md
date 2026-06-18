@@ -100,7 +100,7 @@ The app currently supports:
 
 - Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
 
-- Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3` (14.5s), dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including when he is the final player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him.
+- Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3`, dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including when he is the final player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him. The published clip is trimmed to start at `5.1s` of the original 14.5-second recording.
 - Added the user's Hamid voice clip as `assets/sounds/player-hameed.mp3` (2.7s), dedicated to `حميد` via the same `playerClips` rule used for `البريجي`: it plays right after he is chosen, his spin uses synthesized ticks only, and none of the other voice clips play for him.
 - Added dedicated post-selection clips for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف` under `assets/sounds/`. Each follows the existing `البريجي` rule: synthesized ticks during the spin, the player's own clip after selection, and no other MP3 for that player. The supplied `حمود.m4a` was converted to MP3 for consistent browser decoding.
 - Changed the one-player group state to perform the normal wheel spin instead of assigning directly. Its full name and group logo render radially outside the `سين جيم` center badge and land upright near the pointer.
@@ -121,6 +121,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `player-breiji.mp3` was accurately re-encoded from the original recording's `5.1s` mark. `ffprobe` confirmed the replacement is a valid 9.4-second MP3, and `node --check app.js` plus `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `5ea8a7c`; the public site returned `HTTP 200`, and public `app.js` contains only `spin-voice-1.mp3` in `spinClips` with no `spin-voice-2` reference.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after removing `spin-voice-2.mp3` from the active spinning pool. The `spinClips` registry now contains only `spin-voice-1.mp3`, so Voice 2 is neither fetched nor eligible for playback during a spin.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `f7dbe3d`; the public site and all five new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact Arabic player-to-clip mappings for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف`.
