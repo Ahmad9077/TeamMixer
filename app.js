@@ -117,11 +117,9 @@ try {
 let audioCtx = null;
 let masterGain = null;
 
-// This voice clip can replace the synthesized spin sound. It is fetched
-// eagerly and decoded lazily once the AudioContext exists.
-const spinClips = [
-  { url: "assets/sounds/spin-voice-1.mp3", data: null, buffer: null },
-];
+// Spinning voice clips are intentionally disabled. Player spins use only
+// the synthesized whoosh and wheel ticks.
+const spinClips = [];
 
 // Clips that can replace a synthesized celebration after a player is
 // selected. They never play for a player whose spin already used a voice
