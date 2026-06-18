@@ -76,7 +76,7 @@ Rules:
 - The wheel selects names, not teams.
 - Names from each group alternate between Team 1 and Team 2.
 - If a group has an odd count, the next team in sequence receives the first two picks from the next group.
-- If there is only one player left in the current group, do not spin; assign that player directly.
+- If there is only one player left in the current group, still spin before assigning that player. Keep the full name and group logo visible outside the `سين جيم` center badge and land them upright near the pointer.
 - Team counts must never differ by 2 or more. Keep the balance guard in place.
 - Live Team 1 and Team 2 lists must remain visible on the Draw screen and update after every assignment.
 - After a spin lands, the wheel keeps showing the landed segments (including the selected player) until the next spin starts; only then is the assigned player removed from the wheel (`frozenWheelItems` in `app.js`).

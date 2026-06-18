@@ -17,7 +17,7 @@ The app currently supports:
   - Yellow lion for `الأسود`
   - Blue wolf for `الذئاب`
 - Name-selection wheel.
-- Direct final-player assignment without spinning.
+- Full wheel spin for every player, including the last remaining player in a group.
 - Live Team 1 and Team 2 lists during the draw.
 - Results screen with final team lists.
 - Categories screen with a separate category wheel and six selected category cards arranged three per row.
@@ -99,8 +99,9 @@ The app currently supports:
 
 - Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
 
-- Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3` (14.5s), dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including as the final direct-assigned player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him.
+- Added the user's fourth voice clip as `assets/sounds/player-breiji.mp3` (14.5s), dedicated to `البريجي` via the `playerClips` registry: it always plays right after he is chosen (including when he is the final player, where synthesized applause joins it instead of the standard finale), his spin uses the synthesized ticks only, and none of the other voice clips ever play for him.
 - Added the user's Hamid voice clip as `assets/sounds/player-hameed.mp3` (2.7s), dedicated to `حميد` via the same `playerClips` rule used for `البريجي`: it plays right after he is chosen, his spin uses synthesized ticks only, and none of the other voice clips play for him.
+- Changed the one-player group state to perform the normal wheel spin instead of assigning directly. Its full name and group logo render radially outside the `سين جيم` center badge and land upright near the pointer.
 
 ## Current Decisions
 
@@ -118,6 +119,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `node --check app.js` and `git diff --check` passed after enabling a normal spin for the last player in each group. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed the one-player state spins for 4.5 seconds without immediate assignment, the complete player name remains inside the wheel and does not overlap the `سين جيم` center badge before or after landing, and there is no horizontal overflow. An accelerated full default draw confirmed the last player in all three groups spins before assignment, all 12 players are assigned, teams finish `6/6`, and the maximum team difference remains `1`.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `9505760`; a live Chrome check of `https://ahmad9077.github.io/TeamMixer/` confirmed 16 exact single-node `.category-wheel-label` elements with native `dir="rtl"` / `lang="ar"`, `white-space: nowrap`, no child fragments, no category SVG `<text>`/`<tspan>` nodes, the shared `categoryWheelRotor`, and no horizontal overflow. Public source therefore reflects the stronger HTML-based RTL implementation rather than the earlier split-SVG approach.
 - On 2026-06-18, the category wheel RTL fix was strengthened by removing all SVG `<text>`/`<tspan>` labels and rendering every category as one unbroken HTML `<span dir="rtl" lang="ar">` over the SVG. `node --check app.js` and `git diff --check` passed; local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed all 16 labels exactly match their category titles, use native RTL/Cairo with `unicode-bidi: plaintext` and `white-space: nowrap`, remain inside the rotor, contain no child line fragments, rotate with the wheel's 4.5s transition, create no SVG text nodes, and cause no horizontal overflow. Screenshot inspection confirmed connected full phrases including `دول و عواصم`, `ولا كلمة فن أجنبي`, and `السيرة النبوية`. Safari WebDriver could not be run because Safari's Allow Remote Automation setting is disabled, so the implementation now avoids Safari-sensitive SVG bidi handling entirely.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `092337f`, public GitHub Pages and `assets/categories/prophetic-biography.jpg` returned `HTTP 200`, and public `app.js` contains active `السيرة النبوية` / `assets/categories/prophetic-biography.jpg`, `التنانين` with `بوحمد`, `الأسود` with `عليوي`, and `الذئاب` without `عليوي`, with no active `مشاهير صغار` or `young-celebrities` category entry.

@@ -655,10 +655,13 @@ function renderWheel() {
   const segmentSize = 360 / items.length;
 
   if (items.length === 1) {
+    const label = polarToCartesian(160, 160, 100, 180);
+    const logo = polarToCartesian(160, 160, 70, 180);
+    const fontSize = items[0].label.length > 10 ? 18 : 24;
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#ffffff" stroke-width="5"></circle>
-      ${items[0].logo ? `<image href="${items[0].logo}" x="137" y="104" width="46" height="46" preserveAspectRatio="xMidYMid slice"></image>` : ""}
-      <text x="160" y="160" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="26" font-weight="700" text-anchor="middle" dominant-baseline="middle">${items[0].label.slice(0, 14)}</text>
+      ${items[0].logo ? `<image href="${items[0].logo}" x="${logo.x - 18}" y="${logo.y - 18}" width="36" height="36" preserveAspectRatio="xMidYMid slice" transform="rotate(180, ${logo.x}, ${logo.y})"></image>` : ""}
+      <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="700" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" transform="rotate(180, ${label.x}, ${label.y})">${items[0].label}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -756,7 +759,7 @@ function completeCurrentGroupIfNeeded() {
   advanceToNextAvailablePool();
 }
 
-function assignSelectedPlayer(selectedIndex, usedSpin) {
+function assignSelectedPlayer(selectedIndex) {
   const queue = currentQueue();
   frozenWheelItems = wheelItems();
   const [assigned] = queue.splice(selectedIndex, 1);
@@ -776,7 +779,7 @@ function assignSelectedPlayer(selectedIndex, usedSpin) {
   }
 
   state.spinning = false;
-  state.lastResult = usedSpin ? `${assigned.name} انضم إلى ${teamLabel(team)}` : `${assigned.name} آخر اسم في ${assigned.pool} وانضم إلى ${teamLabel(team)}`;
+  state.lastResult = `${assigned.name} انضم إلى ${teamLabel(team)}`;
   completeCurrentGroupIfNeeded();
   render();
   if (!remainingPlayers().length) {
@@ -815,11 +818,6 @@ function spin() {
   }
 
   const selectedIndex = randomInt(queue.length);
-  if (queue.length === 1) {
-    assignSelectedPlayer(selectedIndex, false);
-    return;
-  }
-
   const selected = queue[selectedIndex];
   const segmentSize = 360 / queue.length;
   const segmentCenter = selectedIndex * segmentSize + segmentSize / 2;
@@ -835,7 +833,7 @@ function spin() {
   render();
 
   window.setTimeout(() => {
-    assignSelectedPlayer(selectedIndex, true);
+    assignSelectedPlayer(selectedIndex);
   }, 4550);
 }
 

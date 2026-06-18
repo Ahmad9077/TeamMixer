@@ -17,7 +17,7 @@
 - Verify the spin wheel stays inside its container.
 - Verify no horizontal overflow during spin.
 - Verify live team lists are visible during spin.
-- Verify final-player assignment does not spin.
+- Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
 - Verify all default players are assigned.
 - Verify final counts differ by at most 1.
 - Verify Categories selects exactly 6 categories and keeps them in a 3-by-2 selected grid.
