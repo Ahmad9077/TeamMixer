@@ -21,7 +21,7 @@
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` starts at `5.3s` of the original recording and decodes successfully.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
-- Verify dedicated player clips remain near the `-14.9 LUFS` random post-selection reference and decode as 48 kHz stereo MP3 after future audio edits.
+- Verify dedicated player clips remain near `-15 LUFS` and decode as 48 kHz stereo MP3 after future audio edits; `موسى` is the intentional louder exception near `-12 LUFS`.
 - Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
 - Verify all default players are assigned.
 - Verify final counts differ by at most 1.

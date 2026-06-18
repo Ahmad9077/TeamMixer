@@ -106,6 +106,7 @@ The app currently supports:
 - Added the user's Hamid voice clip as `assets/sounds/player-hameed.mp3` (2.7s), dedicated to `حميد` via the same `playerClips` rule used for `البريجي`: it plays right after he is chosen, his spin uses synthesized ticks only, and none of the other voice clips play for him.
 - Added dedicated post-selection clips for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف` under `assets/sounds/`. Each follows the existing `البريجي` rule: synthesized ticks during the spin, the player's own clip after selection, and no other MP3 for that player. The supplied `حمود.m4a` was converted to MP3 for consistent browser decoding.
 - Added enhanced dedicated post-selection clips for `قرطبة`, `موسى`, `طروق`, and `جراغ`. The supplied recording labelled `مويس` is mapped to the roster player `موسى`; displayed roster names remain unchanged. Each clip follows the existing dedicated-player rule and is normalized as a 48 kHz stereo 320 kbps MP3 near `-15 LUFS`.
+- Increased the mastered loudness of the `موسى` clip from `-14.87 LUFS` to `-11.87 LUFS` with a safe `-2.12 dBTP` peak, improving its perceived volume while preserving its duration and audio format.
 - Enhanced all seven dedicated player clips to match the random post-selection voice more closely: conservative speech filtering, light compression, loudness normalization near `-15 LUFS`, and consistent 48 kHz stereo 320 kbps MP3 encoding. Clip durations remain unchanged except when explicitly trimmed; `البريجي` now starts at `5.3s` of the original recording.
 - Changed the one-player group state to perform the normal wheel spin instead of assigning directly. Its full name and group logo render radially outside the `سين جيم` center badge and land upright near the pointer.
 
@@ -125,6 +126,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `player-mousa.mp3` was remastered from its original supplied source to address low perceived volume. The replacement measures `-11.87 LUFS` and `-2.12 dBTP`, remains a 4.405-second 48 kHz stereo 320 kbps MP3, and passes `ffprobe`; `node --check app.js` and `git diff --check` also passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `c0e7bfa`; the public site and all four new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact mappings for `قرطبة`, `موسى`, `طروق`, and `جراغ` while both random voice pools remain empty.
 - On 2026-06-18, dedicated clips for `قرطبة`, `موسى`, `طروق`, and `جراغ` were enhanced to 48 kHz stereo 320 kbps MP3 at `-14.75` to `-14.87 LUFS`. Local headless Chrome decoded all four through the app's Web Audio path and confirmed exact mappings, normal spins with synthesized sounds only, matching post-selection clips, successful assignment, empty random/spinning voice pools, and no horizontal overflow. `node --check app.js` and `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `ef1a668`; the public site returned `HTTP 200`, public `app.js` contains empty `spinClips` and `celebrationClips` arrays, and there is no `celebration-voice-1` reference.
