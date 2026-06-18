@@ -127,6 +127,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `3d83cd1`; the public site and `assets/categories/sports.jpg` returned `HTTP 200`, and public `app.js` contains active `رياضة` plus the persisted-state `history` to `sports` migration.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after replacing `تاريخ` with `رياضة`. Local headless Chrome confirmed fresh sessions keep 16 categories with `رياضة`/`assets/categories/sports.jpg` and no `تاريخ`; persisted queue/selection state migrates `history` to `sports`; the new 773x973 image loads and stays contained on mobile `390x844` and desktop `1280x900`; and there is no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `c97227f`; the public site returned `HTTP 200`, and direct analysis of the downloaded public `player-mousa.mp3` confirmed the louder `-11.87 LUFS` / `-2.12 dBTP` master is live.
 - On 2026-06-18, `player-mousa.mp3` was remastered from its original supplied source to address low perceived volume. The replacement measures `-11.87 LUFS` and `-2.12 dBTP`, remains a 4.405-second 48 kHz stereo 320 kbps MP3, and passes `ffprobe`; `node --check app.js` and `git diff --check` also passed.
