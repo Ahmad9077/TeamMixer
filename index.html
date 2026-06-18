@@ -276,6 +276,41 @@
         height: 100%;
       }
 
+      .category-wheel-rotor {
+        position: relative;
+      }
+
+      .category-wheel-surface,
+      .category-wheel-labels {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .category-wheel-labels {
+        pointer-events: none;
+      }
+
+      .category-wheel-label {
+        position: absolute;
+        color: var(--ink);
+        direction: rtl;
+        font-family: "Cairo", "Calibri", ui-sans-serif, system-ui;
+        font-size: clamp(9px, 2.2vw, 13px);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: 0;
+        text-align: right;
+        transform-origin: center;
+        unicode-bidi: plaintext;
+        white-space: nowrap;
+      }
+
+      .category-wheel-label-long {
+        font-size: clamp(8px, 1.8vw, 11px);
+      }
+
       .wheel-pointer {
         position: absolute;
         left: 50%;
@@ -551,7 +586,10 @@
               <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
                 <div class="wheel-pointer"></div>
                 <div class="wheel-wrap h-full w-full rounded-3xl p-4">
-                  <svg id="categoryWheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الفئات"></svg>
+                  <div id="categoryWheelRotor" class="category-wheel-rotor wheel h-full w-full rounded-full">
+                    <svg id="categoryWheelSvg" class="category-wheel-surface rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الفئات"></svg>
+                    <div id="categoryWheelLabels" class="category-wheel-labels" aria-hidden="true"></div>
+                  </div>
                 </div>
                 <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center text-center text-sm font-extrabold leading-tight" dir="rtl">الفئات</div>
               </div>

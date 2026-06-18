@@ -696,36 +696,6 @@ function availableCategoryQueue() {
   return state.categoryQueue.filter((category) => !limitedCategoryIds.has(category.id));
 }
 
-function categoryWheelLabel(title) {
-  const words = title.trim().replace(/\s*\/\s*/g, " / ").split(/\s+/u).filter(Boolean);
-  if (title.length <= 8 || words.length <= 1) return [title.trim()];
-
-  const parts = [];
-  words.forEach((word) => {
-    if (word === "و" && parts.length) {
-      parts.push(word);
-    } else if (parts[parts.length - 1] === "و") {
-      parts[parts.length - 1] = `${parts[parts.length - 1]} ${word}`;
-    } else {
-      parts.push(word);
-    }
-  });
-  if (parts.length <= 2) return parts;
-
-  let splitAt = 1;
-  let smallestDifference = Infinity;
-  for (let index = 1; index < parts.length; index += 1) {
-    const firstLength = parts.slice(0, index).join(" ").length;
-    const secondLength = parts.slice(index).join(" ").length;
-    const difference = Math.abs(firstLength - secondLength);
-    if (difference < smallestDifference) {
-      smallestDifference = difference;
-      splitAt = index;
-    }
-  }
-  return [parts.slice(0, splitAt).join(" "), parts.slice(splitAt).join(" ")];
-}
-
 function uprightWheelLabelRotation(angle) {
   let rotation = ((angle + 90 + 180) % 360) - 180;
   if (rotation > 90) rotation -= 180;
@@ -741,22 +711,22 @@ function renderCategoryWheel() {
     .map((item, index) => {
       const start = index * segmentSize;
       const end = start + segmentSize;
-      const mid = start + segmentSize / 2;
-      const labelPoint = polarToCartesian(160, 160, 106, mid);
-      const lines = categoryWheelLabel(item.title);
-      const labelRotation = uprightWheelLabelRotation(mid);
-      const fontSize = lines.some((line) => line.length > 10) ? 9 : 10;
-      const lineHeight = fontSize + 1;
-      const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${wheelPalette[index % wheelPalette.length]}" stroke="#ffffff" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" style="letter-spacing:0" transform="rotate(${labelRotation}, ${labelPoint.x}, ${labelPoint.y})">
-          ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}" direction="rtl" unicode-bidi="embed">${line}</tspan>`).join("")}
-        </text>
       `;
     })
     .join("");
-  $("#categoryWheelSvg").style.transform = `rotate(${state.categoryRotation}deg)`;
+
+  $("#categoryWheelLabels").innerHTML = items
+    .map((item, index) => {
+      const mid = index * segmentSize + segmentSize / 2;
+      const labelPoint = polarToCartesian(160, 160, 106, mid);
+      const labelRotation = uprightWheelLabelRotation(mid);
+      const longClass = item.title.length > 14 ? " category-wheel-label-long" : "";
+      return `<span class="category-wheel-label${longClass}" dir="rtl" lang="ar" style="left:${(labelPoint.x / 320) * 100}%;top:${(labelPoint.y / 320) * 100}%;transform:translate(-50%,-50%) rotate(${labelRotation}deg)">${item.title}</span>`;
+    })
+    .join("");
+  $("#categoryWheelRotor").style.transform = `rotate(${state.categoryRotation}deg)`;
 }
 
 function nextAssignedTeam() {

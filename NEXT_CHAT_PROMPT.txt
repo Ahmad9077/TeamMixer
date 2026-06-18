@@ -51,7 +51,7 @@ Current categories:
 - مشاهير صغار was replaced by السيرة النبوية using assets/categories/prophetic-biography.jpg.
 - حروف متحركة was added using assets/categories/moving-letters.jpg.
 - Category wheel remains text-only; selected category cards show photos.
-- Category wheel labels use explicit Arabic RTL direction, wrap only at complete-word boundaries, and stay upright/readable around both halves of the wheel.
+- Category wheel labels are single, unbroken HTML Arabic phrases layered over the SVG, using native RTL/Cairo rendering and upright radial rotation; the labels rotate together with the wheel.
 - Categories still select exactly 6 cards in a 3-by-2 selected grid.
 - Selected category cards use constrained dimensions so tall images do not stretch the tablet layout.
 - Only two of دول و عواصم, جغرافيا, and سياحة وسفر can be selected in one Categories session.
@@ -99,6 +99,7 @@ Recent commits:
 Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
+- Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed the stronger category RTL implementation uses 16 exact single-node HTML labels with native dir=rtl/lang=ar, connected Cairo text, no wrapping, no SVG text/tspans, labels contained inside the wheel, synchronized 4.5s rotor animation, and no horizontal overflow. Screenshot inspection confirmed full phrases render correctly. Safari WebDriver was unavailable because Allow Remote Automation is disabled, so SVG bidi text was removed instead of relying on Safari-specific behavior.
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed default groups are 6/3/3 with بوحمد in التنانين and عليوي in الأسود, the full 12-player draw finishes balanced at 6/6, active Categories remains 16 entries with السيرة النبوية and no مشاهير صغار, the new category image renders with object-fit: contain, and there are no broken images or horizontal overflow.
 - Live assets/categories/prophetic-biography.jpg returned HTTP 200; live app.js contains السيرة النبوية, بوحمد in التنانين, عليوي in الأسود, no عليوي in الذئاب, and no active مشاهير صغار or young-celebrities category entry.
 - Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed all 16 category wheel labels preserve their complete titles, use explicit RTL direction, load Cairo, remain upright around both halves of the wheel, render connected Arabic text, and create no horizontal overflow.
