@@ -96,6 +96,7 @@ The app currently supports:
 - Added a header 🔊/🔇 sound toggle; the preference persists under `seenjeem_sound_v1` (separate from game state so `من جديد` keeps the setting). The AudioContext is created lazily on first interaction to satisfy autoplay policies, and all sound entry points are wrapped in try/catch so audio can never break the game.
 
 - Added the user's voice clips as `assets/sounds/spin-voice-1.mp3` (6.9s) and `assets/sounds/spin-voice-2.mp3` (6.8s) and mixed them into the player wheel spin: each spin randomly picks between the voice clips and the synthesized ticks (equal slots via `spinClips` in `app.js`), with a chosen clip always playing to its natural end even after the wheel lands. The category wheel keeps ticks only. Clip playback routes through the master gain so the 🔊/🔇 toggle controls it.
+- Removed `spin-voice-2.mp3` from the active `spinClips` pool at the user's request. The file remains an inactive repository asset; eligible player spins now choose only between Voice 1 and synthesized wheel sounds.
 
 - Kept the landed player visible on the wheel after each spin: the wheel display freezes at the landing moment (selected player still under the pointer) while the player joins the live team lists, and only refreshes without them when the next spin starts. «ابدأ القرعة» and «من جديد» clear the frozen wheel.
 
@@ -120,6 +121,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `node --check app.js` and `git diff --check` passed after removing `spin-voice-2.mp3` from the active spinning pool. The `spinClips` registry now contains only `spin-voice-1.mp3`, so Voice 2 is neither fetched nor eligible for playback during a spin.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `f7dbe3d`; the public site and all five new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact Arabic player-to-clip mappings for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف`.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after adding dedicated clips for `الملا`, `حمود`, `عليوي`, `بوحمد`, and `الخلف`. `ffprobe` confirmed all five published assets are MP3 files. Local headless Chrome decoded all seven dedicated player clips successfully and confirmed each mapped player spins normally with regular ticks only, invokes only their own post-selection clip, completes assignment correctly, and creates no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `acf5c46`; the public site returned `HTTP 200`, and public `app.js` contains the radial one-player label placement plus the shared delayed `assignSelectedPlayer(selectedIndex)` spin path with no one-player direct-assignment branch.
