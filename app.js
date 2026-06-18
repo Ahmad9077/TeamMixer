@@ -136,6 +136,10 @@ const playerClips = {
   "عليوي": { url: "assets/sounds/player-alewi.mp3", data: null, buffer: null },
   "بوحمد": { url: "assets/sounds/player-buhamad.mp3", data: null, buffer: null },
   "الخلف": { url: "assets/sounds/player-alkhalaf.mp3", data: null, buffer: null },
+  "قرطبة": { url: "assets/sounds/player-qurtuba.mp3", data: null, buffer: null },
+  "موسى": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
+  "طروق": { url: "assets/sounds/player-tarouq.mp3", data: null, buffer: null },
+  "جراغ": { url: "assets/sounds/player-jaragh.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;
