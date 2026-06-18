@@ -26,6 +26,7 @@
 - Verify all default players are assigned.
 - Verify final counts differ by at most 1.
 - Verify Categories selects exactly 6 categories and keeps them in a 3-by-2 selected grid.
+- Verify `رياضة` replaces `تاريخ` in fresh and persisted category sessions and uses `assets/categories/sports.jpg`.
 - Verify Categories allows at most two of `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` in one session.
 - Verify every category wheel label is one unbroken connected Arabic RTL phrase and remains upright on both halves of the wheel.
 - Verify fixed mobile bottom tabs do not cover the bottom of each screen at max scroll.

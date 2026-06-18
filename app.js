@@ -11,7 +11,7 @@ const categories = [
   { id: "cars", title: "سيارات", image: "assets/categories/cars.jpg" },
   { id: "kuwait", title: "الكويت", image: "assets/categories/kuwait.jpg" },
   { id: "general-info", title: "معلومات عامة", image: "assets/categories/general-info.jpg" },
-  { id: "history", title: "تاريخ", image: "assets/categories/history.jpg" },
+  { id: "sports", title: "رياضة", image: "assets/categories/sports.jpg" },
   { id: "foreign-word", title: "ولا كلمة فن أجنبي", image: "assets/categories/foreign-word.jpg" },
   { id: "location", title: "لوكيشن", image: "assets/categories/location.jpg" },
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
@@ -25,6 +25,7 @@ const categories = [
 
 const limitedCategoryIds = new Set(["travel", "geography", "countries-capitals"]);
 const limitedCategoryMax = 2;
+const legacyCategoryIds = new Map([["history", "sports"]]);
 const preloadedAssetUrls = new Set();
 
 const STORAGE_KEY = "seenjeem_state_v1";
@@ -501,8 +502,14 @@ function loadState() {
 
     const categoryById = new Map(categories.map((category) => [category.id, category]));
     const storedCategories = data.categories || {};
-    state.categoryQueue = (Array.isArray(storedCategories.queueIds) ? storedCategories.queueIds : []).map((id) => categoryById.get(id)).filter(Boolean);
-    state.selectedCategories = (Array.isArray(storedCategories.selectedIds) ? storedCategories.selectedIds : []).map((id) => categoryById.get(id)).filter(Boolean);
+    const reviveCategories = (ids) =>
+      [...new Set(ids.filter((id) => typeof id === "string").map((id) => legacyCategoryIds.get(id) || id))]
+        .map((id) => categoryById.get(id))
+        .filter(Boolean);
+    state.categoryQueue = reviveCategories(Array.isArray(storedCategories.queueIds) ? storedCategories.queueIds : []);
+    state.selectedCategories = reviveCategories(Array.isArray(storedCategories.selectedIds) ? storedCategories.selectedIds : []);
+    const selectedCategoryIds = new Set(state.selectedCategories.map((category) => category.id));
+    state.categoryQueue = state.categoryQueue.filter((category) => !selectedCategoryIds.has(category.id));
     state.categoryLastResult = typeof storedCategories.lastResult === "string" ? storedCategories.lastResult : defaultCategoryMessage;
     state.categorySpinning = false;
     state.categoryRotation = 0;
