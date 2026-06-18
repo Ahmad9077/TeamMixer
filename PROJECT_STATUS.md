@@ -122,6 +122,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `f8f4930`; SHA-256 checks confirmed all seven public dedicated player MP3 files exactly match the locally verified enhanced binaries.
 - On 2026-06-18, all seven dedicated player clips were enhanced with conservative speech filtering, light compression, and loudness normalization against the `celebration-voice-1.mp3` reference. Measurements place the enhanced clips between `-14.6` and `-15.3 LUFS` versus the reference's `-14.9 LUFS`; all are 48 kHz stereo 320 kbps MP3 with unchanged durations. Local headless Chrome decoded every clip through the app's Web Audio path, preserved the 9.4-second `البريجي` trim, and showed no horizontal overflow. `node --check app.js` and `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `6a70b32`; the public site returned `HTTP 200`, and downloading the public `player-breiji.mp3` confirmed GitHub Pages serves the trimmed 9.4-second MP3.
 - On 2026-06-18, `player-breiji.mp3` was accurately re-encoded from the original recording's `5.1s` mark. `ffprobe` confirmed the replacement is a valid 9.4-second MP3, and `node --check app.js` plus `git diff --check` passed.
