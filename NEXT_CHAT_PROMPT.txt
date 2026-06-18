@@ -51,6 +51,7 @@ Current categories:
 - مشاهير صغار was added using assets/categories/young-celebrities.jpg.
 - حروف متحركة was added using assets/categories/moving-letters.jpg.
 - Category wheel remains text-only; selected category cards show photos.
+- Category wheel labels use explicit Arabic RTL direction, wrap only at complete-word boundaries, and stay upright/readable around both halves of the wheel.
 - Categories still select exactly 6 cards in a 3-by-2 selected grid.
 - Selected category cards use constrained dimensions so tall images do not stretch the tablet layout.
 - Only two of دول و عواصم, جغرافيا, and سياحة وسفر can be selected in one Categories session.
@@ -95,6 +96,7 @@ Recent commits:
 Verification already done after the latest deploy:
 - node --check app.js
 - git diff --check
+- Local headless Chrome at mobile 390x844 and desktop 1280x900 confirmed all 16 category wheel labels preserve their complete titles, use explicit RTL direction, load Cairo, remain upright around both halves of the wheel, render connected Arabic text, and create no horizontal overflow.
 - Local headless Chrome at mobile 390x844 confirmed active Categories has 16 entries, includes مشاهير صغار and حروف متحركة with their new images, excludes سيرة ذاتية and صوت المشهور, keeps the category wheel text-only, has no broken rendered images, and has no horizontal overflow.
 - Live assets/categories/young-celebrities.jpg and assets/categories/moving-letters.jpg returned HTTP 200.
 - Live app.js contains active مشاهير صغار and حروف متحركة, and no active سيرة ذاتية, صوت المشهور, biography, or celebrity-voice category entry.

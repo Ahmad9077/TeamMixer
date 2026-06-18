@@ -55,6 +55,7 @@ The app currently supports:
 - Renamed the theater category to `مجمعات الكويت/ بوستر مسرح كبار`.
 - Renamed the foreign art category to `ولا كلمة فن أجنبي`.
 - Changed category wheel labels to smaller, regular-weight vertical text inside each slice.
+- Corrected category wheel Arabic labels so every line uses explicit RTL direction, wraps only between complete words, and flips on the far half of the wheel to remain readable instead of appearing reversed or upside down.
 - Limited `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` so only two of those three can be selected in one Categories session.
 - Added lightweight preloading for group logo and category image assets from the existing `pools` and `categories` data.
 - Added the Eid Mubarak reference image as `assets/eid-mubarak-reference.jpg`.
@@ -115,6 +116,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, `node --check app.js` and `git diff --check` passed after correcting category wheel Arabic text; local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed all 16 category labels reconstruct their complete titles without cutting words, every SVG label uses explicit `direction="rtl"` and `unicode-bidi="embed"`, Cairo is loaded, label rotations remain upright on both halves of the wheel, the wheel stays text-only, and there is no horizontal overflow. Screenshot inspection confirmed connected Arabic rendering and readable right-to-left lines.
 - On 2026-06-15, GitHub Pages reached `built` after deploying `354bed8`, public GitHub Pages returned `HTTP 200`, public `assets/categories/young-celebrities.jpg` and `assets/categories/moving-letters.jpg` returned `HTTP 200`, and public `app.js` contains active `مشاهير صغار` / `assets/categories/young-celebrities.jpg` and `حروف متحركة` / `assets/categories/moving-letters.jpg` with no active `سيرة ذاتية`, `صوت المشهور`, `biography`, or `celebrity-voice` category entry.
 - On 2026-06-15, `node --check app.js` and `git diff --check` passed after replacing the active `سيرة ذاتية` and `صوت المشهور` categories with `مشاهير صغار` and `حروف متحركة`; local headless Chrome at mobile `390x844` confirmed the active category count remains 16, the new category images are wired to `assets/categories/young-celebrities.jpg` and `assets/categories/moving-letters.jpg`, the removed categories and old image URLs are no longer active, the category wheel remains text-only, rendered images are not broken, and there is no horizontal overflow.
 - On 2026-06-11, GitHub Pages reached `built` after deploying `36e6aca`, public GitHub Pages returned `HTTP 200`, public `assets/sounds/player-hameed.mp3` returned `HTTP 200`, and public `app.js` contains `assets/sounds/player-hameed.mp3` under `حميد` plus the existing `!playerClips[selected.name]` spin-sound guard.

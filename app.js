@@ -697,12 +697,40 @@ function availableCategoryQueue() {
 }
 
 function categoryWheelLabel(title) {
-  const parts = title.replace("/", " / ").split(/\s+/).filter(Boolean);
-  if (title.length <= 8 || parts.length <= 1) return [title];
-  if (parts.length === 2) return parts;
+  const words = title.trim().replace(/\s*\/\s*/g, " / ").split(/\s+/u).filter(Boolean);
+  if (title.length <= 8 || words.length <= 1) return [title.trim()];
 
-  const midpoint = Math.ceil(parts.length / 2);
-  return [parts.slice(0, midpoint).join(" "), parts.slice(midpoint).join(" ")];
+  const parts = [];
+  words.forEach((word) => {
+    if (word === "و" && parts.length) {
+      parts.push(word);
+    } else if (parts[parts.length - 1] === "و") {
+      parts[parts.length - 1] = `${parts[parts.length - 1]} ${word}`;
+    } else {
+      parts.push(word);
+    }
+  });
+  if (parts.length <= 2) return parts;
+
+  let splitAt = 1;
+  let smallestDifference = Infinity;
+  for (let index = 1; index < parts.length; index += 1) {
+    const firstLength = parts.slice(0, index).join(" ").length;
+    const secondLength = parts.slice(index).join(" ").length;
+    const difference = Math.abs(firstLength - secondLength);
+    if (difference < smallestDifference) {
+      smallestDifference = difference;
+      splitAt = index;
+    }
+  }
+  return [parts.slice(0, splitAt).join(" "), parts.slice(splitAt).join(" ")];
+}
+
+function uprightWheelLabelRotation(angle) {
+  let rotation = ((angle + 90 + 180) % 360) - 180;
+  if (rotation > 90) rotation -= 180;
+  if (rotation < -90) rotation += 180;
+  return rotation;
 }
 
 function renderCategoryWheel() {
@@ -716,13 +744,14 @@ function renderCategoryWheel() {
       const mid = start + segmentSize / 2;
       const labelPoint = polarToCartesian(160, 160, 106, mid);
       const lines = categoryWheelLabel(item.title);
+      const labelRotation = uprightWheelLabelRotation(mid);
       const fontSize = lines.some((line) => line.length > 10) ? 9 : 10;
       const lineHeight = fontSize + 1;
       const firstLineOffset = -((lines.length - 1) * lineHeight) / 2;
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${wheelPalette[index % wheelPalette.length]}" stroke="#ffffff" stroke-width="5"></path>
-        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid + 90}, ${labelPoint.x}, ${labelPoint.y})">
-          ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}">${line}</tspan>`).join("")}
+        <text x="${labelPoint.x}" y="${labelPoint.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="400" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" style="letter-spacing:0" transform="rotate(${labelRotation}, ${labelPoint.x}, ${labelPoint.y})">
+          ${lines.map((line, lineIndex) => `<tspan x="${labelPoint.x}" dy="${lineIndex === 0 ? firstLineOffset : lineHeight}" direction="rtl" unicode-bidi="embed">${line}</tspan>`).join("")}
         </text>
       `;
     })
