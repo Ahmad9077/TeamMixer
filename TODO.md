@@ -17,6 +17,7 @@
 - Verify the spin wheel stays inside its container.
 - Verify no horizontal overflow during spin.
 - Verify live team lists are visible during spin.
+- Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
 - Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
 - Verify all default players are assigned.
 - Verify final counts differ by at most 1.

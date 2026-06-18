@@ -136,6 +136,11 @@ const celebrationClips = [{ url: "assets/sounds/celebration-voice-1.mp3", data: 
 const playerClips = {
   "البريجي": { url: "assets/sounds/player-breiji.mp3", data: null, buffer: null },
   "حميد": { url: "assets/sounds/player-hameed.mp3", data: null, buffer: null },
+  "الملا": { url: "assets/sounds/player-almulla.mp3", data: null, buffer: null },
+  "حمود": { url: "assets/sounds/player-hamoud.mp3", data: null, buffer: null },
+  "عليوي": { url: "assets/sounds/player-alewi.mp3", data: null, buffer: null },
+  "بوحمد": { url: "assets/sounds/player-buhamad.mp3", data: null, buffer: null },
+  "الخلف": { url: "assets/sounds/player-alkhalaf.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;
