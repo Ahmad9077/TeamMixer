@@ -125,6 +125,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-18, GitHub Pages reached `built` after deploying `c0e7bfa`; the public site and all four new dedicated player MP3 URLs returned `HTTP 200`, and public `app.js` contains the exact mappings for `قرطبة`, `موسى`, `طروق`, and `جراغ` while both random voice pools remain empty.
 - On 2026-06-18, dedicated clips for `قرطبة`, `موسى`, `طروق`, and `جراغ` were enhanced to 48 kHz stereo 320 kbps MP3 at `-14.75` to `-14.87 LUFS`. Local headless Chrome decoded all four through the app's Web Audio path and confirmed exact mappings, normal spins with synthesized sounds only, matching post-selection clips, successful assignment, empty random/spinning voice pools, and no horizontal overflow. `node --check app.js` and `git diff --check` passed.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `ef1a668`; the public site returned `HTTP 200`, public `app.js` contains empty `spinClips` and `celebrationClips` arrays, and there is no `celebration-voice-1` reference.
 - On 2026-06-18, `celebrationClips` was emptied and `app.js` no longer contains a `celebration-voice-1.mp3` reference, so the random post-selection voice is neither fetched nor eligible for playback. `spinClips` remains empty, dedicated player mappings are unchanged, and `node --check app.js` plus `git diff --check` passed.
