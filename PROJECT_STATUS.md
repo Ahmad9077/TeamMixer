@@ -10,12 +10,13 @@ The app currently supports:
 
 - Light Eid styling with a warm ivory background, brown/gold accents, and the Eid Mubarak reference image as a soft background/watermark.
 - Arabic title: `قرعة لعبة سين جيم` / `ديوانية الجيران`.
-- Three editable Arabic groups.
+- Four editable Arabic groups.
 - Default Arabic members for each group.
 - Category logos for player names:
   - Red dragon for `التنانين`
   - Yellow lion for `الأسود`
   - Blue wolf for `الذئاب`
+  - Penguin image for `البطاريق`
 - Name-selection wheel.
 - Full wheel spin for every player, including the last remaining player in a group.
 - Live Team 1 and Team 2 lists during the draw.
@@ -74,6 +75,8 @@ The app currently supports:
 - Removed the active `سيرة ذاتية` and `صوت المشهور` categories, then added `مشاهير صغار` with `assets/categories/young-celebrities.jpg` and `حروف متحركة` with `assets/categories/moving-letters.jpg`.
 - Replaced the active `مشاهير صغار` category with `السيرة النبوية` using `assets/categories/prophetic-biography.jpg`.
 - Replaced the active `تاريخ` category with `رياضة` using the newly supplied `assets/categories/sports.jpg`. Persisted category state transparently migrates the legacy `history` ID to `sports`.
+- Added the lower-than-`الذئاب` group `البطاريق` with the member `بوجمال`, using `assets/penguin-black.jpg`.
+- Added the dedicated post-selection clip `assets/sounds/player-bujamal.mp3` for `بوجمال`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
 - Moved `بوحمد` from `الأسود` to `التنانين`, and moved `عليوي` from `الذئاب` to `الأسود`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Moved `قرطبة` from `الأسود` back to `الذئاب`.
@@ -127,6 +130,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-23, `node --check app.js` and `git diff --check` passed after adding `البطاريق` and `بوجمال`. The new `assets/sounds/player-bujamal.mp3` decodes as a 9.7-second 48 kHz stereo 320 kbps MP3 near the dedicated-player loudness target, and `assets/penguin-black.jpg` is `758x568`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed the group order is `التنانين`, `الأسود`, `الذئاب`, `البطاريق`; `بوجمال` is the only default member of `البطاريق`; his clip is registered in `playerClips`; both MP3 voice pools remain empty; the penguin image loads; all 13 default players assign with final teams `6/7`; and there is no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `3d83cd1`; the public site and `assets/categories/sports.jpg` returned `HTTP 200`, and public `app.js` contains active `رياضة` plus the persisted-state `history` to `sports` migration.
 - On 2026-06-18, `node --check app.js` and `git diff --check` passed after replacing `تاريخ` with `رياضة`. Local headless Chrome confirmed fresh sessions keep 16 categories with `رياضة`/`assets/categories/sports.jpg` and no `تاريخ`; persisted queue/selection state migrates `history` to `sports`; the new 773x973 image loads and stays contained on mobile `390x844` and desktop `1280x900`; and there is no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `c97227f`; the public site returned `HTTP 200`, and direct analysis of the downloaded public `player-mousa.mp3` confirmed the louder `-11.87 LUFS` / `-2.12 dBTP` master is live.

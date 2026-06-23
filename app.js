@@ -2,6 +2,7 @@ const pools = [
   { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي", "بوحمد"] },
   { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["الخلف", "الهلالي", "عليوي"] },
   { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "موسى", "قرطبة"] },
+  { id: "poolD", title: "البطاريق", accent: "#334155", logo: "assets/penguin-black.jpg", players: ["بوجمال"] },
 ];
 
 const categories = [
@@ -141,6 +142,7 @@ const playerClips = {
   "موسى": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
   "طروق": { url: "assets/sounds/player-tarouq.mp3", data: null, buffer: null },
   "جراغ": { url: "assets/sounds/player-jaragh.mp3", data: null, buffer: null },
+  "بوجمال": { url: "assets/sounds/player-bujamal.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;

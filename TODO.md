@@ -21,6 +21,8 @@
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` starts at `5.3s` of the original recording and decodes successfully.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
+- Verify `البطاريق` appears after `الذئاب`, includes `بوجمال`, and uses `assets/penguin-black.jpg`.
+- Verify `بوجمال` plays `assets/sounds/player-bujamal.mp3` after selection under the same dedicated-player rule.
 - Verify dedicated player clips remain near `-15 LUFS` and decode as 48 kHz stereo MP3 after future audio edits; `موسى` is the intentional louder exception near `-12 LUFS`.
 - Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
 - Verify all default players are assigned.
