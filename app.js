@@ -24,6 +24,7 @@ const categories = [
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
 
+// Category wheel limit groups: once a group reaches max, remaining members are excluded.
 const categoryLimitGroups = [
   { ids: new Set(["travel", "geography", "countries-capitals"]), max: 2 },
   { ids: new Set(["no-word", "foreign-word"]), max: 1 },
