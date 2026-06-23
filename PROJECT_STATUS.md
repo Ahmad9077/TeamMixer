@@ -77,6 +77,7 @@ The app currently supports:
 - Replaced the active `تاريخ` category with `رياضة` using the newly supplied `assets/categories/sports.jpg`. Persisted category state transparently migrates the legacy `history` ID to `sports`.
 - Added the lower-than-`الذئاب` group `البطاريق` with the member `بوجمال`, using `assets/penguin-black.jpg`.
 - Added the dedicated post-selection clip `assets/sounds/player-bujamal.mp3` for `بوجمال`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
+- Added `.nojekyll` so GitHub Pages serves the static site directly without Jekyll processing.
 - Moved `بوحمد` from `الأسود` to `التنانين`, and moved `عليوي` from `الذئاب` to `الأسود`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
 - Moved `قرطبة` from `الأسود` back to `الذئاب`.
