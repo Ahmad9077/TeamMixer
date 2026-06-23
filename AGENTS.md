@@ -57,7 +57,7 @@ The app has four screens:
 - Setup (الإعداد): edit the four Arabic groups and members.
 - Draw (القرعة): spin/select names, show active group, progress, and live team lists.
 - Results (النتائج): final الفريق الأول and الفريق الثاني lists with the `من جديد` start-over action. There is no share feature.
-- Categories (الفئات): spin/select six game categories with the `تصفير الفئات` reset action.
+- Categories (الفئات): spin/select six game categories with the `تصفير الفئات` reset action. Only two of `دول و عواصم`, `جغرافيا`, and `سياحة وسفر` can be selected in one Categories session. Only one of `ولا كلمة` and `ولا كلمة فن أجنبي` can be selected in one Categories session.
 
 Groups and logos:
 

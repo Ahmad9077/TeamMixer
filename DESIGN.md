@@ -55,6 +55,6 @@ Results: final cards for الفريق الأول and الفريق الثاني w
 
 Categories: a fourth tab after Results. It uses a separate text-only wheel for category selection, with regular-weight vertical labels inside the wheel slices. Selected categories appear above the wheel as six cards arranged in a 3-by-2 grid, with portrait artwork slots that preserve the full category image and Arabic category names.
 
-In one Categories session, only two categories from this group may be selected: دول و عواصم, جغرافيا, and سياحة وسفر. After two are selected, the remaining category from that group is excluded from the wheel.
+In one Categories session, only two categories from this group may be selected: دول و عواصم, جغرافيا, and سياحة وسفر. After two are selected, the remaining category from that group is excluded from the wheel. Only one category may be selected from ولا كلمة and ولا كلمة فن أجنبي; after one is selected, the other is excluded from the wheel.
 
 Fixed mobile tabs must have enough safe-bottom page padding so the last visible content on any screen can scroll above the tab bar instead of being hidden behind it.

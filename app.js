@@ -18,14 +18,16 @@ const categories = [
   { id: "riddles", title: "ألغاز", image: "assets/categories/riddles.jpg" },
   { id: "world-logos", title: "شعارات عالمية", image: "assets/categories/world-logos.jpg" },
   { id: "technology", title: "تكنولوجيا", image: "assets/categories/technology.jpg" },
-  { id: "order", title: "ترتيب", image: "assets/categories/order.jpg" },
-  { id: "prophetic-biography", title: "السيرة النبوية", image: "assets/categories/prophetic-biography.jpg" },
+  { id: "no-word", title: "ولا كلمة", image: "assets/categories/no-word.jpg" },
+  { id: "kuwait-malls", title: "مجمعات الكويت", image: "assets/categories/kuwait-malls.jpg" },
   { id: "moving-letters", title: "حروف متحركة", image: "assets/categories/moving-letters.jpg" },
   { id: "letters", title: "حروف", image: "assets/categories/letters.jpg" },
 ];
 
-const limitedCategoryIds = new Set(["travel", "geography", "countries-capitals"]);
-const limitedCategoryMax = 2;
+const categoryLimitGroups = [
+  { ids: new Set(["travel", "geography", "countries-capitals"]), max: 2 },
+  { ids: new Set(["no-word", "foreign-word"]), max: 1 },
+];
 const legacyCategoryIds = new Map([["history", "sports"]]);
 const preloadedAssetUrls = new Set();
 
@@ -703,13 +705,14 @@ function categoryWheelItems() {
   return categories.slice(0, 6);
 }
 
-function selectedLimitedCategoryCount() {
-  return state.selectedCategories.filter((category) => limitedCategoryIds.has(category.id)).length;
+function selectedCategoryLimitCount(limitGroup) {
+  return state.selectedCategories.filter((category) => limitGroup.ids.has(category.id)).length;
 }
 
 function availableCategoryQueue() {
-  if (selectedLimitedCategoryCount() < limitedCategoryMax) return state.categoryQueue;
-  return state.categoryQueue.filter((category) => !limitedCategoryIds.has(category.id));
+  return state.categoryQueue.filter((category) =>
+    categoryLimitGroups.every((limitGroup) => selectedCategoryLimitCount(limitGroup) < limitGroup.max || !limitGroup.ids.has(category.id))
+  );
 }
 
 function uprightWheelLabelRotation(angle) {

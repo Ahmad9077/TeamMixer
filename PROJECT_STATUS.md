@@ -75,6 +75,8 @@ The app currently supports:
 - Removed the active `سيرة ذاتية` and `صوت المشهور` categories, then added `مشاهير صغار` with `assets/categories/young-celebrities.jpg` and `حروف متحركة` with `assets/categories/moving-letters.jpg`.
 - Replaced the active `مشاهير صغار` category with `السيرة النبوية` using `assets/categories/prophetic-biography.jpg`.
 - Replaced the active `تاريخ` category with `رياضة` using the newly supplied `assets/categories/sports.jpg`. Persisted category state transparently migrates the legacy `history` ID to `sports`.
+- Removed the active `ترتيب` and `السيرة النبوية` categories, then added `ولا كلمة` with `assets/categories/no-word.jpg` and `مجمعات الكويت` with `assets/categories/kuwait-malls.jpg`.
+- Added a category limit rule so only one of `ولا كلمة` and `ولا كلمة فن أجنبي` can be selected in one Categories session.
 - Added the lower-than-`الذئاب` group `البطاريق` with the member `بوجمال`, using `assets/penguin-black.jpg`.
 - Added the dedicated post-selection clip `assets/sounds/player-bujamal.mp3` for `بوجمال`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
 - Added `.nojekyll` so GitHub Pages serves the static site directly without Jekyll processing.
@@ -131,6 +133,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-23, `node --check app.js` and `git diff --check` passed after replacing `ترتيب` and `السيرة النبوية` with `ولا كلمة` and `مجمعات الكويت`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed Categories remains 16 entries, includes `ولا كلمة` / `assets/categories/no-word.jpg` and `مجمعات الكويت` / `assets/categories/kuwait-malls.jpg`, excludes active `ترتيب` and `السيرة النبوية`, loads both new images, preserves the existing geography/travel/capitals limit, enforces the new one-of-two limit between `ولا كلمة` and `ولا كلمة فن أجنبي` in both directions, and has no horizontal overflow.
 - On 2026-06-23, GitHub Pages reached `built` after deploying `71701f4`; the public site, `assets/penguin-black.jpg`, and `assets/sounds/player-bujamal.mp3` returned `HTTP 200`, and public `app.js` contains `البطاريق`, `بوجمال`, `assets/penguin-black.jpg`, `assets/sounds/player-bujamal.mp3`, plus empty `spinClips` and `celebrationClips` pools.
 - On 2026-06-23, `node --check app.js` and `git diff --check` passed after adding `البطاريق` and `بوجمال`. The new `assets/sounds/player-bujamal.mp3` decodes as a 9.7-second 48 kHz stereo 320 kbps MP3 near the dedicated-player loudness target, and `assets/penguin-black.jpg` is `758x568`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed the group order is `التنانين`, `الأسود`, `الذئاب`, `البطاريق`; `بوجمال` is the only default member of `البطاريق`; his clip is registered in `playerClips`; both MP3 voice pools remain empty; the penguin image loads; all 13 default players assign with final teams `6/7`; and there is no horizontal overflow.
 - On 2026-06-18, GitHub Pages reached `built` after deploying `3d83cd1`; the public site and `assets/categories/sports.jpg` returned `HTTP 200`, and public `app.js` contains active `رياضة` plus the persisted-state `history` to `sports` migration.
