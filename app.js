@@ -141,7 +141,9 @@ const spinClips = [];
 // without a dedicated clip use only synthesized celebration sounds.
 const celebrationClips = [];
 
-// Per-player clips, keyed by player name. When that player is chosen, their
+// Per-player clips, keyed by player name. Clip files can be replaced in-place
+// without changing this registry when the player-to-path mapping stays the same.
+// When that player is chosen, their
 // clip plays after the selection and no other voice clip plays for them —
 // neither during their spin nor as their celebration.
 const playerClips = {
