@@ -1,6 +1,6 @@
 # قرعة لعبة سين جيم - ديوانية الجيران
 
-High-fidelity responsive Arabic RTL web app for a three-group name draw, styled with the Light Modern Minimal design system. The wheel selects a name from the active group, then the app assigns the player to الفريق الأول or الفريق الثاني using the alternating workflow. App state (players, draw progress, picked categories) persists in `localStorage`.
+High-fidelity responsive Arabic RTL web app for a four-group name draw, styled with the Light Modern Minimal design system. The wheel selects a name from the active group, then the app assigns the player to الفريق الأول or الفريق الثاني using the alternating workflow. App state (players, draw progress, picked categories) persists in `localStorage`.
 
 ## Run Locally
 

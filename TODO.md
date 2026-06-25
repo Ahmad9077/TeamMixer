@@ -5,6 +5,7 @@
 - User review of the 2026-06-10 Arabic RTL localization, localStorage persistence, fair shuffle, and responsive changes, then push and deploy.
 - Review the live GitHub Pages site on an actual physical phone screen.
 - Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
+- Populate the created Figma file from `FIGMA_REDESIGN_BRIEF.md` once Figma MCP tool-call capacity is available again, then preview the phone frames in the Figma iPhone app.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
 - If needed, replace the cropped category cards with original individual photos.
 - Optionally convert the setup wordmark to WebP.

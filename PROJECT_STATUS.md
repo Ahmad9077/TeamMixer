@@ -8,7 +8,7 @@ The TeamMixer web app is implemented as a static GitHub Pages site and is public
 
 The app currently supports:
 
-- Light Eid styling with a warm ivory background, brown/gold accents, and the Eid Mubarak reference image as a soft background/watermark.
+- Light Modern Minimal styling with a porcelain background, clean white panels, deep teal primary accent, amber team 2 identity, and a single setup wordmark image.
 - Arabic title: `قرعة لعبة سين جيم` / `ديوانية الجيران`.
 - Four editable Arabic groups.
 - Default Arabic members for each group.
@@ -22,7 +22,7 @@ The app currently supports:
 - Live Team 1 and Team 2 lists during the draw.
 - Results screen with final team lists.
 - Categories screen with a separate category wheel and six selected category cards arranged three per row.
-- Share Results and Start Over actions.
+- Start Over action on Results. The previous Share Results action is intentionally removed.
 - Balance guard preventing either team from leading by 2 players.
 
 ## Completed
@@ -127,11 +127,14 @@ The app currently supports:
 - `app.js` is the behavior source of truth.
 - `DESIGN.md` documents the visual design direction.
 - `AGENTS.md`, `PROJECT_STATUS.md`, and `TODO.md` should be updated alongside meaningful changes.
-- Current visual direction is Light Eid, not Midnight Slate.
+- User-entered player names are escaped before rendering so names cannot inject HTML or script through setup chips, wheel labels, live lists, or results lists.
+- `FIGMA_REDESIGN_BRIEF.md` contains the proposed phone/tablet redesign direction. A Figma file was created for preview work, but Figma MCP canvas editing hit the Starter-plan tool-call limit before frames could be populated.
 
 ## Last Verified
 
 Recent local checks confirmed:
+
+- On 2026-06-25, local review fixes escaped user-entered player names before HTML/SVG rendering, updated stale docs from three groups to four groups, corrected current-state documentation from Light Eid/Share Results to Light Modern Minimal/Start Over only, and added `FIGMA_REDESIGN_BRIEF.md`. A new Figma file was created, but canvas editing was blocked by the Figma Starter-plan MCP tool-call limit. No deployment was performed.
 
 - On 2026-06-23, GitHub Pages reached `built` after deploying `fbe5741`; the public site, `assets/categories/no-word.jpg`, and `assets/categories/kuwait-malls.jpg` returned `HTTP 200`, and public `app.js` contains active `ولا كلمة`, `مجمعات الكويت`, `categoryLimitGroups`, and the `["no-word", "foreign-word"]` one-of-two rule with no active `ترتيب` or `السيرة النبوية` category entries.
 - On 2026-06-23, `node --check app.js` and `git diff --check` passed after replacing `ترتيب` and `السيرة النبوية` with `ولا كلمة` and `مجمعات الكويت`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed Categories remains 16 entries, includes `ولا كلمة` / `assets/categories/no-word.jpg` and `مجمعات الكويت` / `assets/categories/kuwait-malls.jpg`, excludes active `ترتيب` and `السيرة النبوية`, loads both new images, preserves the existing geography/travel/capitals limit, enforces the new one-of-two limit between `ولا كلمة` and `ولا كلمة فن أجنبي` in both directions, and has no horizontal overflow.

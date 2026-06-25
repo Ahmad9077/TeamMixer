@@ -73,6 +73,17 @@ const fallbackWheelSegments = [
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+const htmlEscapes = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+};
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => htmlEscapes[char]);
+}
 
 function preloadImage(url) {
   if (!url || preloadedAssetUrls.has(url)) return;
@@ -612,15 +623,16 @@ function renderPools() {
           </div>
           <div class="mt-4 flex min-h-28 flex-wrap content-start gap-2">
             ${pool.players
-              .map(
-                (player, index) => `
+              .map((player, index) => {
+                const safePlayer = escapeHtml(player);
+                return `
                   <span class="chip inline-flex items-center gap-2 px-2.5 py-1 text-base font-bold">
                     <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
-                    <span class="arabic-text font-bold" dir="rtl">${player}</span>
-                    <button class="remove-btn chip-remove" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${player}">×</button>
+                    <span class="arabic-text font-bold" dir="rtl">${safePlayer}</span>
+                    <button class="remove-btn chip-remove" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${safePlayer}">×</button>
                   </span>
-                `
-              )
+                `;
+              })
               .join("")}
           </div>
         </article>
@@ -677,7 +689,7 @@ function renderWheel() {
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#ffffff" stroke-width="5"></circle>
       ${items[0].logo ? `<image href="${items[0].logo}" x="${logo.x - 18}" y="${logo.y - 18}" width="36" height="36" preserveAspectRatio="xMidYMid slice" transform="rotate(180, ${logo.x}, ${logo.y})"></image>` : ""}
-      <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="700" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" transform="rotate(180, ${label.x}, ${label.y})">${items[0].label}</text>
+      <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="700" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" transform="rotate(180, ${label.x}, ${label.y})">${escapeHtml(items[0].label)}</text>
     `;
     $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
     return;
@@ -693,7 +705,7 @@ function renderWheel() {
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#ffffff" stroke-width="5"></path>
         ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
-        <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${item.label.slice(0, 10)}</text>
+        <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${escapeHtml(item.label.slice(0, 10))}</text>
       `;
     })
     .join("");
@@ -920,11 +932,12 @@ function renderProgress() {
 }
 
 function playerRow(player) {
+  const safeName = escapeHtml(player.name);
   return `
     <div class="row flex items-center justify-between px-4 py-3">
       <div class="flex items-center gap-3">
         <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-        <span class="arabic-text text-xl font-bold" dir="rtl">${player.name}</span>
+        <span class="arabic-text text-xl font-bold" dir="rtl">${safeName}</span>
       </div>
       <span class="arabic-text text-sm font-bold text-muted" dir="rtl">${player.pool}</span>
     </div>
@@ -932,10 +945,11 @@ function playerRow(player) {
 }
 
 function compactPlayerRow(player) {
+  const safeName = escapeHtml(player.name);
   return `
     <div class="row flex items-center justify-center gap-3 px-4 py-3">
       <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-      <span class="arabic-text text-xl font-bold" dir="rtl">${player.name}</span>
+      <span class="arabic-text text-xl font-bold" dir="rtl">${safeName}</span>
     </div>
   `;
 }
