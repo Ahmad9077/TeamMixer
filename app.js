@@ -423,6 +423,16 @@ function currentPool() {
   return pools[state.currentPoolIndex] || null;
 }
 
+function migrateBujamalToWolves() {
+  const bujamal = "بوجمال";
+  const wolves = pools.find((pool) => pool.id === "poolC");
+  if (!wolves) return;
+  pools.forEach((pool) => {
+    pool.players = pool.players.filter((player) => player !== bujamal);
+  });
+  wolves.players.push(bujamal);
+}
+
 function advanceToNextAvailablePool() {
   while (state.currentPoolIndex < state.poolQueues.length && state.poolQueues[state.currentPoolIndex].length === 0) {
     state.currentPoolIndex += 1;
@@ -487,21 +497,30 @@ function loadState() {
       const names = data.players?.[pool.id];
       if (Array.isArray(names)) pool.players = names.filter((name) => typeof name === "string" && name.trim());
     });
+    migrateBujamalToWolves();
 
     const poolById = new Map(pools.map((pool) => [pool.id, pool]));
     const revivePlayer = (entry) => {
       if (!entry || typeof entry.name !== "string") return null;
-      const pool = poolById.get(entry.poolId);
+      const pool = poolById.get(entry.name === "بوجمال" ? "poolC" : entry.poolId);
       return pool ? playerFromPool(pool, entry.name) : null;
     };
 
     const draw = data.draw || {};
+    let queuedBujamal = false;
     state.poolQueues = pools.map((pool, index) => {
       const names = Array.isArray(draw.poolQueues?.[index]) ? draw.poolQueues[index] : [];
-      return names.filter((name) => typeof name === "string").map((name) => playerFromPool(pool, name));
+      queuedBujamal ||= names.includes("بوجمال");
+      return names.filter((name) => typeof name === "string" && (name !== "بوجمال" || pool.id === "poolC")).map((name) => playerFromPool(pool, name));
     });
-    state.groupStartCounts = Array.isArray(draw.groupStartCounts) ? draw.groupStartCounts.map(Number) : pools.map((pool) => pool.players.length);
+    if (queuedBujamal && !state.poolQueues[2]?.some((player) => player.name === "بوجمال")) {
+      state.poolQueues[2].push(playerFromPool(pools[2], "بوجمال"));
+    }
+    state.groupStartCounts = pools.map((pool) => pool.players.length);
     state.currentPoolIndex = Number.isInteger(draw.currentPoolIndex) ? draw.currentPoolIndex : 0;
+    if (queuedBujamal && state.currentPoolIndex > 2 && state.poolQueues[2]?.some((player) => player.name === "بوجمال")) {
+      state.currentPoolIndex = 2;
+    }
     state.teams.one = (Array.isArray(draw.teams?.one) ? draw.teams.one : []).map(revivePlayer).filter(Boolean);
     state.teams.two = (Array.isArray(draw.teams?.two) ? draw.teams.two : []).map(revivePlayer).filter(Boolean);
     state.assigned = (Array.isArray(draw.assigned) ? draw.assigned : [])

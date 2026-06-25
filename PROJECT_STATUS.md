@@ -80,6 +80,7 @@ The app currently supports:
 - Added the lower-than-`الذئاب` group `البطاريق` with the member `بوجمال`, using `assets/penguin-black.jpg`.
 - Added the dedicated post-selection clip `assets/sounds/player-bujamal.mp3` for `بوجمال`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
 - Moved `بوجمال` from `البطاريق` to `الذئاب`; `البطاريق` remains available as an editable group with no default members.
+- Added a persisted-state migration so older browsers that still have `بوجمال` saved under `البطاريق` automatically move him to `الذئاب`, including saved draw queues and assigned/team rows, while preserving his dedicated audio clip.
 - Added `.nojekyll` so GitHub Pages serves the static site directly without Jekyll processing.
 - Moved `بوحمد` from `الأسود` to `التنانين`, and moved `عليوي` from `الذئاب` to `الأسود`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
@@ -136,6 +137,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-06-25, added a localStorage migration for `بوجمال` so stale saved setup/draw state moves him from `البطاريق` to `الذئاب` automatically, moves any saved draw queue entry back to the wolf queue, preserves/repairs assigned and team rows as wolf entries, and keeps `assets/sounds/player-bujamal.mp3` as his dedicated post-selection audio. `node --check app.js`, `git diff --check`, and local headless Chrome checks against fresh plus stale saved states passed.
 - On 2026-06-25, `حميد`'s dedicated clip was replaced from the supplied `حميد٢.mp3` recording. The rebuilt `assets/sounds/player-hameed.mp3` is a 7.789-second 48 kHz stereo 320 kbps MP3 measuring about `-15.7 LUFS`; `node --check app.js`, `git diff --check`, and `ffprobe` passed. No `app.js` mapping change was needed because `حميد` already points to `assets/sounds/player-hameed.mp3`.
 - On 2026-06-25, `node --check app.js` and `git diff --check` passed after moving `بوجمال` from `البطاريق` to `الذئاب`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed `الذئاب` contains `حمود`, `موسى`, `قرطبة`, and `بوجمال`; `البطاريق` remains after `الذئاب` with no default members; `بوجمال` still maps to `assets/sounds/player-bujamal.mp3`; a full default draw assigns all 13 players with `بوجمال` under `الذئاب`, final teams `6/7`, and no horizontal overflow.
 - On 2026-06-25, local review fixes escaped user-entered player names before HTML/SVG rendering, updated stale docs from three groups to four groups, corrected current-state documentation from Light Eid/Share Results to Light Modern Minimal/Start Over only, and added `FIGMA_REDESIGN_BRIEF.md`. A new Figma file was created, but canvas editing was blocked by the Figma Starter-plan MCP tool-call limit. No deployment was performed.
