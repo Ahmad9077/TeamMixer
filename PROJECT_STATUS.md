@@ -79,6 +79,7 @@ The app currently supports:
 - Added a category limit rule so only one of `ولا كلمة` and `ولا كلمة فن أجنبي` can be selected in one Categories session.
 - Added the lower-than-`الذئاب` group `البطاريق` with the member `بوجمال`, using `assets/penguin-black.jpg`.
 - Added the dedicated post-selection clip `assets/sounds/player-bujamal.mp3` for `بوجمال`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
+- Moved `بوجمال` from `البطاريق` to `الذئاب`; `البطاريق` remains available as an editable group with no default members.
 - Added `.nojekyll` so GitHub Pages serves the static site directly without Jekyll processing.
 - Moved `بوحمد` from `الأسود` to `التنانين`, and moved `عليوي` from `الذئاب` to `الأسود`.
 - Moved `الخلف`, `الهلالي`, and `قرطبة` to `الأسود`, and added `موسى` to `الذئاب`.
@@ -128,13 +129,17 @@ The app currently supports:
 - `DESIGN.md` documents the visual design direction.
 - `AGENTS.md`, `PROJECT_STATUS.md`, and `TODO.md` should be updated alongside meaningful changes.
 - User-entered player names are escaped before rendering so names cannot inject HTML or script through setup chips, wheel labels, live lists, or results lists.
-- `FIGMA_REDESIGN_BRIEF.md` contains the proposed phone/tablet redesign direction. A Figma file was created for preview work, but Figma MCP canvas editing hit the Starter-plan tool-call limit before frames could be populated.
+- `FIGMA_REDESIGN_BRIEF.md` remains historical only. The Figma redesign direction was cancelled by the user, and the related suggestion pages were removed from the Figma file.
 
 ## Last Verified
 
 Recent local checks confirmed:
 
+- On 2026-06-25, `node --check app.js` and `git diff --check` passed after moving `بوجمال` from `البطاريق` to `الذئاب`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed `الذئاب` contains `حمود`, `موسى`, `قرطبة`, and `بوجمال`; `البطاريق` remains after `الذئاب` with no default members; `بوجمال` still maps to `assets/sounds/player-bujamal.mp3`; a full default draw assigns all 13 players with `بوجمال` under `الذئاب`, final teams `6/7`, and no horizontal overflow.
 - On 2026-06-25, local review fixes escaped user-entered player names before HTML/SVG rendering, updated stale docs from three groups to four groups, corrected current-state documentation from Light Eid/Share Results to Light Modern Minimal/Start Over only, and added `FIGMA_REDESIGN_BRIEF.md`. A new Figma file was created, but canvas editing was blocked by the Figma Starter-plan MCP tool-call limit. No deployment was performed.
+- On 2026-06-25, after the Figma Professional plan upgrade, the TeamMixer redesign preview file was populated with five Cairo-based RTL frames: Phone Setup, Phone Draw, Phone Categories, Tablet Draw, and Tablet Categories. Figma screenshots were checked for phone `390x844` and tablet `820x1180`; headline collisions and phone setup/nav spacing were corrected. No website deployment was performed.
+- On 2026-06-25, user rejected the first Figma concept and requested a stricter visual-only refresh of the existing Arabic RTL design. Created the new Figma page `TeamMixer Visual Refresh v2 - RTL` with Phone Setup, Phone Draw, Phone Categories, Tablet Draw, and Tablet Categories frames. The v2 concept keeps the current screen structure, right-to-left mobile tab order, and existing UI labels, removes explanatory/comment text, uses Tajawal where available, and was screenshot-checked at phone `390x844` and tablet `820x1180`. No website code was changed or deployed.
+- On 2026-06-25, user rejected the v2 concept and cancelled the TeamMixer redesign idea. Removed the Figma pages `TeamMixer Redesign Preview` and `TeamMixer Visual Refresh v2 - RTL`; no website code was changed or deployed.
 
 - On 2026-06-23, GitHub Pages reached `built` after deploying `fbe5741`; the public site, `assets/categories/no-word.jpg`, and `assets/categories/kuwait-malls.jpg` returned `HTTP 200`, and public `app.js` contains active `ولا كلمة`, `مجمعات الكويت`, `categoryLimitGroups`, and the `["no-word", "foreign-word"]` one-of-two rule with no active `ترتيب` or `السيرة النبوية` category entries.
 - On 2026-06-23, `node --check app.js` and `git diff --check` passed after replacing `ترتيب` and `السيرة النبوية` with `ولا كلمة` and `مجمعات الكويت`. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed Categories remains 16 entries, includes `ولا كلمة` / `assets/categories/no-word.jpg` and `مجمعات الكويت` / `assets/categories/kuwait-malls.jpg`, excludes active `ترتيب` and `السيرة النبوية`, loads both new images, preserves the existing geography/travel/capitals limit, enforces the new one-of-two limit between `ولا كلمة` and `ولا كلمة فن أجنبي` in both directions, and has no horizontal overflow.

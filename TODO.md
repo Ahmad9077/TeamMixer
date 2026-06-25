@@ -5,7 +5,6 @@
 - User review of the 2026-06-10 Arabic RTL localization, localStorage persistence, fair shuffle, and responsive changes, then push and deploy.
 - Review the live GitHub Pages site on an actual physical phone screen.
 - Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
-- Populate the created Figma file from `FIGMA_REDESIGN_BRIEF.md` once Figma MCP tool-call capacity is available again, then preview the phone frames in the Figma iPhone app.
 - If needed, crop or mask the logo images into cleaner square/circular icons.
 - If needed, replace the cropped category cards with original individual photos.
 - Optionally convert the setup wordmark to WebP.
@@ -22,7 +21,7 @@
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` starts at `5.3s` of the original recording and decodes successfully.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
-- Verify `البطاريق` appears after `الذئاب`, includes `بوجمال`, and uses `assets/penguin-black.jpg`.
+- Verify `بوجمال` is in `الذئاب`, `البطاريق` remains after `الذئاب` with no default members, and `assets/penguin-black.jpg` still loads.
 - Verify `بوجمال` plays `assets/sounds/player-bujamal.mp3` after selection under the same dedicated-player rule.
 - Verify dedicated player clips remain near `-15 LUFS` and decode as 48 kHz stereo MP3 after future audio edits; `موسى` is the intentional louder exception near `-12 LUFS`.
 - Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
