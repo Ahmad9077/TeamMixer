@@ -2,7 +2,7 @@
 
 ## Next Steps
 
-- User review of the 2026-06-10 Arabic RTL localization, localStorage persistence, fair shuffle, and responsive changes, then push and deploy.
+- User review of the current live GitHub Pages site after the 2026-07-02 player ranking deployment.
 - Review the live GitHub Pages site on an actual physical phone screen.
 - Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
 - If needed, crop or mask the logo images into cleaner square/circular icons.

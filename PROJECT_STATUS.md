@@ -47,6 +47,7 @@ The app currently supports:
 - Increased player-name size and weight.
 - Added live lists on the Draw screen.
 - Verified recent behavior with local Playwright checks.
+- Recovered GitHub Pages deployment after the legacy Pages queue stalled; Pages was disabled and re-enabled with the same `main` / root source, then rebuilt successfully.
 - Tuned the mobile Draw layout so the spin button and wheel appear above the fixed bottom navigation while desktop keeps the original two-column layout.
 - Added a fourth `Categories` tab after `Results`.
 - Replaced the oversized wheel center square with a smaller circular center badge.
@@ -139,6 +140,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-07-02, GitHub Pages reached `built` after deploying `cadd460`; public GitHub Pages returned `HTTP 200`, public `app.js` contains `جلاد التنانين`, `مويس`, `assets/dragon-slayer.jpg`, and `ROSTER_VERSION = 2`, and public `assets/dragon-slayer.jpg` returned `HTTP 200`. The failed deploys were caused by GitHub Pages staying in `deployment_queued` until timeout, not by the app artifact.
 - On 2026-07-02, `node --check app.js` and `git diff --check` passed after re-ranking the player groups. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed the four groups are `جلاد التنانين`, `التنانين`, `الأسود`, and `الذئاب` with exactly three requested players each; `assets/dragon-slayer.jpg` loads at `348x672`; stale `seenjeem_state_v1` without the current `rosterVersion` resets to the new roster; `مويس` maps to `assets/sounds/player-mousa.mp3`; `spinClips` and `celebrationClips` remain empty; a full default draw assigns all 12 players, ends `6/6`, keeps max team difference at `1`, and has no horizontal overflow.
 - On 2026-07-02, GitHub Pages reached `built` after deploying `2ad7dbc`; the public site returned `HTTP 200`, public `app.js` still maps `البريجي` to `assets/sounds/player-breiji.mp3` with empty `spinClips` and `celebrationClips`, and the public `player-breiji.mp3` returned `HTTP 200` as the 5.664-second 48 kHz stereo 320 kbps replacement.
 - On 2026-07-02, `البريجي`'s dedicated clip was replaced from the newly supplied `البريجي.mp3` recording. The rebuilt `assets/sounds/player-breiji.mp3` is a 5.664-second 48 kHz stereo 320 kbps MP3 measuring `-15.00 LUFS`; `ffprobe`, full MP3 decode through `ffmpeg`, `node --check app.js`, and `git diff --check` passed. No `app.js` mapping change was needed because `البريجي` already points to `assets/sounds/player-breiji.mp3`.
