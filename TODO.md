@@ -19,7 +19,7 @@
 - Verify live team lists are visible during spin.
 - Verify both spinning voice MP3s are absent from the active empty `spinClips` pool and cannot play during a spin.
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
-- Verify the published `player-breiji.mp3` starts at `5.3s` of the original recording and decodes successfully.
+- Verify the published `player-breiji.mp3` decodes successfully as a 48 kHz stereo 320 kbps MP3 near `-15 LUFS`.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
 - Verify `بوجمال` is in `الذئاب`, `البطاريق` remains after `الذئاب` with no default members, and `assets/penguin-black.jpg` still loads.
 - Verify stale `seenjeem_state_v1` data that had `بوجمال` under `البطاريق` migrates him to `الذئاب` in setup, draw queues, assigned rows, and team rows.
