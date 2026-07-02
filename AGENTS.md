@@ -34,7 +34,7 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 - Vanilla JavaScript state management in `app.js`.
 - Assets live under `assets/`.
 - No build step, package manager, framework, backend, or database.
-- Sound effects use the Web Audio API in `app.js`: deceleration-matched wheel ticks plus a randomized pool of synthesized celebration sounds and a grand finale. Spinning MP3 voices are disabled: `spinClips` is empty, while `spin-voice-1.mp3` and `spin-voice-2.mp3` remain inactive repository assets. Every player and category spin uses only synthesized wheel sounds. Random post-selection MP3 voices are also disabled: `celebrationClips` is empty and `celebration-voice-1.mp3` remains an inactive asset. Players without a dedicated clip receive one of the five synthesized celebration sounds. Per-player clips live in `playerClips` keyed by player name (currently `البريجي`, `حميد`, `الملا`, `حمود`, `عليوي`, `بوحمد`, `الخلف`, `قرطبة`, `موسى`, `طروق`, `جراغ`, and `بوجمال`): when that player is chosen their clip always plays after the selection, their spin uses ticks only, and no other voice clip ever plays for them. Dedicated clips are speech-cleaned, lightly compressed, and encoded as 48 kHz stereo 320 kbps MP3. Most target about `-15 LUFS`; `موسى` intentionally targets about `-12 LUFS` for stronger perceived volume. The published `البريجي` asset uses the latest supplied full recording, normalized near `-15 LUFS`. The header 🔊/🔇 toggle persists separately under `seenjeem_sound_v1` and is not cleared by `من جديد`. Sound code must never break game logic (all entry points are wrapped in try/catch).
+- Sound effects use the Web Audio API in `app.js`: deceleration-matched wheel ticks plus a randomized pool of synthesized celebration sounds and a grand finale. Spinning MP3 voices are disabled: `spinClips` is empty, while `spin-voice-1.mp3` and `spin-voice-2.mp3` remain inactive repository assets. Every player and category spin uses only synthesized wheel sounds. Random post-selection MP3 voices are also disabled: `celebrationClips` is empty and `celebration-voice-1.mp3` remains an inactive asset. Players without a dedicated clip receive one of the five synthesized celebration sounds. Per-player clips live in `playerClips` keyed by player name (currently `البريجي`, `حميد`, `الملا`, `حمود`, `عليوي`, `بوحمد`, `الخلف`, `قرطبة`, `مويس`, `طروق`, and `جراغ`): when that player is chosen their clip always plays after the selection, their spin uses ticks only, and no other voice clip ever plays for them. Dedicated clips are speech-cleaned, lightly compressed, and encoded as 48 kHz stereo 320 kbps MP3. Most target about `-15 LUFS`; `مويس` intentionally uses the louder `player-mousa.mp3` asset near `-12 LUFS` for stronger perceived volume. The published `البريجي` asset uses the latest supplied full recording, normalized near `-15 LUFS`. The header 🔊/🔇 toggle persists separately under `seenjeem_sound_v1` and is not cleared by `من جديد`. Sound code must never break game logic (all entry points are wrapped in try/catch).
 - App state persists in `localStorage` under the single key `seenjeem_state_v1` (players, draw progress, team assignments, picked categories, active screen). `من جديد` clears all stored state; `تصفير الفئات` resets only category state. No cross-session draw history: randomness is independent each session and previously used categories are never excluded.
 
 ## Design Direction
@@ -61,17 +61,17 @@ The app has four screens:
 
 Groups and logos:
 
+- `جلاد التنانين`: `assets/dragon-slayer.jpg`
 - `التنانين`: `assets/dragon-red.jpg`
 - `الأسود`: `assets/lion-yellow.jpg`
 - `الذئاب`: `assets/wolf-blue.jpg`
-- `البطاريق`: `assets/penguin-black.jpg`
 
 Default members:
 
-- `التنانين`: `الملا`, `جراغ`, `حميد`, `طروق`, `البريجي`, `بوحمد`
-- `الأسود`: `الخلف`, `الهلالي`, `عليوي`
-- `الذئاب`: `حمود`, `موسى`, `قرطبة`, `بوجمال`
-- `البطاريق`: no default members
+- `جلاد التنانين`: `جراغ`, `الملا`, `طروق`
+- `التنانين`: `حميد`, `البريجي`, `بوحمد`
+- `الأسود`: `عليوي`, `الخلف`, `الهلالي`
+- `الذئاب`: `حمود`, `مويس`, `قرطبة`
 
 Rules:
 

@@ -1,8 +1,8 @@
 const pools = [
-  { id: "poolA", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["الملا", "جراغ", "حميد", "طروق", "البريجي", "بوحمد"] },
-  { id: "poolB", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["الخلف", "الهلالي", "عليوي"] },
-  { id: "poolC", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "موسى", "قرطبة", "بوجمال"] },
-  { id: "poolD", title: "البطاريق", accent: "#334155", logo: "assets/penguin-black.jpg", players: [] },
+  { id: "poolA", title: "جلاد التنانين", accent: "#7c2d12", logo: "assets/dragon-slayer.jpg", players: ["جراغ", "الملا", "طروق"] },
+  { id: "poolB", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["حميد", "البريجي", "بوحمد"] },
+  { id: "poolC", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["عليوي", "الخلف", "الهلالي"] },
+  { id: "poolD", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "مويس", "قرطبة"] },
 ];
 
 const categories = [
@@ -33,6 +33,7 @@ const legacyCategoryIds = new Map([["history", "sports"]]);
 const preloadedAssetUrls = new Set();
 
 const STORAGE_KEY = "seenjeem_state_v1";
+const ROSTER_VERSION = 2;
 const SCREENS = ["setup", "randomize", "results", "categories"];
 const defaultPlayers = pools.map((pool) => [...pool.players]);
 const defaultDrawMessage = "جاهزين لقرعة جديدة";
@@ -155,10 +156,9 @@ const playerClips = {
   "بوحمد": { url: "assets/sounds/player-buhamad.mp3", data: null, buffer: null },
   "الخلف": { url: "assets/sounds/player-alkhalaf.mp3", data: null, buffer: null },
   "قرطبة": { url: "assets/sounds/player-qurtuba.mp3", data: null, buffer: null },
-  "موسى": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
+  "مويس": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
   "طروق": { url: "assets/sounds/player-tarouq.mp3", data: null, buffer: null },
   "جراغ": { url: "assets/sounds/player-jaragh.mp3", data: null, buffer: null },
-  "بوجمال": { url: "assets/sounds/player-bujamal.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;
@@ -423,26 +423,35 @@ function currentPool() {
   return pools[state.currentPoolIndex] || null;
 }
 
-function migrateBujamalToWolves() {
-  const bujamal = "بوجمال";
-  const wolves = pools.find((pool) => pool.id === "poolC");
-  if (!wolves) return;
-  pools.forEach((pool) => {
-    pool.players = pool.players.filter((player) => player !== bujamal);
-  });
-  wolves.players.push(bujamal);
-}
-
 function advanceToNextAvailablePool() {
   while (state.currentPoolIndex < state.poolQueues.length && state.poolQueues[state.currentPoolIndex].length === 0) {
     state.currentPoolIndex += 1;
   }
 }
 
+function applyFreshDrawState(message = defaultDrawMessage) {
+  frozenWheelItems = null;
+  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => playerFromPool(pool, name))));
+  state.groupStartCounts = pools.map((pool) => pool.players.length);
+  state.currentPoolIndex = 0;
+  state.assigned = [];
+  state.teams.one = [];
+  state.teams.two = [];
+  state.nextTeam = "one";
+  state.bonusTeam = null;
+  state.bonusRemaining = 0;
+  state.spinning = false;
+  state.rotation = 0;
+  state.lastResult = message;
+  state.drawReady = true;
+  advanceToNextAvailablePool();
+}
+
 function saveState() {
   try {
     const payload = {
       version: 1,
+      rosterVersion: ROSTER_VERSION,
       players: Object.fromEntries(pools.map((pool) => [pool.id, [...pool.players]])),
       draw: {
         poolQueues: state.poolQueues.map((queue) => queue.map((player) => player.name)),
@@ -493,49 +502,47 @@ function loadState() {
     const data = JSON.parse(raw);
     if (!data || data.version !== 1) return false;
 
-    pools.forEach((pool) => {
-      const names = data.players?.[pool.id];
-      if (Array.isArray(names)) pool.players = names.filter((name) => typeof name === "string" && name.trim());
-    });
-    migrateBujamalToWolves();
+    const needsRosterMigration = data.rosterVersion !== ROSTER_VERSION;
+    if (!needsRosterMigration) {
+      pools.forEach((pool) => {
+        const names = data.players?.[pool.id];
+        if (Array.isArray(names)) pool.players = names.filter((name) => typeof name === "string" && name.trim());
+      });
+    }
 
     const poolById = new Map(pools.map((pool) => [pool.id, pool]));
     const revivePlayer = (entry) => {
       if (!entry || typeof entry.name !== "string") return null;
-      const pool = poolById.get(entry.name === "بوجمال" ? "poolC" : entry.poolId);
+      const pool = poolById.get(entry.poolId);
       return pool ? playerFromPool(pool, entry.name) : null;
     };
 
     const draw = data.draw || {};
-    let queuedBujamal = false;
-    state.poolQueues = pools.map((pool, index) => {
-      const names = Array.isArray(draw.poolQueues?.[index]) ? draw.poolQueues[index] : [];
-      queuedBujamal ||= names.includes("بوجمال");
-      return names.filter((name) => typeof name === "string" && (name !== "بوجمال" || pool.id === "poolC")).map((name) => playerFromPool(pool, name));
-    });
-    if (queuedBujamal && !state.poolQueues[2]?.some((player) => player.name === "بوجمال")) {
-      state.poolQueues[2].push(playerFromPool(pools[2], "بوجمال"));
+    if (needsRosterMigration) {
+      applyFreshDrawState("تم تحديث التصنيف، ابدأ القرعة");
+    } else {
+      state.poolQueues = pools.map((pool, index) => {
+        const names = Array.isArray(draw.poolQueues?.[index]) ? draw.poolQueues[index] : [];
+        return names.filter((name) => typeof name === "string").map((name) => playerFromPool(pool, name));
+      });
+      state.groupStartCounts = pools.map((pool) => pool.players.length);
+      state.currentPoolIndex = Number.isInteger(draw.currentPoolIndex) ? draw.currentPoolIndex : 0;
+      state.teams.one = (Array.isArray(draw.teams?.one) ? draw.teams.one : []).map(revivePlayer).filter(Boolean);
+      state.teams.two = (Array.isArray(draw.teams?.two) ? draw.teams.two : []).map(revivePlayer).filter(Boolean);
+      state.assigned = (Array.isArray(draw.assigned) ? draw.assigned : [])
+        .map((entry) => {
+          const player = revivePlayer(entry);
+          return player && (entry.team === "one" || entry.team === "two") ? { ...player, team: entry.team } : null;
+        })
+        .filter(Boolean);
+      state.nextTeam = draw.nextTeam === "two" ? "two" : "one";
+      state.bonusTeam = draw.bonusTeam === "one" || draw.bonusTeam === "two" ? draw.bonusTeam : null;
+      state.bonusRemaining = Number.isInteger(draw.bonusRemaining) && draw.bonusRemaining > 0 ? draw.bonusRemaining : 0;
+      state.lastResult = typeof draw.lastResult === "string" ? draw.lastResult : defaultDrawMessage;
+      state.drawReady = Boolean(draw.drawReady);
+      state.spinning = false;
+      state.rotation = 0;
     }
-    state.groupStartCounts = pools.map((pool) => pool.players.length);
-    state.currentPoolIndex = Number.isInteger(draw.currentPoolIndex) ? draw.currentPoolIndex : 0;
-    if (queuedBujamal && state.currentPoolIndex > 2 && state.poolQueues[2]?.some((player) => player.name === "بوجمال")) {
-      state.currentPoolIndex = 2;
-    }
-    state.teams.one = (Array.isArray(draw.teams?.one) ? draw.teams.one : []).map(revivePlayer).filter(Boolean);
-    state.teams.two = (Array.isArray(draw.teams?.two) ? draw.teams.two : []).map(revivePlayer).filter(Boolean);
-    state.assigned = (Array.isArray(draw.assigned) ? draw.assigned : [])
-      .map((entry) => {
-        const player = revivePlayer(entry);
-        return player && (entry.team === "one" || entry.team === "two") ? { ...player, team: entry.team } : null;
-      })
-      .filter(Boolean);
-    state.nextTeam = draw.nextTeam === "two" ? "two" : "one";
-    state.bonusTeam = draw.bonusTeam === "one" || draw.bonusTeam === "two" ? draw.bonusTeam : null;
-    state.bonusRemaining = Number.isInteger(draw.bonusRemaining) && draw.bonusRemaining > 0 ? draw.bonusRemaining : 0;
-    state.lastResult = typeof draw.lastResult === "string" ? draw.lastResult : defaultDrawMessage;
-    state.drawReady = Boolean(draw.drawReady);
-    state.spinning = false;
-    state.rotation = 0;
 
     const categoryById = new Map(categories.map((category) => [category.id, category]));
     const storedCategories = data.categories || {};
@@ -551,7 +558,7 @@ function loadState() {
     state.categorySpinning = false;
     state.categoryRotation = 0;
 
-    state.activeScreen = SCREENS.includes(data.activeScreen) ? data.activeScreen : "setup";
+    state.activeScreen = needsRosterMigration ? "setup" : SCREENS.includes(data.activeScreen) ? data.activeScreen : "setup";
     advanceToNextAvailablePool();
     return true;
   } catch {
@@ -560,21 +567,7 @@ function loadState() {
 }
 
 function resetDraw(message = defaultDrawMessage) {
-  frozenWheelItems = null;
-  state.poolQueues = pools.map((pool) => shuffle(pool.players.map((name) => playerFromPool(pool, name))));
-  state.groupStartCounts = pools.map((pool) => pool.players.length);
-  state.currentPoolIndex = 0;
-  state.assigned = [];
-  state.teams.one = [];
-  state.teams.two = [];
-  state.nextTeam = "one";
-  state.bonusTeam = null;
-  state.bonusRemaining = 0;
-  state.spinning = false;
-  state.rotation = 0;
-  state.lastResult = message;
-  state.drawReady = true;
-  advanceToNextAvailablePool();
+  applyFreshDrawState(message);
   render();
 }
 

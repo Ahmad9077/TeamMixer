@@ -21,10 +21,11 @@
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` decodes successfully as a 48 kHz stereo 320 kbps MP3 near `-15 LUFS`.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
-- Verify `بوجمال` is in `الذئاب`, `البطاريق` remains after `الذئاب` with no default members, and `assets/penguin-black.jpg` still loads.
-- Verify stale `seenjeem_state_v1` data that had `بوجمال` under `البطاريق` migrates him to `الذئاب` in setup, draw queues, assigned rows, and team rows.
-- Verify `بوجمال` plays `assets/sounds/player-bujamal.mp3` after selection under the same dedicated-player rule.
-- Verify dedicated player clips remain near `-15 LUFS` and decode as 48 kHz stereo MP3 after future audio edits; `موسى` is the intentional louder exception near `-12 LUFS`.
+- Verify the four default groups are `جلاد التنانين`, `التنانين`, `الأسود`, and `الذئاب` with the requested three players each.
+- Verify stale `seenjeem_state_v1` data without the current `rosterVersion` resets to the new ranking and player list.
+- Verify `assets/dragon-slayer.jpg` loads for `جلاد التنانين`.
+- Verify `مويس` plays `assets/sounds/player-mousa.mp3` after selection under the same dedicated-player rule.
+- Verify dedicated player clips remain near `-15 LUFS` and decode as 48 kHz stereo MP3 after future audio edits; `مويس` is the intentional louder exception near `-12 LUFS`.
 - Verify the last player in every group completes a normal spin before assignment, with the full name and logo visible outside the center badge.
 - Verify all default players are assigned.
 - Verify final counts differ by at most 1.
