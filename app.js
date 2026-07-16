@@ -3,6 +3,7 @@ const pools = [
   { id: "poolB", title: "التنانين", accent: "#b3403a", logo: "assets/dragon-red.jpg", players: ["حميد", "البريجي", "بوحمد"] },
   { id: "poolC", title: "الأسود", accent: "#b45309", logo: "assets/lion-yellow.jpg", players: ["عليوي", "الخلف", "الهلالي"] },
   { id: "poolD", title: "الذئاب", accent: "#1d4ed8", logo: "assets/wolf-blue.jpg", players: ["حمود", "مويس", "قرطبة"] },
+  { id: "poolE", title: "البطاريق", accent: "#111827", logo: "assets/penguin-black.jpg", players: ["هشوم"] },
 ];
 
 const categories = [
@@ -33,7 +34,7 @@ const legacyCategoryIds = new Map([["history", "sports"]]);
 const preloadedAssetUrls = new Set();
 
 const STORAGE_KEY = "seenjeem_state_v1";
-const ROSTER_VERSION = 2;
+const ROSTER_VERSION = 3;
 const SCREENS = ["setup", "randomize", "results", "categories"];
 const defaultPlayers = pools.map((pool) => [...pool.players]);
 const defaultDrawMessage = "جاهزين لقرعة جديدة";
@@ -159,6 +160,7 @@ const playerClips = {
   "مويس": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
   "طروق": { url: "assets/sounds/player-tarouq.mp3", data: null, buffer: null },
   "جراغ": { url: "assets/sounds/player-jaragh.mp3", data: null, buffer: null },
+  "هشوم": { url: "assets/sounds/player-hashoum.mp3", data: null, buffer: null },
 };
 
 let spinClipUsed = false;

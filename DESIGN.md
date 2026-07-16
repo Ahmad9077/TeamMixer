@@ -29,7 +29,7 @@ spacing:
 
 ## TeamMixer
 
-TeamMixer is a high-fidelity responsive web application for ديوانية الجيران and the game قرعة لعبة سين جيم. Users add players into four source groups, then spin a central wheel that selects a name from the current group.
+TeamMixer is a high-fidelity responsive web application for ديوانية الجيران and the game قرعة لعبة سين جيم. Users add players into five source groups, then spin a central wheel that selects a name from the current group.
 
 ## Visual System
 
@@ -41,11 +41,11 @@ The interface is fully Arabic and right-to-left (`<html lang="ar" dir="rtl">`) w
 
 ## Components
 
-Cards and panels use white surfaces, 1px warm low-contrast borders, and subtle shadows. Inputs are white fields with a teal focus ring. Primary buttons are solid deep teal with white text; secondary buttons are white with a border that warms to teal on hover. Group accents are high-contrast on white: dragon-slayer brown `#7c2d12`, dragon red `#b3403a`, lion amber `#b45309`, and wolf blue `#1d4ed8`. Wheel slices use a soft pastel palette (mint, sand, periwinkle, blush, sage) with white separators and dark Arabic labels for legibility.
+Cards and panels use white surfaces, 1px warm low-contrast borders, and subtle shadows. Inputs are white fields with a teal focus ring. Primary buttons are solid deep teal with white text; secondary buttons are white with a border that warms to teal on hover. Group accents are high-contrast on white: dragon-slayer brown `#7c2d12`, dragon red `#b3403a`, lion amber `#b45309`, wolf blue `#1d4ed8`, and penguin charcoal `#111827`. Wheel slices use a soft pastel palette (mint, sand, periwinkle, blush, sage) with white separators and dark Arabic labels for legibility.
 
 ## Workflow
 
-Setup: four team panels with input fields, add buttons, and removable player chips. The default groups are جلاد التنانين, التنانين, الأسود, and الذئاب.
+Setup: five team panels with input fields, add buttons, and removable player chips. The default groups are جلاد التنانين, التنانين, الأسود, الذئاب, and البطاريق.
 
 Draw: a central segmented SVG/CSS spin wheel that displays the remaining names from the active group. The wheel selects the name only; the app assigns that name to Team 1 or Team 2 according to the workflow.
 

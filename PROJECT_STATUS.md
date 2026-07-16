@@ -10,13 +10,14 @@ The app currently supports:
 
 - Light Modern Minimal styling with a porcelain background, clean white panels, deep teal primary accent, amber team 2 identity, and a single setup wordmark image.
 - Arabic title: `قرعة لعبة سين جيم` / `ديوانية الجيران`.
-- Four editable Arabic groups.
+- Five editable Arabic groups.
 - Default Arabic members for each group.
 - Category logos for player names:
   - Dragon-slayer image for `جلاد التنانين`
   - Red dragon for `التنانين`
   - Yellow lion for `الأسود`
   - Blue wolf for `الذئاب`
+  - Penguin image for `البطاريق`
 - Name-selection wheel.
 - Full wheel spin for every player, including the last remaining player in a group.
 - Live Team 1 and Team 2 lists during the draw.
@@ -121,6 +122,10 @@ The app currently supports:
 - Enhanced all seven dedicated player clips to match the random post-selection voice more closely: conservative speech filtering, light compression, loudness normalization near `-15 LUFS`, and consistent 48 kHz stereo 320 kbps MP3 encoding. Clip durations remain unchanged except when explicitly replaced or trimmed in later requests.
 - Replaced `البريجي`'s dedicated post-selection clip with the latest supplied full recording, keeping the same `assets/sounds/player-breiji.mp3` path and the same dedicated-player rule. The replacement is normalized near `-15 LUFS` and encoded as a 48 kHz stereo 320 kbps MP3.
 - Re-ranked the player groups to four requested levels: `جلاد التنانين` (`جراغ`, `الملا`, `طروق`) with `assets/dragon-slayer.jpg`, `التنانين` (`حميد`, `البريجي`, `بوحمد`), `الأسود` (`عليوي`, `الخلف`, `الهلالي`), and `الذئاب` (`حمود`, `مويس`, `قرطبة`). The saved-state roster version now resets older stored rosters to this new ranking on first load after deployment, while future edits continue to persist normally.
+- Replaced `الملا`'s dedicated post-selection clip with the latest supplied recording, keeping the same `assets/sounds/player-almulla.mp3` path and dedicated-player rule.
+- Added `البطاريق` back as the fifth default group after `الذئاب`, using `assets/penguin-black.jpg`, with `هشوم` as its default member.
+- Added the dedicated post-selection clip `assets/sounds/player-hashoum.mp3` for `هشوم`, following the existing `البريجي` rule: synthesized ticks during the spin, his own clip after selection, and no other MP3 for that player.
+- Bumped the saved-state roster version so older stored rosters reset to the new five-group roster on first load after deployment.
 - Changed the one-player group state to perform the normal wheel spin instead of assigning directly. Its full name and group logo render radially outside the `سين جيم` center badge and land upright near the pointer.
 
 ## Current Decisions
@@ -140,6 +145,7 @@ The app currently supports:
 
 Recent local checks confirmed:
 
+- On 2026-07-16, `node --check app.js`, `git diff --check`, and full MP3 decode checks passed after adding `هشوم` and replacing `الملا`'s clip. `assets/sounds/player-hashoum.mp3` is a 15.139-second 48 kHz stereo 320 kbps MP3 measuring `-15.01 LUFS`; `assets/sounds/player-almulla.mp3` remains a 13.587-second 48 kHz stereo 320 kbps MP3 measuring `-15.01 LUFS`. A deterministic app-logic smoke confirmed five groups in order (`جلاد التنانين`, `التنانين`, `الأسود`, `الذئاب`, `البطاريق`), `هشوم` as the `البطاريق` member, `ROSTER_VERSION = 3`, empty `spinClips` and `celebrationClips`, stale roster-version 2 state resetting to the new roster, and all 13 default players assigning with final teams `7/6` and maximum difference `1`.
 - On 2026-07-02, GitHub Pages reached `built` after deploying `cadd460`; public GitHub Pages returned `HTTP 200`, public `app.js` contains `جلاد التنانين`, `مويس`, `assets/dragon-slayer.jpg`, and `ROSTER_VERSION = 2`, and public `assets/dragon-slayer.jpg` returned `HTTP 200`. The failed deploys were caused by GitHub Pages staying in `deployment_queued` until timeout, not by the app artifact.
 - On 2026-07-02, `node --check app.js` and `git diff --check` passed after re-ranking the player groups. Local headless Chrome at mobile `390x844` and desktop `1280x900` confirmed the four groups are `جلاد التنانين`, `التنانين`, `الأسود`, and `الذئاب` with exactly three requested players each; `assets/dragon-slayer.jpg` loads at `348x672`; stale `seenjeem_state_v1` without the current `rosterVersion` resets to the new roster; `مويس` maps to `assets/sounds/player-mousa.mp3`; `spinClips` and `celebrationClips` remain empty; a full default draw assigns all 12 players, ends `6/6`, keeps max team difference at `1`, and has no horizontal overflow.
 - On 2026-07-02, GitHub Pages reached `built` after deploying `2ad7dbc`; the public site returned `HTTP 200`, public `app.js` still maps `البريجي` to `assets/sounds/player-breiji.mp3` with empty `spinClips` and `celebrationClips`, and the public `player-breiji.mp3` returned `HTTP 200` as the 5.664-second 48 kHz stereo 320 kbps replacement.
