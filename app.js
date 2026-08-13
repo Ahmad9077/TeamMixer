@@ -134,7 +134,7 @@ const ADMIN_SOUND_SETTINGS = Object.freeze({
   masterVolume: 0.5,
   playerSounds: Object.freeze({
     "البريجي": "assets/sounds/player-breiji.mp3",
-    "حميد": "assets/sounds/player-hameed.mp3",
+    "حميد": "assets/sounds/player-hameed.mp3?v=hameed-3",
     "الملا": "assets/sounds/player-almulla.mp3",
     "حمود": "assets/sounds/player-hamoud.mp3",
     "عليوي": "assets/sounds/player-alewi.mp3",

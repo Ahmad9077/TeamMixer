@@ -23,6 +23,7 @@
 - Verify both spinning voice MP3s are absent from the active empty `spinClips` pool and cannot play during a spin.
 - Verify `celebration-voice-1.mp3` is absent from the active empty `celebrationClips` pool and cannot play after selection.
 - Verify the published `player-breiji.mp3` decodes successfully as a 48 kHz stereo 320 kbps MP3 near `-15 LUFS`.
+- Verify the published `player-hameed.mp3?v=hameed-3` decodes successfully as a 13.514-second 48 kHz stereo 320 kbps MP3 near `-15 LUFS`.
 - Verify every player registered in `playerClips` uses synthesized spin ticks, plays only their own MP3 after selection, and still follows the final-player spin behavior.
 - Verify the five default groups are `جلاد التنانين`, `التنانين`, `الأسود`, `الذئاب`, and `البطاريق`, with `هشوم` as the default `البطاريق` member.
 - Verify stale `seenjeem_state_v1` data without the current `rosterVersion` resets to the new ranking and player list.

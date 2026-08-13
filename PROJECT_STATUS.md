@@ -15,6 +15,8 @@
 - The latest wheel-logo check at `390x844` and `1280x900` confirms every group logo keeps the same local tangential angle as its player name throughout the spin. The selected logo settles at screen angle `0deg` beneath the pointer, including the one-player wheel, while unselected logos are not reoriented and horizontal overflow remains zero.
 - The redesign was published to `main` in commit `7ce937f` on 2026-08-13. GitHub Pages reached `built` for that exact commit, the live page and checked image/audio assets returned `HTTP 200`, and the public HTML serves `app.js?v=light-redesign-5`.
 - A live Chrome check of GitHub Pages at `390x844` and `1280x900` confirmed zero horizontal overflow, zero broken rendered images, no user-facing sound control, and the selected group logo landing at screen angle `0deg` beneath the pointer.
+- On 2026-08-14, `حميد`'s dedicated post-selection clip was replaced with the supplied `حميد٣.m4a` recording. The mastered `assets/sounds/player-hameed.mp3` is a 13.514-second 48 kHz stereo 320 kbps MP3 measuring `-15.00 LUFS` with a safe `-4.25 dBTP` peak; its existing dedicated-player behavior is unchanged. The mapping and app script use new query versions to bypass stale browser audio caches.
+- Local Chrome decoded `playerClips["حميد"]` through its versioned URL with `HTTP 200`, 13.514-second duration, 48 kHz sample rate, and two channels. The dedicated mapping count remains 12, both random MP3 pools remain empty, and no user-facing sound control was introduced.
 
 ## Current State
 
