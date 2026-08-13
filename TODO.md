@@ -44,7 +44,7 @@
 - Verify refresh restores state from `seenjeem_state_v1`, `من جديد` resets clean, and `تصفير الفئات` restores all 16 categories.
 - Verify touch targets are at least 44px.
 - Verify there is no user-facing sound or mute control and `ADMIN_SOUND_SETTINGS` remains the only sound switch/mapping registry.
-- Verify public GitHub Pages deployment after push.
+- Re-verify public GitHub Pages deployment after future pushes.
 
 ## Backlog Ideas
 
