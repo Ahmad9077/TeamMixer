@@ -34,15 +34,15 @@ Keep `PROJECT_STATUS.md` and `TODO.md` updated whenever project behavior, design
 - Vanilla JavaScript state management in `app.js`.
 - Assets live under `assets/`.
 - No build step, package manager, framework, backend, or database.
-- Sound effects use the Web Audio API in `app.js`: deceleration-matched wheel ticks plus a randomized pool of synthesized celebration sounds and a grand finale. Spinning MP3 voices are disabled: `spinClips` is empty, while `spin-voice-1.mp3` and `spin-voice-2.mp3` remain inactive repository assets. Every player and category spin uses only synthesized wheel sounds. Random post-selection MP3 voices are also disabled: `celebrationClips` is empty and `celebration-voice-1.mp3` remains an inactive asset. Players without a dedicated clip receive one of the five synthesized celebration sounds. Per-player clips live in `playerClips` keyed by player name (currently `البريجي`, `حميد`, `الملا`, `حمود`, `عليوي`, `بوحمد`, `الخلف`, `قرطبة`, `مويس`, `طروق`, `جراغ`, and `هشوم`): when that player is chosen their clip always plays after the selection, their spin uses ticks only, and no other voice clip ever plays for them. Dedicated clips are speech-cleaned, lightly compressed, and encoded as 48 kHz stereo 320 kbps MP3. Most target about `-15 LUFS`; `مويس` intentionally uses the louder `player-mousa.mp3` asset near `-12 LUFS` for stronger perceived volume. The published `البريجي` asset uses the latest supplied full recording, normalized near `-15 LUFS`. The header 🔊/🔇 toggle persists separately under `seenjeem_sound_v1` and is not cleared by `من جديد`. Sound code must never break game logic (all entry points are wrapped in try/catch).
+- Sound effects use the Web Audio API in `app.js`: deceleration-matched wheel ticks plus a randomized pool of synthesized celebration sounds and a grand finale. Spinning MP3 voices are disabled: `spinClips` is empty, while `spin-voice-1.mp3` and `spin-voice-2.mp3` remain inactive repository assets. Every player and category spin uses only synthesized wheel sounds. Random post-selection MP3 voices are also disabled: `celebrationClips` is empty and `celebration-voice-1.mp3` remains an inactive asset. Players without a dedicated clip receive one of the five synthesized celebration sounds. Per-player clips live in `ADMIN_SOUND_SETTINGS.playerSounds` and feed `playerClips`, keyed by player name (currently `البريجي`, `حميد`, `الملا`, `حمود`, `عليوي`, `بوحمد`, `الخلف`, `قرطبة`, `مويس`, `طروق`, `جراغ`, and `هشوم`): when that player is chosen their clip always plays after the selection, their spin uses ticks only, and no other voice clip ever plays for them. There is intentionally no user-facing sound or mute control; sound is enabled or disabled only through `ADMIN_SOUND_SETTINGS` in code. Sound code must never break game logic (all entry points are wrapped in try/catch).
 - App state persists in `localStorage` under the single key `seenjeem_state_v1` (players, draw progress, team assignments, picked categories, active screen). `من جديد` clears all stored state; `تصفير الفئات` resets only category state. No cross-session draw history: randomness is independent each session and previously used categories are never excluded.
 
 ## Design Direction
 
-Use the Light Modern Minimal design system (see `DESIGN.md` for the full palette):
+Use the Bright Playful Minimal design system (see `DESIGN.md` for the full palette):
 
-- Warm porcelain background `#f7f5f1` with clean white panels, 1px `#e9e5dd` borders, and soft shadows.
-- One strong accent: deep teal `#0f766e` (primary buttons, active nav, eyebrows, wheel pointer, team 1). Amber `#b45309` is the team 2 identity.
+- Cool near-white background `#f7f8fc` with clean white panels, 1px `#e5e9f0` borders, and restrained shadows.
+- Orange `#f97316` is the primary action accent. Team 1 uses coral red `#ef4444`, Team 2 uses blue `#2563eb`, and ready/success states use green `#16a34a`.
 - The whole app is Arabic RTL: `<html lang="ar" dir="rtl">`, all UI strings in Arabic with Western digits (0-9).
 - Cairo (Google Fonts, `font-display: swap`) for all text, with Calibri as fallback. Bold/extrabold headings.
 - Arabic letters must render connected; avoid letter spacing on Arabic.
@@ -121,6 +121,8 @@ For UI/behavior changes, also run a Playwright smoke test or equivalent browser 
 ## Deployment
 
 Deployment is through GitHub Pages from `main`.
+
+The complete pre-redesign production version is preserved at branch `archive/pre-light-redesign-2026-08-13` and tag `pre-light-redesign-2026-08-13`.
 
 Standard publish flow:
 

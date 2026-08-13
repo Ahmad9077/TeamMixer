@@ -1,5 +1,19 @@
 # PROJECT_STATUS.md
 
+## Bright Playful Minimal Redesign (Approved for Release)
+
+- The redesign was developed on `prototype/light-redesign`, based on the previous production commit `3561ef9`, and received explicit user approval for release.
+- The complete previous production version is preserved on GitHub at branch `archive/pre-light-redesign-2026-08-13` and annotated tag `pre-light-redesign-2026-08-13`, both resolving to `3561ef9` for full restoration.
+- The prototype uses a bright near-white `#f7f8fc` background, white cards, soft `#e5e9f0` borders, orange primary actions, coral Team 1, blue Team 2, and green ready/success states.
+- The compact header keeps the current `الخميس الونيس` artwork small and includes the four existing screens plus `إعادة القرعة`.
+- Setup uses compact ranked group cards and a readiness summary. Draw uses a responsive operations layout with the wheel first on mobile and group/wheel/live teams in three columns on larger screens. Results add derived level totals and a visual balance indicator. Categories keep a text-only wheel and six portrait image slots with `object-fit: contain`.
+- Player and category labels use native connected HTML Arabic with `dir="rtl"` and settle upright after rotation.
+- Every player name and group logo stays in the same fixed tangential orientation inside its slice before, during, and after a spin. No selected or unselected name or logo is reoriented when the wheel stops, and the selected name and logo land horizontally beneath the pointer.
+- The user-facing sound toggle has been removed. `ADMIN_SOUND_SETTINGS` in `app.js` is now the only sound control and preserves all 12 current dedicated player mappings.
+- No player, group, category, image, sound path, storage key/version, randomization method, draw assignment rule, or category exclusion rule was changed.
+- Local browser verification covers `390x844`, `430x932`, `820x1180`, `1024x768`, and `1440x900`: no horizontal overflow, no broken visible images, no touch target below 44px, fixed mobile navigation clears the page content, a full 13-player draw finishes `7/6` with maximum difference `1`, the final player spins with their full name outside the center badge, six categories are selected, both category-limit rules remain active, and all six selected category cards stay equal-height with contained images at both tablet sizes.
+- The latest wheel-logo check at `390x844` and `1280x900` confirms every group logo keeps the same local tangential angle as its player name throughout the spin. The selected logo settles at screen angle `0deg` beneath the pointer, including the one-player wheel, while unselected logos are not reoriented and horizontal overflow remains zero.
+
 ## Current State
 
 The TeamMixer web app is implemented as a static GitHub Pages site and is publicly available at:

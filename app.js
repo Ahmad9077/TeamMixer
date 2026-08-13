@@ -6,6 +6,8 @@ const pools = [
   { id: "poolE", title: "البطاريق", accent: "#111827", logo: "assets/penguin-black.jpg", players: ["هشوم"] },
 ];
 
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
 const categories = [
   { id: "travel", title: "سياحة وسفر", image: "assets/categories/travel.jpg" },
   { id: "geography", title: "جغرافيا", image: "assets/categories/geography.jpg" },
@@ -64,7 +66,7 @@ const state = {
   categoryLastResult: defaultCategoryMessage,
 };
 
-const wheelPalette = ["#bfe3df", "#fbe3bb", "#dbe4f5", "#f8ddd3", "#d9eed7", "#f1eadf", "#cfe2e8", "#f7e3ee"];
+const wheelPalette = ["#fed7aa", "#fecaca", "#bfdbfe", "#bbf7d0", "#e9d5ff", "#fde68a", "#c7d2fe", "#bae6fd"];
 
 const fallbackWheelSegments = [
   { label: "جاهز", color: wheelPalette[0] },
@@ -98,7 +100,7 @@ function preloadAssets() {
   pools.forEach((pool) => preloadImage(pool.logo));
   categories.forEach((category) => preloadImage(category.image));
   try {
-    fetchSpinClips();
+    if (ADMIN_SOUND_SETTINGS.enabled) fetchSpinClips();
   } catch {
     /* sound must never break the game */
   }
@@ -125,13 +127,27 @@ function shuffle(items) {
   return copy;
 }
 
-const SOUND_KEY = "seenjeem_sound_v1";
-let soundOn = true;
-try {
-  soundOn = localStorage.getItem(SOUND_KEY) !== "off";
-} catch {
-  /* storage unavailable */
-}
+// Audio is controlled only here. There is intentionally no user-facing sound
+// switch in the prototype UI.
+const ADMIN_SOUND_SETTINGS = Object.freeze({
+  enabled: true,
+  masterVolume: 0.5,
+  playerSounds: Object.freeze({
+    "البريجي": "assets/sounds/player-breiji.mp3",
+    "حميد": "assets/sounds/player-hameed.mp3",
+    "الملا": "assets/sounds/player-almulla.mp3",
+    "حمود": "assets/sounds/player-hamoud.mp3",
+    "عليوي": "assets/sounds/player-alewi.mp3",
+    "بوحمد": "assets/sounds/player-buhamad.mp3",
+    "الخلف": "assets/sounds/player-alkhalaf.mp3",
+    "قرطبة": "assets/sounds/player-qurtuba.mp3",
+    "مويس": "assets/sounds/player-mousa.mp3",
+    "طروق": "assets/sounds/player-tarouq.mp3",
+    "جراغ": "assets/sounds/player-jaragh.mp3",
+    "هشوم": "assets/sounds/player-hashoum.mp3",
+  }),
+});
+
 let audioCtx = null;
 let masterGain = null;
 
@@ -148,20 +164,9 @@ const celebrationClips = [];
 // When that player is chosen, their
 // clip plays after the selection and no other voice clip plays for them —
 // neither during their spin nor as their celebration.
-const playerClips = {
-  "البريجي": { url: "assets/sounds/player-breiji.mp3", data: null, buffer: null },
-  "حميد": { url: "assets/sounds/player-hameed.mp3", data: null, buffer: null },
-  "الملا": { url: "assets/sounds/player-almulla.mp3", data: null, buffer: null },
-  "حمود": { url: "assets/sounds/player-hamoud.mp3", data: null, buffer: null },
-  "عليوي": { url: "assets/sounds/player-alewi.mp3", data: null, buffer: null },
-  "بوحمد": { url: "assets/sounds/player-buhamad.mp3", data: null, buffer: null },
-  "الخلف": { url: "assets/sounds/player-alkhalaf.mp3", data: null, buffer: null },
-  "قرطبة": { url: "assets/sounds/player-qurtuba.mp3", data: null, buffer: null },
-  "مويس": { url: "assets/sounds/player-mousa.mp3", data: null, buffer: null },
-  "طروق": { url: "assets/sounds/player-tarouq.mp3", data: null, buffer: null },
-  "جراغ": { url: "assets/sounds/player-jaragh.mp3", data: null, buffer: null },
-  "هشوم": { url: "assets/sounds/player-hashoum.mp3", data: null, buffer: null },
-};
+const playerClips = Object.fromEntries(
+  Object.entries(ADMIN_SOUND_SETTINGS.playerSounds).map(([player, url]) => [player, { url, data: null, buffer: null }])
+);
 
 let spinClipUsed = false;
 
@@ -198,14 +203,14 @@ function decodeSpinClips() {
 }
 
 function audio() {
-  if (!soundOn) return null;
+  if (!ADMIN_SOUND_SETTINGS.enabled) return null;
   try {
     if (!audioCtx) {
       const Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) return null;
       audioCtx = new Ctx();
       masterGain = audioCtx.createGain();
-      masterGain.gain.value = 0.5;
+      masterGain.gain.value = ADMIN_SOUND_SETTINGS.masterVolume;
       masterGain.connect(audioCtx.destination);
       decodeSpinClips();
     }
@@ -375,34 +380,21 @@ function playSpinSounds(durationSec, totalDeg, segmentDeg, allowClips = false) {
   }
 }
 
-function updateSoundToggle() {
-  const button = $("#soundToggleBtn");
-  button.textContent = soundOn ? "🔊" : "🔇";
-  button.setAttribute("aria-pressed", String(soundOn));
-  button.title = soundOn ? "إيقاف الأصوات" : "تشغيل الأصوات";
-}
-
-function toggleSound() {
-  soundOn = !soundOn;
-  try {
-    localStorage.setItem(SOUND_KEY, soundOn ? "on" : "off");
-  } catch {
-    /* storage unavailable */
-  }
-  if (!soundOn && audioCtx) audioCtx.suspend();
-  if (soundOn) {
-    audio();
-    sfxSparkle();
-  }
-  updateSoundToggle();
-}
-
 function otherTeam(team) {
   return team === "one" ? "two" : "one";
 }
 
 function teamLabel(team) {
   return team === "one" ? "الفريق الأول" : "الفريق الثاني";
+}
+
+function poolLevel(poolId) {
+  const index = pools.findIndex((pool) => pool.id === poolId);
+  return index === -1 ? 0 : pools.length - index;
+}
+
+function teamLevelTotal(players) {
+  return players.reduce((total, player) => total + poolLevel(player.poolId), 0);
 }
 
 function playerFromPool(pool, name) {
@@ -593,7 +585,7 @@ function startOver() {
   state.categoryRotation = 0;
   state.categoryLastResult = defaultCategoryMessage;
   resetDraw(defaultDrawMessage);
-  showScreen("setup");
+  navigateTo("setup");
 }
 
 function showScreen(screen) {
@@ -601,6 +593,11 @@ function showScreen(screen) {
   $$(".screen").forEach((section) => section.classList.toggle("active", section.id === screen));
   $$(".nav-btn").forEach((button) => button.classList.toggle("nav-active", button.dataset.screen === screen));
   saveState();
+}
+
+function navigateTo(screen) {
+  showScreen(screen);
+  window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function addPlayer(poolId) {
@@ -623,28 +620,32 @@ function renderPools() {
   $("#poolGrid").innerHTML = pools
     .map(
       (pool) => `
-        <article class="panel rounded-2xl p-5">
-          <div class="mb-4 flex items-center justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-3">
-                <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
-                <h3 class="arabic-text text-2xl font-extrabold" dir="rtl" style="color:${pool.accent}">${pool.title}</h3>
+        <article class="pool-card panel" style="--pool-accent:${pool.accent}">
+          <div class="mb-3 flex items-start justify-between gap-3">
+            <div class="flex min-w-0 items-center gap-2.5">
+              <img src="${pool.logo}" alt="${pool.title}" class="team-logo" />
+              <div class="min-w-0">
+                <h3 class="arabic-text text-lg font-extrabold leading-tight" dir="rtl">${pool.title}</h3>
+                <span class="level-badge mt-1 px-2 py-1 text-[11px]" style="color:${pool.accent}">المستوى ${poolLevel(pool.id)}</span>
               </div>
             </div>
-            <span class="count-chip px-4 py-2 text-sm" style="color:${pool.accent}">${pool.players.length}</span>
+            <div class="text-left">
+              <span class="count-chip px-2.5 py-1.5 text-xs" style="color:${pool.accent}">${pool.players.length}</span>
+              <p class="mt-1 text-[10px] font-semibold text-muted">لاعبين</p>
+            </div>
           </div>
           <div class="flex gap-2">
-            <input id="input-${pool.id}" class="field min-w-0 flex-1 px-4 py-3 text-sm font-normal" placeholder="ضيف اسم اللاعب" />
-            <button class="add-btn btn-primary px-4 py-3 text-sm" data-pool="${pool.id}">إضافة</button>
+            <input id="input-${pool.id}" class="field min-w-0 flex-1 px-3 py-2.5 text-sm font-normal" placeholder="ضيف اسم اللاعب" aria-label="إضافة لاعب إلى ${pool.title}" />
+            <button class="add-btn btn-primary px-3.5 py-2.5 text-sm" data-pool="${pool.id}">إضافة</button>
           </div>
-          <div class="mt-4 flex min-h-28 flex-wrap content-start gap-2">
+          <div class="mt-3 flex min-h-16 flex-wrap content-start gap-1.5">
             ${pool.players
               .map((player, index) => {
                 const safePlayer = escapeHtml(player);
                 return `
-                  <span class="chip inline-flex items-center gap-2 px-2.5 py-1 text-base font-bold">
+                  <span class="chip inline-flex max-w-full items-center gap-1.5 py-1 pe-1 ps-2 text-sm font-bold">
                     <img src="${pool.logo}" alt="${pool.title}" class="team-logo-sm" />
-                    <span class="arabic-text font-bold" dir="rtl">${safePlayer}</span>
+                    <span class="arabic-text min-w-0 truncate font-bold" dir="rtl">${safePlayer}</span>
                     <button class="remove-btn chip-remove" data-pool="${pool.id}" data-index="${index}" aria-label="حذف ${safePlayer}">×</button>
                   </span>
                 `;
@@ -699,15 +700,15 @@ function renderWheel() {
   const segmentSize = 360 / items.length;
 
   if (items.length === 1) {
-    const label = polarToCartesian(160, 160, 100, 180);
+    const mid = 180;
+    const label = polarToCartesian(160, 160, 118, 180);
     const logo = polarToCartesian(160, 160, 70, 180);
-    const fontSize = items[0].label.length > 10 ? 18 : 24;
     $("#wheelSvg").innerHTML = `
       <circle cx="160" cy="160" r="154" fill="${items[0].color}" stroke="#ffffff" stroke-width="5"></circle>
-      ${items[0].logo ? `<image href="${items[0].logo}" x="${logo.x - 18}" y="${logo.y - 18}" width="36" height="36" preserveAspectRatio="xMidYMid slice" transform="rotate(180, ${logo.x}, ${logo.y})"></image>` : ""}
-      <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="${fontSize}" font-weight="700" text-anchor="middle" dominant-baseline="middle" direction="rtl" unicode-bidi="embed" transform="rotate(180, ${label.x}, ${label.y})">${escapeHtml(items[0].label)}</text>
+      ${items[0].logo ? `<image href="${items[0].logo}" x="${logo.x - 18}" y="${logo.y - 18}" width="36" height="36" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid} ${logo.x} ${logo.y})"></image>` : ""}
     `;
-    $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
+    $("#wheelLabels").innerHTML = `<span class="player-wheel-label${items[0].label.length > 12 ? " player-wheel-label-long" : ""}" dir="rtl" lang="ar" style="left:${(label.x / 320) * 100}%;top:${(label.y / 320) * 100}%;transform:translate(-50%,-50%) rotate(${mid}deg)">${escapeHtml(items[0].label)}</span>`;
+    $("#wheelRotor").style.transform = `rotate(${state.rotation}deg)`;
     return;
   }
 
@@ -716,16 +717,23 @@ function renderWheel() {
       const start = index * segmentSize;
       const end = start + segmentSize;
       const mid = start + segmentSize / 2;
-      const label = polarToCartesian(160, 160, 98, mid);
       const logo = polarToCartesian(160, 160, 70, mid);
       return `
         <path d="${describeArc(160, 160, 154, start, end)}" fill="${item.color}" stroke="#ffffff" stroke-width="5"></path>
-        ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid}, ${logo.x}, ${logo.y})"></image>` : ""}
-        <text x="${label.x}" y="${label.y}" fill="#221f1a" font-family="Cairo, Calibri, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid}, ${label.x}, ${label.y})">${escapeHtml(item.label.slice(0, 10))}</text>
+        ${item.logo ? `<image href="${item.logo}" x="${logo.x - 13}" y="${logo.y - 13}" width="26" height="26" preserveAspectRatio="xMidYMid slice" transform="rotate(${mid} ${logo.x} ${logo.y})"></image>` : ""}
       `;
     })
     .join("");
-  $("#wheelSvg").style.transform = `rotate(${state.rotation}deg)`;
+
+  $("#wheelLabels").innerHTML = items
+    .map((item, index) => {
+      const mid = index * segmentSize + segmentSize / 2;
+      const labelPoint = polarToCartesian(160, 160, 118, mid);
+      const longClass = item.label.length > 12 ? " player-wheel-label-long" : "";
+      return `<span class="player-wheel-label${longClass}" dir="rtl" lang="ar" style="left:${(labelPoint.x / 320) * 100}%;top:${(labelPoint.y / 320) * 100}%;transform:translate(-50%,-50%) rotate(${mid}deg)">${escapeHtml(item.label)}</span>`;
+    })
+    .join("");
+  $("#wheelRotor").style.transform = `rotate(${state.rotation}deg)`;
 }
 
 function categoryWheelItems() {
@@ -769,7 +777,7 @@ function renderCategoryWheel() {
     .map((item, index) => {
       const mid = index * segmentSize + segmentSize / 2;
       const labelPoint = polarToCartesian(160, 160, 106, mid);
-      const labelRotation = uprightWheelLabelRotation(mid);
+      const labelRotation = uprightWheelLabelRotation(mid + state.categoryRotation) - state.categoryRotation;
       const longClass = item.title.length > 14 ? " category-wheel-label-long" : "";
       return `<span class="category-wheel-label${longClass}" dir="rtl" lang="ar" style="left:${(labelPoint.x / 320) * 100}%;top:${(labelPoint.y / 320) * 100}%;transform:translate(-50%,-50%) rotate(${labelRotation}deg)">${item.title}</span>`;
     })
@@ -837,7 +845,7 @@ function assignSelectedPlayer(selectedIndex) {
     } else {
       playGrandFinale();
     }
-    showScreen("results");
+    navigateTo("results");
   } else if (playerClips[assigned.name]) {
     // Dedicated player clip; if it is not ready yet, fall back to the
     // synthesized celebrations only (no other voice clip for this player).
@@ -858,7 +866,7 @@ function spin() {
   if (!queue.length) {
     state.lastResult = allPlayers().length ? "توزع كل اللاعبين" : "ضيف اللاعبين قبل ما تسحب";
     render();
-    showScreen(allPlayers().length ? "results" : "setup");
+    navigateTo(allPlayers().length ? "results" : "setup");
     return;
   }
 
@@ -935,27 +943,58 @@ function spinCategory() {
 
 function renderProgress() {
   const total = allPlayers().length;
+  const assignedCount = state.assigned.length;
   $("#alphaProgress").textContent = `${state.teams.one.length}/${total}`;
   $("#betaProgress").textContent = `${state.teams.two.length}/${total}`;
   $("#totalPlayers").textContent = total;
+  $("#drawProgressLabel").textContent = `${assignedCount}/${total}`;
+  $("#drawProgressFill").style.width = `${total ? (assignedCount / total) * 100 : 0}%`;
+
+  const readiness = $("#drawReadiness");
+  readiness.textContent = total ? "جاهزة" : "أضف لاعبين";
+  readiness.classList.toggle("is-ready", total > 0);
 
   const pool = currentPool();
   const nextTeamText = remainingPlayers().length ? `الاختيار الجاي: ${teamLabel(nextAssignedTeam())}` : "افتح النتائج وشوف الفرق";
   $("#upNextName").textContent = pool && currentQueue().length ? pool.title : remainingPlayers().length ? "ننتقل للمجموعة الجاية" : "توزع كل اللاعبين";
   $("#upNextPool").textContent = pool && currentQueue().length ? `باقي ${currentQueue().length} أسماء. ${nextTeamText}` : nextTeamText;
+  $("#currentPoolRank").textContent = pool ? `المستوى ${poolLevel(pool.id)}` : "اكتملت المجموعات";
+  $("#currentPoolRemaining").textContent = currentQueue().length;
+  const currentPoolLogo = $("#currentPoolLogo");
+  currentPoolLogo.hidden = !pool;
+  if (pool) {
+    currentPoolLogo.src = pool.logo;
+    currentPoolLogo.alt = pool.title;
+  }
+  $("#currentPoolPlayers").innerHTML = currentQueue().length
+    ? currentQueue()
+        .map(
+          (player) => `
+            <div class="queue-player">
+              <img src="${player.logo}" alt="${player.pool}" class="team-logo-sm" />
+              <span class="arabic-text min-w-0 truncate" dir="rtl">${escapeHtml(player.name)}</span>
+            </div>
+          `
+        )
+        .join("")
+    : `<p class="empty-note px-3 py-2.5 text-xs font-semibold">ما فيه أسماء في الدور</p>`;
   $("#spinStatus").textContent = state.lastResult || "";
   $("#spinBtn").disabled = state.spinning || total === 0 || (state.drawReady && remainingPlayers().length === 0);
+  $("#headerResetBtn").disabled = state.spinning || state.categorySpinning || total === 0;
 }
 
 function playerRow(player) {
   const safeName = escapeHtml(player.name);
   return `
-    <div class="row flex items-center justify-between px-4 py-3">
-      <div class="flex items-center gap-3">
+    <div class="row flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4 sm:py-3">
+      <div class="flex min-w-0 items-center gap-3">
         <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-        <span class="arabic-text text-xl font-bold" dir="rtl">${safeName}</span>
+        <span class="arabic-text min-w-0 text-lg font-bold sm:text-xl" dir="rtl">${safeName}</span>
       </div>
-      <span class="arabic-text text-sm font-bold text-muted" dir="rtl">${player.pool}</span>
+      <div class="flex flex-col items-end gap-1 text-left">
+        <span class="level-badge px-2 py-1 text-[10px]">المستوى ${poolLevel(player.poolId)}</span>
+        <span class="arabic-text text-[10px] font-bold text-muted sm:text-xs" dir="rtl">${player.pool}</span>
+      </div>
     </div>
   `;
 }
@@ -963,14 +1002,29 @@ function playerRow(player) {
 function compactPlayerRow(player) {
   const safeName = escapeHtml(player.name);
   return `
-    <div class="row flex items-center justify-center gap-3 px-4 py-3">
-      <img src="${player.logo}" alt="${player.pool}" class="team-logo" />
-      <span class="arabic-text text-xl font-bold" dir="rtl">${safeName}</span>
+    <div class="row flex min-w-0 items-center gap-2 px-2.5 py-2">
+      <img src="${player.logo}" alt="${player.pool}" class="team-logo-sm" />
+      <span class="arabic-text min-w-0 truncate text-sm font-bold" dir="rtl">${safeName}</span>
     </div>
   `;
 }
 
 function renderResults() {
+  const alphaLevel = teamLevelTotal(state.teams.one);
+  const betaLevel = teamLevelTotal(state.teams.two);
+  const totalLevel = alphaLevel + betaLevel;
+  const levelDifference = Math.abs(alphaLevel - betaLevel);
+  const balancePercent = totalLevel ? Math.max(0, Math.round((1 - levelDifference / totalLevel) * 100)) : 0;
+  const balanceText = !state.assigned.length
+    ? "بانتظار اكتمال القرعة"
+    : levelDifference === 0
+      ? "توازن كامل في مجموع المستويات"
+      : levelDifference <= 1
+        ? "تقارب ممتاز بين الفريقين"
+        : levelDifference <= 3
+          ? "تقارب جيد بين الفريقين"
+          : "يوجد فرق في مجموع المستويات";
+
   $("#alphaCount").textContent = `${state.teams.one.length} لاعبين`;
   $("#betaCount").textContent = `${state.teams.two.length} لاعبين`;
   $("#alphaList").innerHTML = state.teams.one.length ? state.teams.one.map(playerRow).join("") : `<p class="empty-note px-4 py-3 text-sm font-medium">ما فيه أسماء لحين</p>`;
@@ -979,23 +1033,31 @@ function renderResults() {
   $("#drawBetaCount").textContent = state.teams.two.length;
   $("#drawAlphaList").innerHTML = state.teams.one.length ? state.teams.one.map(compactPlayerRow).join("") : `<p class="empty-note px-3 py-2 text-xs font-medium">ما فيه لاعبين لحين</p>`;
   $("#drawBetaList").innerHTML = state.teams.two.length ? state.teams.two.map(compactPlayerRow).join("") : `<p class="empty-note px-3 py-2 text-xs font-medium">ما فيه لاعبين لحين</p>`;
+  $("#drawAlphaLevel").textContent = `مجموع المستويات ${alphaLevel}`;
+  $("#drawBetaLevel").textContent = `مجموع المستويات ${betaLevel}`;
+  $("#alphaLevelTotal").textContent = `مجموع المستويات ${alphaLevel}`;
+  $("#betaLevelTotal").textContent = `مجموع المستويات ${betaLevel}`;
+  $("#resultBalanceText").textContent = balanceText;
+  $("#resultBalanceValue").textContent = `${balancePercent}%`;
+  $("#resultBalanceValue").classList.toggle("is-ready", balancePercent >= 85 && state.assigned.length > 0);
+  $("#resultBalanceFill").style.width = `${balancePercent}%`;
 }
 
 function categoryCard(category, index) {
   if (!category) {
     return `
-      <div class="category-card slot-card flex flex-col items-center justify-center rounded-xl p-3 text-center">
+      <div class="category-card slot-card flex flex-col items-center justify-center p-2 text-center">
         <span class="text-xs font-semibold">خانة ${index + 1}</span>
       </div>
     `;
   }
 
   return `
-    <div class="category-card panel rounded-xl p-2">
-      <div class="category-card-art rounded-lg">
+    <div class="category-card">
+      <div class="category-card-art">
         <img src="${category.image}" alt="${category.title}" class="category-card-image" />
       </div>
-      <p class="category-card-title arabic-text mt-2 min-h-8 text-center text-base font-bold leading-tight" dir="rtl">${category.title}</p>
+      <p class="category-card-title arabic-text mt-1.5 min-h-7 text-center text-xs font-bold leading-tight sm:text-sm" dir="rtl">${category.title}</p>
     </div>
   `;
 }
@@ -1009,6 +1071,18 @@ function renderCategories() {
   $("#categoryPickedCount").textContent = `${state.selectedCategories.length}/6`;
   $("#categoryRemainingCount").textContent = availableCategoryQueue().length;
   $("#spinCategoryBtn").disabled = state.categorySpinning || state.selectedCategories.length >= 6 || availableCategoryQueue().length === 0;
+  $("#resetCategoriesBtn").disabled = state.categorySpinning;
+
+  const appliedRules = [];
+  if (selectedCategoryLimitCount(categoryLimitGroups[0]) >= categoryLimitGroups[0].max) {
+    appliedRules.push("اكتمل الحد المسموح: فئتان فقط من دول وعواصم، جغرافيا، وسياحة وسفر");
+  }
+  if (selectedCategoryLimitCount(categoryLimitGroups[1]) >= categoryLimitGroups[1].max) {
+    appliedRules.push("تم استبعاد الفئة المقابلة بين ولا كلمة وولا كلمة فن أجنبي");
+  }
+  const ruleNotice = $("#categoryRuleNotice");
+  ruleNotice.hidden = appliedRules.length === 0;
+  ruleNotice.textContent = appliedRules.join(". ");
 }
 
 function render() {
@@ -1021,18 +1095,24 @@ function render() {
   showScreen(state.activeScreen);
 }
 
-$$(".nav-btn").forEach((button) => button.addEventListener("click", () => showScreen(button.dataset.screen)));
+$$(".nav-btn").forEach((button) => button.addEventListener("click", () => navigateTo(button.dataset.screen)));
 $("#shuffleQueueBtn").addEventListener("click", () => {
   resetDraw("بدأت القرعة");
-  showScreen("randomize");
+  navigateTo("randomize");
+});
+$("#headerResetBtn").addEventListener("click", () => {
+  resetDraw("بدأت قرعة جديدة");
+  navigateTo("randomize");
 });
 $("#spinBtn").addEventListener("click", spin);
 $("#spinCategoryBtn").addEventListener("click", spinCategory);
 $("#resetCategoriesBtn").addEventListener("click", () => resetCategories());
+$("#rerunDrawBtn").addEventListener("click", () => {
+  resetDraw("بدأت قرعة جديدة");
+  navigateTo("randomize");
+});
 $("#startOverBtn").addEventListener("click", startOver);
-$("#soundToggleBtn").addEventListener("click", toggleSound);
 
-updateSoundToggle();
 preloadAssets();
 if (loadState()) {
   render();
@@ -1041,3 +1121,4 @@ if (loadState()) {
   state.categoryLastResult = defaultCategoryMessage;
   resetDraw("جاهزين للبداية");
 }
+window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "auto" }));

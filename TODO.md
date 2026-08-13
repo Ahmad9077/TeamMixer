@@ -2,6 +2,8 @@
 
 ## Next Steps
 
+- Review the released Bright Playful Minimal interface on a physical iPhone Safari screen; automated Safari WebDriver remains unavailable unless `Allow Remote Automation` is enabled.
+- Keep `archive/pre-light-redesign-2026-08-13` and `pre-light-redesign-2026-08-13` available as the complete pre-redesign restoration references.
 - User review of the current live GitHub Pages site after the 2026-07-02 player ranking deployment.
 - Review the live GitHub Pages site on an actual physical phone screen.
 - Recheck the updated mobile Draw and Categories screens on a physical phone after deployment.
@@ -15,6 +17,7 @@
 - Test mobile viewport `390x844`.
 - Test desktop viewport `1280x900`.
 - Verify the spin wheel stays inside its container.
+- Verify every player name and group logo keeps the same fixed tangential angle before, during, and after the spin, with no post-spin correction, and that the selected name and logo land horizontally beneath the pointer.
 - Verify no horizontal overflow during spin.
 - Verify live team lists are visible during spin.
 - Verify both spinning voice MP3s are absent from the active empty `spinClips` pool and cannot play during a spin.
@@ -40,6 +43,7 @@
 - Verify no visible English strings remain on any screen.
 - Verify refresh restores state from `seenjeem_state_v1`, `من جديد` resets clean, and `تصفير الفئات` restores all 16 categories.
 - Verify touch targets are at least 44px.
+- Verify there is no user-facing sound or mute control and `ADMIN_SOUND_SETTINGS` remains the only sound switch/mapping registry.
 - Verify public GitHub Pages deployment after push.
 
 ## Backlog Ideas

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>قرعة لعبة سين جيم - ديوانية الجيران</title>
+    <meta name="description" content="قرعة لعبة سين جيم لديوانية الجيران: توزيع متوازن للاعبين واختيار فئات اللعبة." />
+    <link rel="icon" href="assets/khamis-wanees-wordmark.jpg" type="image/jpeg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -22,30 +24,53 @@
     <style>
       :root {
         color-scheme: light;
-        --bg: #f7f5f1;
+        --bg: #f7f8fc;
         --surface: #ffffff;
-        --surface-soft: #faf9f6;
-        --ink: #221f1a;
-        --muted: #847e74;
-        --border: #e9e5dd;
-        --accent: #0f766e;
-        --accent-strong: #0b5d57;
-        --accent-soft: #e7f2ef;
-        --team2: #b45309;
-        --team2-soft: #fdf2e2;
-        --shadow-soft: 0 1px 2px rgba(34, 31, 26, 0.04), 0 10px 30px rgba(34, 31, 26, 0.06);
+        --surface-soft: #f9fafb;
+        --ink: #172033;
+        --muted: #6b7280;
+        --border: #e5e9f0;
+        --primary: #f97316;
+        --primary-strong: #ea580c;
+        --primary-soft: #fff7ed;
+        --team-1: #ef4444;
+        --team-1-soft: #fef2f2;
+        --team-2: #2563eb;
+        --team-2-soft: #eff6ff;
+        --success: #16a34a;
+        --success-soft: #f0fdf4;
+        --shadow-soft: 0 1px 2px rgba(23, 32, 51, 0.03), 0 10px 28px rgba(23, 32, 51, 0.055);
+        --shadow-raised: 0 14px 34px rgba(23, 32, 51, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--bg);
+        scroll-behavior: smooth;
       }
 
       body {
-        font-family: "Cairo", "Calibri", ui-sans-serif, system-ui;
-        background-color: var(--bg);
-        background-image:
-          radial-gradient(circle at 12% -8%, rgba(15, 118, 110, 0.07), transparent 38%),
-          radial-gradient(circle at 92% 0%, rgba(180, 83, 9, 0.05), transparent 30%);
-        background-attachment: fixed;
+        min-width: 320px;
+        margin: 0;
+        background: var(--bg);
         color: var(--ink);
+        font-family: "Cairo", "Calibri", ui-sans-serif, system-ui;
         overflow-x: hidden;
         overflow-anchor: none;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid rgba(249, 115, 22, 0.28);
+        outline-offset: 2px;
       }
 
       [dir="rtl"],
@@ -54,12 +79,126 @@
         font-variant-ligatures: normal;
       }
 
+      .app-shell {
+        width: min(100%, 1440px);
+        margin-inline: auto;
+        padding: 0.75rem 0.75rem calc(8.75rem + env(safe-area-inset-bottom));
+      }
+
+      .app-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding: 0.7rem 0.8rem;
+        background: rgba(255, 255, 255, 0.97);
+        border: 1px solid var(--border);
+        border-radius: 0.875rem;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .brand-lockup {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: #ffffff;
+        object-fit: contain;
+      }
+
+      .brand-kicker {
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+
+      .brand-title {
+        overflow: hidden;
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .desktop-nav {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: var(--surface-soft);
+      }
+
+      .header-reset-btn {
+        padding-inline: 0.85rem;
+        white-space: nowrap;
+      }
+
       .screen {
         display: none;
       }
 
       .screen.active {
         display: block;
+        animation: screen-in 180ms ease-out both;
+      }
+
+      @keyframes screen-in {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .section-title {
+        font-size: 1.65rem;
+        font-weight: 800;
+        line-height: 1.35;
+        text-wrap: balance;
+      }
+
+      .eyebrow {
+        color: var(--primary-strong);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .text-muted {
+        color: var(--muted);
+      }
+
+      .text-team-1 {
+        color: var(--team-1);
+      }
+
+      .text-team-2 {
+        color: var(--team-2);
       }
 
       .panel {
@@ -73,88 +212,63 @@
         border: 1px solid var(--border);
       }
 
-      .eyebrow {
-        color: var(--accent);
-        font-size: 0.85rem;
-        font-weight: 700;
-      }
-
-      .text-muted {
-        color: var(--muted);
-      }
-
-      .text-team-1 {
-        color: var(--accent);
-      }
-
-      .text-team-2 {
-        color: var(--team2);
-      }
-
       .btn-primary,
       .btn-secondary,
       .nav-btn,
       .add-btn {
+        min-width: 44px;
         min-height: 44px;
         touch-action: manipulation;
       }
 
-      .btn-primary {
-        background: var(--accent);
-        color: #ffffff;
-        border: 1px solid var(--accent-strong);
+      .btn-primary,
+      .btn-secondary {
         border-radius: 0.75rem;
         font-weight: 700;
-        box-shadow: 0 6px 16px rgba(15, 118, 110, 0.22);
-        transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 100ms ease;
+      }
+
+      .btn-primary {
+        border: 1px solid var(--primary-strong);
+        background: var(--primary);
+        color: #ffffff;
+        box-shadow: 0 7px 18px rgba(249, 115, 22, 0.18);
       }
 
       .btn-primary:hover:not(:disabled) {
-        background: var(--accent-strong);
-      }
-
-      .btn-primary:active:not(:disabled) {
-        transform: translateY(1px);
+        background: var(--primary-strong);
+        box-shadow: 0 9px 22px rgba(234, 88, 12, 0.22);
       }
 
       .btn-secondary {
+        border: 1px solid var(--border);
         background: var(--surface);
         color: var(--ink);
-        border: 1px solid var(--border);
-        border-radius: 0.75rem;
-        font-weight: 600;
-        transition: border-color 0.15s ease, background-color 0.15s ease;
       }
 
-      .btn-secondary:hover {
-        border-color: var(--accent);
-        color: var(--accent-strong);
+      .btn-secondary:hover:not(:disabled) {
+        border-color: #fdba74;
+        background: var(--primary-soft);
+        color: var(--primary-strong);
       }
 
-      .field {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 0.75rem;
-        color: var(--ink);
-        min-height: 44px;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      .btn-primary:active:not(:disabled),
+      .btn-secondary:active:not(:disabled),
+      .nav-btn:active:not(:disabled) {
+        transform: translateY(1px) scale(0.99);
       }
 
-      .field::placeholder {
-        color: var(--muted);
-      }
-
-      .field:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
       }
 
       .nav-btn {
+        border-radius: 0.625rem;
         color: var(--muted);
+        font-size: 0.82rem;
         font-weight: 600;
-        border-radius: 0.75rem;
-        transition: color 0.15s ease, background-color 0.15s ease;
+        transition: background-color 180ms ease, color 180ms ease, transform 100ms ease;
       }
 
       .nav-btn:hover {
@@ -162,124 +276,292 @@
       }
 
       .nav-btn.nav-active {
-        background: var(--accent-soft);
-        color: var(--accent-strong);
-        font-weight: 700;
+        background: var(--primary-soft);
+        color: var(--primary-strong);
+        font-weight: 800;
       }
 
-      .stat-box {
-        background: var(--surface-soft);
+      .field {
+        min-height: 44px;
         border: 1px solid var(--border);
+        border-radius: 0.625rem;
+        background: #ffffff;
+        color: var(--ink);
+        transition: border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .field::placeholder {
+        color: #9ca3af;
+      }
+
+      .field:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+        outline: none;
+      }
+
+      .setup-overview {
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .setup-wordmark {
+        display: flex;
+        min-height: 132px;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding: 0.75rem;
         border-radius: 0.875rem;
       }
 
-      .count-chip {
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
-        border-radius: 0.625rem;
-        font-weight: 700;
+      .setup-hero-image {
+        display: block;
+        width: min(46%, 142px);
+        height: auto;
+        max-height: 122px;
+        object-fit: contain;
       }
 
-      .row {
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
-        border-radius: 0.75rem;
-      }
-
-      .chip {
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
-        border-radius: 0.75rem;
-      }
-
-      .chip-remove {
+      .setup-summary {
         display: grid;
-        place-items: center;
-        width: 2.75rem;
-        height: 2.75rem;
-        border-radius: 0.625rem;
-        color: var(--muted);
-        font-size: 1.1rem;
-        line-height: 1;
-        transition: color 0.15s ease, background-color 0.15s ease;
+        gap: 0.75rem;
+        padding: 1rem;
+        border-radius: 0.875rem;
       }
 
-      .chip-remove:hover {
-        background: #f6e7e4;
-        color: #b3403a;
+      .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
       }
 
-      .empty-note {
-        background: var(--surface-soft);
-        border: 1px dashed var(--border);
+      .summary-stat,
+      .stat-box {
+        min-width: 0;
+        border: 1px solid var(--border);
         border-radius: 0.75rem;
-        color: var(--muted);
+        background: var(--surface-soft);
+      }
+
+      .readiness-badge,
+      .level-badge,
+      .count-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        border-radius: 0.55rem;
+        background: var(--surface-soft);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .readiness-badge.is-ready {
+        border-color: #bbf7d0;
+        background: var(--success-soft);
+        color: var(--success);
+      }
+
+      .pool-grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .pool-card {
+        min-width: 0;
+        padding: 1rem;
+        border-radius: 0.875rem;
+      }
+
+      .pool-card::before {
+        display: block;
+        width: 2.25rem;
+        height: 3px;
+        margin-bottom: 0.75rem;
+        border-radius: 2px;
+        background: var(--pool-accent);
+        content: "";
       }
 
       .team-logo {
         width: 42px;
         height: 42px;
-        border-radius: 0.75rem;
-        object-fit: cover;
-        border: 1px solid var(--border);
         flex: 0 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 0.65rem;
+        background: #ffffff;
+        object-fit: cover;
       }
 
       .team-logo-sm {
         width: 30px;
         height: 30px;
-        border-radius: 0.5rem;
-        object-fit: cover;
-        border: 1px solid var(--border);
         flex: 0 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background: #ffffff;
+        object-fit: cover;
       }
 
-      .hero-card {
+      .chip {
+        min-width: 0;
+        border: 1px solid var(--border);
+        border-radius: 0.625rem;
+        background: var(--surface-soft);
+      }
+
+      .chip-remove {
+        display: grid;
+        width: 2.875rem;
+        height: 2.875rem;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 0.55rem;
+        color: var(--muted);
+        font-size: 1.1rem;
+        line-height: 1;
+        transition: background-color 180ms ease, color 180ms ease;
+      }
+
+      .chip-remove:hover {
+        background: var(--team-1-soft);
+        color: var(--team-1);
+      }
+
+      .draw-progress {
+        width: min(100%, 330px);
+      }
+
+      .progress-track {
+        height: 7px;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #e9edf4;
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--primary);
+        transition: width 240ms ease;
+      }
+
+      .divider {
+        height: 1px;
+        background: var(--border);
+      }
+
+      .draw-workspace {
+        display: grid;
+        grid-template-areas:
+          "wheel"
+          "context"
+          "teams";
+        gap: 0.75rem;
+        align-items: start;
+      }
+
+      .draw-context-panel {
+        grid-area: context;
+      }
+
+      .draw-wheel-panel {
+        grid-area: wheel;
+        min-width: 0;
+      }
+
+      .draw-teams-panel {
+        grid-area: teams;
+      }
+
+      .draw-side-panel,
+      .draw-wheel-panel {
+        border-radius: 0.875rem;
+      }
+
+      .current-group-list {
+        display: grid;
+        max-height: 252px;
+        gap: 0.45rem;
+        overflow-y: auto;
+        scrollbar-width: thin;
+      }
+
+      .queue-player {
         display: flex;
-        min-height: 232px;
+        min-height: 44px;
         align-items: center;
-        justify-content: center;
-        background:
-          radial-gradient(circle at 88% 18%, rgba(15, 118, 110, 0.06), transparent 36%),
-          var(--surface);
-      }
-
-      .setup-hero-image {
-        display: block;
-        height: auto;
-        max-height: 212px;
-        max-width: min(82%, 480px);
-        width: auto;
-        object-fit: contain;
+        gap: 0.55rem;
+        padding: 0.45rem 0.55rem;
+        border: 1px solid var(--border);
+        border-radius: 0.625rem;
+        background: var(--surface-soft);
+        font-weight: 700;
       }
 
       .wheel-column {
+        min-width: 0;
         contain: layout paint;
+      }
+
+      .wheel-stage {
+        width: min(100%, 520px);
+        margin-inline: auto;
       }
 
       .wheel-wrap {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-soft);
-        contain: layout paint;
         overflow: hidden;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        box-shadow: inset 0 0 0 7px #f8fafc, var(--shadow-raised);
+        contain: layout paint;
       }
 
       .wheel {
-        transition: transform 4.5s cubic-bezier(0.16, 0.84, 0.25, 1);
-        transform-origin: center;
         display: block;
-        transform-box: fill-box;
-        will-change: transform;
-        backface-visibility: hidden;
         width: 100%;
         height: 100%;
+        transform-box: fill-box;
+        transform-origin: center;
+        backface-visibility: hidden;
+        transition: transform 4.5s cubic-bezier(0.16, 0.84, 0.25, 1);
+        will-change: transform;
       }
 
+      .wheel-pointer {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 20;
+        width: 0;
+        height: 0;
+        transform: translateX(-50%);
+        border-top: 33px solid var(--primary);
+        border-right: 17px solid transparent;
+        border-left: 17px solid transparent;
+        filter: drop-shadow(0 5px 7px rgba(23, 32, 51, 0.18));
+      }
+
+      .wheel-center-badge {
+        width: clamp(68px, 21%, 94px);
+        height: clamp(68px, 21%, 94px);
+        border: 1px solid var(--border);
+        border-radius: 9999px;
+        background: #ffffff;
+        color: var(--ink);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .player-wheel-rotor,
       .category-wheel-rotor {
         position: relative;
       }
 
+      .player-wheel-surface,
+      .player-wheel-labels,
       .category-wheel-surface,
       .category-wheel-labels {
         position: absolute;
@@ -288,17 +570,39 @@
         height: 100%;
       }
 
+      .player-wheel-labels,
       .category-wheel-labels {
         pointer-events: none;
       }
 
-      .category-wheel-label {
+      .player-wheel-label {
         position: absolute;
+        max-width: 38%;
         color: var(--ink);
         direction: rtl;
         font-family: "Cairo", "Calibri", ui-sans-serif, system-ui;
-        font-size: clamp(9px, 2.2vw, 13px);
-        font-weight: 400;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: 0;
+        text-align: center;
+        transform-origin: center;
+        unicode-bidi: plaintext;
+        white-space: nowrap;
+      }
+
+      .player-wheel-label-long {
+        font-size: 11px;
+      }
+
+      .category-wheel-label {
+        position: absolute;
+        max-width: 32%;
+        color: var(--ink);
+        direction: rtl;
+        font-family: "Cairo", "Calibri", ui-sans-serif, system-ui;
+        font-size: 9px;
+        font-weight: 500;
         line-height: 1;
         letter-spacing: 0;
         text-align: right;
@@ -308,37 +612,87 @@
       }
 
       .category-wheel-label-long {
-        font-size: clamp(8px, 1.8vw, 11px);
+        font-size: 8px;
       }
 
-      .wheel-pointer {
-        position: absolute;
-        left: 50%;
-        top: 0;
-        z-index: 20;
-        width: 0;
-        height: 0;
-        transform: translateX(-50%);
-        border-left: 18px solid transparent;
-        border-right: 18px solid transparent;
-        border-top: 34px solid var(--accent);
-        filter: drop-shadow(0 6px 10px rgba(34, 31, 26, 0.22));
-      }
-
-      .wheel-center-badge {
-        width: clamp(72px, 22%, 96px);
-        height: clamp(72px, 22%, 96px);
-        border-radius: 9999px;
-        background: var(--surface);
+      .live-team-card,
+      .result-team-card {
+        overflow: hidden;
         border: 1px solid var(--border);
-        color: var(--ink);
-        box-shadow: var(--shadow-soft);
+        border-radius: 0.75rem;
+        background: #ffffff;
+      }
+
+      .live-team-card.team-one,
+      .result-team-card.team-one {
+        border-top: 3px solid var(--team-1);
+      }
+
+      .live-team-card.team-two,
+      .result-team-card.team-two {
+        border-top: 3px solid var(--team-2);
       }
 
       .draw-team-list {
-        max-height: 220px;
+        display: grid;
+        max-height: 218px;
+        gap: 0.45rem;
         overflow-y: auto;
         scrollbar-width: thin;
+      }
+
+      .row {
+        min-width: 0;
+        border: 1px solid var(--border);
+        border-radius: 0.625rem;
+        background: var(--surface-soft);
+      }
+
+      .empty-note {
+        border: 1px dashed #cfd6e3;
+        border-radius: 0.625rem;
+        background: var(--surface-soft);
+        color: var(--muted);
+      }
+
+      .results-summary {
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+        padding: 1rem;
+        border-radius: 0.875rem;
+      }
+
+      .result-grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .balance-fill {
+        background: var(--success);
+      }
+
+      .category-workspace {
+        display: grid;
+        gap: 0.75rem;
+        align-items: start;
+      }
+
+      .selected-categories-panel,
+      .category-wheel-panel {
+        min-width: 0;
+        border-radius: 0.875rem;
+      }
+
+      #selectedCategories {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 0.45rem;
+      }
+
+      #selectedCategories > * {
+        min-width: 0;
       }
 
       .category-card {
@@ -347,267 +701,501 @@
         min-height: 0;
         flex-direction: column;
         overflow: hidden;
+        border-radius: 0.65rem;
       }
 
       .category-card-art {
-        aspect-ratio: 0.78;
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
+        position: relative;
         display: grid;
+        aspect-ratio: 0.78;
         place-items: center;
         overflow: hidden;
-        position: relative;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background: var(--surface-soft);
       }
 
       .category-card-image {
-        display: block;
-        inset: 0;
-        height: 100%;
         position: absolute;
+        inset: 0;
+        display: block;
         width: 100%;
+        height: 100%;
         object-fit: contain;
         object-position: center;
       }
 
       .category-card-title {
+        display: flex;
+        height: 3.25rem;
         flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        overflow-wrap: anywhere;
       }
 
       .slot-card {
-        border: 1px dashed var(--border);
+        aspect-ratio: 0.69;
+        border: 1px dashed #cfd6e3;
         background: var(--surface-soft);
         color: var(--muted);
       }
 
-      #selectedCategories {
-        align-items: stretch;
+      .rule-notice {
+        margin-top: 0.75rem;
+        padding: 0.7rem 0.8rem;
+        border: 1px solid #fed7aa;
+        border-radius: 0.625rem;
+        background: var(--primary-soft);
+        color: #9a3412;
+        font-size: 0.78rem;
+        font-weight: 600;
+        line-height: 1.75;
       }
 
-      #selectedCategories > * {
-        min-width: 0;
-      }
-
-      .sound-toggle {
-        position: absolute;
-        inset-inline-start: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        display: grid;
-        place-items: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 9999px;
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
-        font-size: 1.15rem;
-        line-height: 1;
-        touch-action: manipulation;
-        transition: border-color 0.15s ease, background-color 0.15s ease;
-      }
-
-      .sound-toggle:hover {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      nav.fixed {
-        background: rgba(255, 255, 255, 0.94);
+      .mobile-nav {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 50;
+        padding: 0.6rem 0.65rem calc(0.6rem + env(safe-area-inset-bottom));
         border-top: 1px solid var(--border);
-        box-shadow: 0 -10px 30px rgba(34, 31, 26, 0.08);
-        backdrop-filter: blur(14px);
+        background: #ffffff;
+        box-shadow: 0 -10px 28px rgba(23, 32, 51, 0.08);
       }
 
-      .bottom-safe {
-        padding-bottom: calc(220px + env(safe-area-inset-bottom)) !important;
+      .mobile-nav-inner {
+        display: grid;
+        max-width: 430px;
+        margin-inline: auto;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.3rem;
+      }
+
+      @media (min-width: 640px) {
+        .app-shell {
+          padding-inline: 1rem;
+        }
+
+        .setup-overview {
+          grid-template-columns: minmax(170px, 0.55fr) minmax(0, 1.45fr);
+        }
+
+        .setup-hero-image {
+          width: min(62%, 165px);
+        }
+
+        .pool-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       @media (min-width: 768px) {
-        .bottom-safe {
-          padding-bottom: 2rem !important;
+        .brand-title {
+          font-size: 1.2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .player-wheel-label {
+          font-size: 16px;
+        }
+
+        .player-wheel-label-long {
+          font-size: 13px;
+        }
+
+        .category-wheel-label {
+          font-size: 10px;
+        }
+
+        .category-wheel-label-long {
+          font-size: 9px;
+        }
+
+        .app-shell {
+          padding: 1rem 1.25rem 2rem;
+        }
+
+        .app-header {
+          grid-template-columns: minmax(170px, 0.9fr) minmax(330px, 1.5fr) auto;
+          padding: 0.7rem 0.85rem;
+        }
+
+        .desktop-nav {
+          display: flex;
+        }
+
+        .mobile-nav {
+          display: none;
+        }
+
+        .draw-workspace {
+          grid-template-columns: minmax(0, 0.8fr) minmax(390px, 1.2fr);
+          grid-template-areas:
+            "context wheel"
+            "teams wheel";
+        }
+
+        .draw-wheel-panel {
+          position: sticky;
+          top: 1rem;
+        }
+
+        .result-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .category-workspace {
+          grid-template-columns: minmax(300px, 0.85fr) minmax(360px, 1.15fr);
+        }
+
+        .category-wheel-panel {
+          position: sticky;
+          top: 1rem;
+        }
+
+        .category-card-title {
+          font-size: 0.78rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .pool-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .setup-summary {
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: center;
+        }
+
+        .summary-stats {
+          min-width: 360px;
+        }
+
+        .draw-workspace {
+          grid-template-columns: minmax(210px, 0.72fr) minmax(360px, 1.28fr) minmax(220px, 0.78fr);
+          grid-template-areas: "context wheel teams";
+          gap: 1rem;
+        }
+      }
+
+      @media (min-width: 1180px) {
+        .category-card-title {
+          height: 2.5rem;
+        }
+
+        .player-wheel-label {
+          font-size: 18px;
+        }
+
+        .player-wheel-label-long {
+          font-size: 14px;
+        }
+
+        .category-wheel-label {
+          font-size: 12px;
+        }
+
+        .category-wheel-label-long {
+          font-size: 10px;
+        }
+
+        .draw-workspace {
+          grid-template-columns: minmax(240px, 0.72fr) minmax(430px, 1.28fr) minmax(260px, 0.78fr);
+          grid-template-areas: "context wheel teams";
+          gap: 1rem;
+        }
+
+        .draw-wheel-panel {
+          top: 1rem;
+        }
+
+        .pool-grid {
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+
+        .category-workspace {
+          grid-template-columns: minmax(460px, 0.9fr) minmax(500px, 1.1fr);
+          gap: 1rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
         }
       }
     </style>
   </head>
-  <body class="min-h-screen">
-    <div class="bottom-safe mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:pb-8">
-      <header class="panel relative mb-5 grid gap-4 rounded-2xl px-4 py-3 text-center md:grid-cols-[1fr_auto_1fr] md:items-center md:px-6">
-        <button id="soundToggleBtn" class="sound-toggle" aria-label="تبديل الأصوات" aria-pressed="true">🔊</button>
-        <div class="md:col-start-2">
-          <p class="eyebrow arabic-text" dir="rtl">ديوانية الجيران</p>
-          <h1 class="arabic-text text-xl font-extrabold md:text-3xl" dir="rtl">قرعة لعبة سين جيم</h1>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand-lockup">
+          <img src="assets/khamis-wanees-wordmark.jpg" alt="الخميس الونيس" class="brand-mark" width="1280" height="1187" decoding="async" fetchpriority="high" />
+          <div class="min-w-0">
+            <p class="brand-kicker arabic-text" dir="rtl">ديوانية الجيران</p>
+            <h1 class="brand-title arabic-text" dir="rtl">قرعة لعبة سين جيم</h1>
+          </div>
         </div>
-        <nav class="hidden items-center justify-end gap-1 md:col-start-3 md:flex" aria-label="التنقل الرئيسي">
-          <button class="nav-btn px-5 py-3 text-sm" data-screen="setup">الإعداد</button>
-          <button class="nav-btn px-5 py-3 text-sm" data-screen="randomize">القرعة</button>
-          <button class="nav-btn px-5 py-3 text-sm" data-screen="results">النتائج</button>
-          <button class="nav-btn px-5 py-3 text-sm" data-screen="categories">الفئات</button>
+
+        <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+          <button class="nav-btn px-4 py-2" data-screen="setup">الإعداد</button>
+          <button class="nav-btn px-4 py-2" data-screen="randomize">القرعة</button>
+          <button class="nav-btn px-4 py-2" data-screen="results">النتائج</button>
+          <button class="nav-btn px-4 py-2" data-screen="categories">الفئات</button>
         </nav>
+
+        <button id="headerResetBtn" class="header-reset-btn btn-secondary text-xs">إعادة القرعة</button>
       </header>
 
-      <main class="flex-1">
+      <main>
         <section id="setup" class="screen active">
-          <div class="hero-card panel mb-5 rounded-2xl px-5 py-4 md:px-6">
-            <img src="assets/khamis-wanees-wordmark.jpg" alt="الخميس الونيس" class="setup-hero-image" width="1280" height="1187" decoding="async" fetchpriority="high" />
-          </div>
-
-          <div class="mb-6 grid gap-4 md:grid-cols-[0.9fr_1.1fr] md:items-end">
+          <div class="section-heading">
             <div>
-              <h2 class="arabic-text text-center text-4xl font-extrabold leading-tight md:text-5xl" dir="rtl">قرعة لعبة سين جيم<br />ديوانية الجيران</h2>
-            </div>
-            <div class="panel rounded-2xl p-5">
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p class="text-sm font-semibold text-muted">عدد اللاعبين</p>
-                  <p id="totalPlayers" class="text-3xl font-extrabold text-team-1">0</p>
-                </div>
-                <button id="shuffleQueueBtn" class="btn-primary w-full px-6 py-3 text-sm sm:w-auto">ابدأ القرعة</button>
-              </div>
+              <p class="eyebrow mb-1">الإعداد</p>
+              <h2 class="section-title arabic-text" dir="rtl">جهّز اللاعبين</h2>
             </div>
           </div>
 
-          <div id="poolGrid" class="grid gap-4 md:grid-cols-2 xl:grid-cols-4"></div>
+          <div class="setup-overview">
+            <div class="setup-wordmark panel">
+              <img src="assets/khamis-wanees-wordmark.jpg" alt="الخميس الونيس" class="setup-hero-image" width="1280" height="1187" decoding="async" />
+            </div>
+            <div class="setup-summary panel">
+              <div class="summary-stats">
+                <div class="summary-stat p-3">
+                  <p class="text-xs font-semibold text-muted">إجمالي اللاعبين</p>
+                  <p id="totalPlayers" class="mt-1 text-3xl font-extrabold">0</p>
+                </div>
+                <div class="summary-stat p-3">
+                  <p class="text-xs font-semibold text-muted">حالة القرعة</p>
+                  <span id="drawReadiness" class="readiness-badge mt-2 px-3 py-1.5 text-xs">قيد التجهيز</span>
+                </div>
+              </div>
+              <button id="shuffleQueueBtn" class="btn-primary w-full px-6 py-3 text-sm lg:w-auto">الانتقال إلى القرعة</button>
+            </div>
+          </div>
+
+          <div id="poolGrid" class="pool-grid"></div>
         </section>
 
         <section id="randomize" class="screen">
-          <div class="grid gap-4 md:grid-cols-[0.78fr_1.22fr] md:items-center md:gap-6">
-            <aside class="order-2 panel rounded-2xl p-4 sm:p-5 md:order-1">
-              <p class="eyebrow">السحب الحالي</p>
-              <h2 id="upNextName" class="arabic-text mt-2 min-h-12 text-3xl font-extrabold md:text-4xl" dir="rtl">ما فيه أحد بالانتظار</h2>
-              <p id="upNextPool" class="mt-2 text-sm font-normal text-muted">ضيف اللاعبين وخل نبدأ</p>
-
-              <div class="mt-6 grid grid-cols-2 gap-3">
-                <div class="stat-box p-4">
-                  <p class="text-sm font-bold text-team-1">الفريق الأول</p>
-                  <p id="alphaProgress" class="mt-2 text-2xl font-extrabold">0/0</p>
-                </div>
-                <div class="stat-box p-4">
-                  <p class="text-sm font-bold text-team-2">الفريق الثاني</p>
-                  <p id="betaProgress" class="mt-2 text-2xl font-extrabold">0/0</p>
-                </div>
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow mb-1">القرعة</p>
+              <h2 class="section-title arabic-text" dir="rtl">عجلة اللاعبين</h2>
+            </div>
+            <div class="draw-progress">
+              <div class="mb-1.5 flex items-center justify-between gap-3 text-xs font-semibold text-muted">
+                <span>تقدم القرعة</span>
+                <span id="drawProgressLabel">0/0</span>
               </div>
-
-              <div class="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-                <div class="stat-box p-3">
-                  <div class="mb-2 flex items-center justify-between">
-                    <p class="text-sm font-bold text-team-1">الفريق الأول</p>
-                    <span id="drawAlphaCount" class="text-xs font-semibold text-muted">0</span>
-                  </div>
-                  <div id="drawAlphaList" class="draw-team-list grid gap-2"></div>
-                </div>
-                <div class="stat-box p-3">
-                  <div class="mb-2 flex items-center justify-between">
-                    <p class="text-sm font-bold text-team-2">الفريق الثاني</p>
-                    <span id="drawBetaCount" class="text-xs font-semibold text-muted">0</span>
-                  </div>
-                  <div id="drawBetaList" class="draw-team-list grid gap-2"></div>
-                </div>
-              </div>
-            </aside>
-
-            <div class="order-1 wheel-column mx-auto w-full max-w-[340px] sm:max-w-[460px] md:order-2 md:max-w-[560px]">
-              <div class="mb-3 sm:mb-4">
-                <button id="spinBtn" class="btn-primary w-full px-5 py-3 text-base disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-4">اسحب اسم</button>
-                <p id="spinStatus" class="mt-2 min-h-6 text-center text-sm font-semibold text-muted sm:mt-3"></p>
-              </div>
-              <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
-                <div class="wheel-pointer"></div>
-                <div class="wheel-wrap h-full w-full rounded-3xl p-4">
-                  <svg id="wheelSvg" class="wheel h-full w-full rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الأسماء"></svg>
-                </div>
-                <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center text-center text-base font-extrabold leading-tight" dir="rtl">سين<br />جيم</div>
+              <div class="progress-track" aria-hidden="true">
+                <div id="drawProgressFill" class="progress-fill"></div>
               </div>
             </div>
+          </div>
+
+          <div class="draw-workspace">
+            <aside class="draw-context-panel draw-side-panel panel p-4">
+              <p class="eyebrow">المجموعة الحالية</p>
+              <div class="mt-3 flex items-center gap-3">
+                <img id="currentPoolLogo" src="assets/dragon-slayer.jpg" alt="المجموعة الحالية" class="team-logo" />
+                <div class="min-w-0">
+                  <h3 id="upNextName" class="arabic-text text-xl font-extrabold" dir="rtl">ما فيه أحد بالانتظار</h3>
+                  <p id="currentPoolRank" class="mt-0.5 text-xs font-bold text-muted">المستوى 0</p>
+                </div>
+              </div>
+              <p id="upNextPool" class="mt-3 text-sm leading-7 text-muted">ضيف اللاعبين وخل نبدأ</p>
+              <div class="divider my-4"></div>
+              <div class="mb-2 flex items-center justify-between gap-2">
+                <p class="text-sm font-bold">اللاعبون في الدور</p>
+                <span id="currentPoolRemaining" class="count-chip px-2.5 py-1 text-xs">0</span>
+              </div>
+              <div id="currentPoolPlayers" class="current-group-list"></div>
+            </aside>
+
+            <div class="draw-wheel-panel wheel-column panel p-3 sm:p-4">
+              <div class="wheel-stage">
+                <div class="relative aspect-square w-full overflow-hidden rounded-2xl">
+                  <div class="wheel-pointer"></div>
+                  <div class="wheel-wrap h-full w-full rounded-2xl p-3 sm:p-4">
+                    <div id="wheelRotor" class="player-wheel-rotor wheel rounded-full">
+                      <svg id="wheelSvg" class="player-wheel-surface rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الأسماء"></svg>
+                      <div id="wheelLabels" class="player-wheel-labels" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                  <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center text-center text-base font-extrabold leading-tight" dir="rtl">سين<br />جيم</div>
+                </div>
+                <button id="spinBtn" class="btn-primary mt-3 w-full px-6 py-3.5 text-base">اسحب اسم</button>
+                <p id="spinStatus" class="mt-2 min-h-6 text-center text-sm font-semibold text-muted" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <aside class="draw-teams-panel draw-side-panel panel p-3 sm:p-4">
+              <div class="mb-3 flex items-center justify-between">
+                <div>
+                  <p class="eyebrow">النتيجة المباشرة</p>
+                  <h3 class="mt-0.5 text-lg font-extrabold">الفرق الآن</h3>
+                </div>
+              </div>
+              <div class="grid gap-3">
+                <article class="live-team-card team-one p-3">
+                  <div class="mb-2 flex items-center justify-between gap-2">
+                    <div>
+                      <p class="text-sm font-extrabold text-team-1">الفريق الأول</p>
+                      <p id="drawAlphaLevel" class="mt-0.5 text-xs font-semibold text-muted">مجموع المستويات 0</p>
+                    </div>
+                    <div class="text-left">
+                      <span id="drawAlphaCount" class="count-chip px-2.5 py-1 text-xs text-team-1">0</span>
+                      <p id="alphaProgress" class="mt-1 text-xs font-bold text-muted">0/0</p>
+                    </div>
+                  </div>
+                  <div id="drawAlphaList" class="draw-team-list"></div>
+                </article>
+                <article class="live-team-card team-two p-3">
+                  <div class="mb-2 flex items-center justify-between gap-2">
+                    <div>
+                      <p class="text-sm font-extrabold text-team-2">الفريق الثاني</p>
+                      <p id="drawBetaLevel" class="mt-0.5 text-xs font-semibold text-muted">مجموع المستويات 0</p>
+                    </div>
+                    <div class="text-left">
+                      <span id="drawBetaCount" class="count-chip px-2.5 py-1 text-xs text-team-2">0</span>
+                      <p id="betaProgress" class="mt-1 text-xs font-bold text-muted">0/0</p>
+                    </div>
+                  </div>
+                  <div id="drawBetaList" class="draw-team-list"></div>
+                </article>
+              </div>
+            </aside>
           </div>
         </section>
 
         <section id="results" class="screen">
-          <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div class="section-heading">
             <div>
-              <p class="eyebrow mb-2">النتائج النهائية</p>
-              <h2 class="arabic-text text-3xl font-extrabold leading-tight md:text-4xl" dir="rtl">الفرق جاهزة… خلونا نلعب</h2>
+              <p class="eyebrow mb-1">النتائج النهائية</p>
+              <h2 class="section-title arabic-text" dir="rtl">الفرق جاهزة</h2>
             </div>
-            <div class="flex gap-3">
-              <button id="startOverBtn" class="btn-secondary w-full px-6 py-3 text-sm sm:w-auto">من جديد</button>
+            <div class="flex w-full gap-2 sm:w-auto">
+              <button id="rerunDrawBtn" class="btn-primary flex-1 px-5 py-3 text-sm sm:flex-none">إعادة القرعة</button>
+              <button id="startOverBtn" class="btn-secondary flex-1 px-5 py-3 text-sm sm:flex-none">من جديد</button>
             </div>
           </div>
 
-          <div class="grid gap-5 md:grid-cols-2">
-            <article class="panel rounded-2xl p-5">
-              <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-2xl font-extrabold text-team-1 md:text-3xl">الفريق الأول</h3>
-                <span id="alphaCount" class="count-chip px-4 py-2 text-sm text-team-1">0 لاعبين</span>
+          <div class="results-summary panel">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p class="text-sm font-extrabold">تقارب قوة الفريقين</p>
+                <p id="resultBalanceText" class="mt-1 text-xs font-semibold text-muted">بانتظار اكتمال القرعة</p>
               </div>
-              <div id="alphaList" class="grid gap-3"></div>
+              <span id="resultBalanceValue" class="readiness-badge px-3 py-1.5 text-xs">0%</span>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div id="resultBalanceFill" class="progress-fill balance-fill"></div>
+            </div>
+          </div>
+
+          <div class="result-grid">
+            <article class="result-team-card team-one panel p-4 sm:p-5">
+              <div class="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <h3 class="text-xl font-extrabold text-team-1 sm:text-2xl">الفريق الأول</h3>
+                  <p id="alphaLevelTotal" class="mt-1 text-xs font-semibold text-muted">مجموع المستويات 0</p>
+                </div>
+                <span id="alphaCount" class="count-chip px-3 py-2 text-xs text-team-1">0 لاعبين</span>
+              </div>
+              <div id="alphaList" class="grid gap-2"></div>
             </article>
-            <article class="panel rounded-2xl p-5">
-              <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-2xl font-extrabold text-team-2 md:text-3xl">الفريق الثاني</h3>
-                <span id="betaCount" class="count-chip px-4 py-2 text-sm text-team-2">0 لاعبين</span>
+            <article class="result-team-card team-two panel p-4 sm:p-5">
+              <div class="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <h3 class="text-xl font-extrabold text-team-2 sm:text-2xl">الفريق الثاني</h3>
+                  <p id="betaLevelTotal" class="mt-1 text-xs font-semibold text-muted">مجموع المستويات 0</p>
+                </div>
+                <span id="betaCount" class="count-chip px-3 py-2 text-xs text-team-2">0 لاعبين</span>
               </div>
-              <div id="betaList" class="grid gap-3"></div>
+              <div id="betaList" class="grid gap-2"></div>
             </article>
           </div>
         </section>
 
         <section id="categories" class="screen">
-          <div class="mb-5 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div class="section-heading">
             <div>
-              <p class="eyebrow mb-2">فئات اللعبة</p>
-              <h2 class="arabic-text text-3xl font-extrabold leading-tight md:text-4xl" dir="rtl">اختيار الفئات</h2>
+              <p class="eyebrow mb-1">فئات اللعبة</p>
+              <h2 class="section-title arabic-text" dir="rtl">اختيار الفئات</h2>
             </div>
-            <div class="flex gap-3">
-              <button id="resetCategoriesBtn" class="btn-secondary w-full px-6 py-3 text-sm sm:w-auto">تصفير الفئات</button>
-            </div>
+            <button id="resetCategoriesBtn" class="btn-secondary w-full px-5 py-3 text-sm sm:w-auto">تصفير الفئات</button>
           </div>
 
-          <div id="selectedCategories" class="mb-5 grid max-w-4xl grid-cols-3 gap-3"></div>
-
-          <div class="grid gap-4 md:grid-cols-[0.72fr_1.28fr] md:items-center md:gap-6">
-            <aside class="order-2 panel rounded-2xl p-4 sm:p-5 md:order-1">
-              <p class="eyebrow">الفئة المختارة</p>
-              <h3 id="categoryPickName" class="arabic-text mt-2 min-h-12 text-3xl font-extrabold md:text-4xl" dir="rtl">جاهز للاختيار</h3>
-              <p id="categoryStatus" class="mt-2 text-sm font-semibold text-muted">اختر 6 فئات للعبة</p>
-              <div class="mt-5 grid grid-cols-2 gap-3">
-                <div class="stat-box p-4">
-                  <p class="text-sm font-bold text-team-1">تم اختيار</p>
-                  <p id="categoryPickedCount" class="mt-2 text-2xl font-extrabold">0/6</p>
+          <div class="category-workspace">
+            <section class="selected-categories-panel panel p-3 sm:p-4" aria-labelledby="selectedCategoriesTitle">
+              <div class="mb-3 flex items-center justify-between gap-3">
+                <div>
+                  <p class="eyebrow">بطاقات اللعب</p>
+                  <h3 id="selectedCategoriesTitle" class="mt-0.5 text-lg font-extrabold">الفئات المختارة</h3>
                 </div>
-                <div class="stat-box p-4">
-                  <p class="text-sm font-bold text-team-2">المتبقي</p>
-                  <p id="categoryRemainingCount" class="mt-2 text-2xl font-extrabold">16</p>
+                <span id="categoryPickedCount" class="count-chip px-3 py-1.5 text-xs">0/6</span>
+              </div>
+              <div id="selectedCategories"></div>
+              <p id="categoryRuleNotice" class="rule-notice" hidden aria-live="polite"></p>
+            </section>
+
+            <section class="category-wheel-panel wheel-column panel p-3 sm:p-4">
+              <div class="mb-3 flex flex-wrap items-end justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="eyebrow">الفئة المختارة</p>
+                  <h3 id="categoryPickName" class="arabic-text mt-1 text-xl font-extrabold sm:text-2xl" dir="rtl">جاهز للاختيار</h3>
+                  <p id="categoryStatus" class="mt-1 text-xs font-semibold text-muted" aria-live="polite">اختر 6 فئات للعبة</p>
+                </div>
+                <div class="stat-box min-w-24 p-2.5 text-center">
+                  <p class="text-xs font-bold text-muted">المتبقي</p>
+                  <p id="categoryRemainingCount" class="mt-0.5 text-xl font-extrabold text-team-2">16</p>
                 </div>
               </div>
-            </aside>
-
-            <div class="order-1 wheel-column mx-auto w-full max-w-[340px] sm:max-w-[480px] md:order-2 md:max-w-[560px]">
-              <div class="mb-3 sm:mb-4">
-                <button id="spinCategoryBtn" class="btn-primary w-full px-5 py-3 text-base disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-4">اسحب فئة</button>
-              </div>
-              <div class="relative aspect-square w-full overflow-hidden rounded-3xl">
-                <div class="wheel-pointer"></div>
-                <div class="wheel-wrap h-full w-full rounded-3xl p-4">
-                  <div id="categoryWheelRotor" class="category-wheel-rotor wheel h-full w-full rounded-full">
-                    <svg id="categoryWheelSvg" class="category-wheel-surface rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الفئات"></svg>
-                    <div id="categoryWheelLabels" class="category-wheel-labels" aria-hidden="true"></div>
+              <div class="wheel-stage">
+                <div class="relative aspect-square w-full overflow-hidden rounded-2xl">
+                  <div class="wheel-pointer"></div>
+                  <div class="wheel-wrap h-full w-full rounded-2xl p-3 sm:p-4">
+                    <div id="categoryWheelRotor" class="category-wheel-rotor wheel rounded-full">
+                      <svg id="categoryWheelSvg" class="category-wheel-surface rounded-full" viewBox="0 0 320 320" role="img" aria-label="عجلة سحب الفئات"></svg>
+                      <div id="categoryWheelLabels" class="category-wheel-labels" aria-hidden="true"></div>
+                    </div>
                   </div>
+                  <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center text-center text-sm font-extrabold leading-tight" dir="rtl">الفئات</div>
                 </div>
-                <div class="wheel-center-badge arabic-text pointer-events-none absolute inset-0 m-auto flex items-center justify-center text-center text-sm font-extrabold leading-tight" dir="rtl">الفئات</div>
+                <button id="spinCategoryBtn" class="btn-primary mt-3 w-full px-6 py-3.5 text-base">اسحب فئة</button>
               </div>
-            </div>
+            </section>
           </div>
         </section>
       </main>
     </div>
 
-    <nav class="fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 md:hidden" aria-label="تنقل الجوال">
-      <div class="mx-auto grid max-w-md grid-cols-4 gap-2">
-        <button class="nav-btn px-3 py-3 text-sm" data-screen="setup">الإعداد</button>
-        <button class="nav-btn px-3 py-3 text-sm" data-screen="randomize">القرعة</button>
-        <button class="nav-btn px-3 py-3 text-sm" data-screen="results">النتائج</button>
-        <button class="nav-btn px-3 py-3 text-sm" data-screen="categories">الفئات</button>
+    <nav class="mobile-nav" aria-label="تنقل الجوال">
+      <div class="mobile-nav-inner">
+        <button class="nav-btn px-2 py-2.5" data-screen="setup">الإعداد</button>
+        <button class="nav-btn px-2 py-2.5" data-screen="randomize">القرعة</button>
+        <button class="nav-btn px-2 py-2.5" data-screen="results">النتائج</button>
+        <button class="nav-btn px-2 py-2.5" data-screen="categories">الفئات</button>
       </div>
     </nav>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=light-redesign-5"></script>
   </body>
 </html>
